@@ -1,0 +1,517 @@
+[15-Mar-2025 00:21:31 Europe/Moscow] Controller: Начали сохранять
+[15-Mar-2025 00:21:31 Europe/Moscow] Controller: получили POST Запрос:Array
+(
+    [title] => sdafsdf
+    [description] => sadfasdf
+    [emojis] => 😀
+    [courseId] => 1
+    [order_number] => 3
+)
+
+[15-Mar-2025 00:22:18 Europe/Moscow] Controller: Начали сохранять
+[15-Mar-2025 00:22:18 Europe/Moscow] Controller: получили POST Запрос:Array
+(
+    [title] => sdafsdf
+    [description] => sadfasdf
+    [emojis] => 😀
+    [courseId] => 1
+    [order_number] => 3
+)
+
+[15-Mar-2025 00:22:18 Europe/Moscow] Сохранение модуля Controller: 1 sdafsdf sadfasdf 😀
+[15-Mar-2025 00:22:41 Europe/Moscow] Controller: Начали сохранять
+[15-Mar-2025 00:22:41 Europe/Moscow] Controller: получили POST Запрос:Array
+(
+    [title] => sdafsdf
+    [description] => sadfasdf
+    [emojis] => 😀
+    [courseId] => 1
+    [order_number] => 3
+)
+
+[15-Mar-2025 00:22:41 Europe/Moscow] Сохранение модуля Controller: 1 sdafsdf sadfasdf 😀 1
+[15-Mar-2025 00:23:19 Europe/Moscow] Controller: Начали сохранять
+[15-Mar-2025 00:23:19 Europe/Moscow] Controller: получили POST Запрос:Array
+(
+    [title] => sdafsdf
+    [description] => sadfasdf
+    [emojis] => 😀
+    [courseId] => 1
+    [order_number] => 3
+)
+
+[15-Mar-2025 00:23:19 Europe/Moscow] Сохранение модуля Controller: 1 sdafsdf sadfasdf 😀 1
+[15-Mar-2025 00:23:19 Europe/Moscow] Module: Стартанул модуль
+[15-Mar-2025 00:24:29 Europe/Moscow] Controller: Начали сохранять
+[15-Mar-2025 00:24:29 Europe/Moscow] Controller: получили POST Запрос:Array
+(
+    [title] => sdafsdf
+    [description] => sadfasdf
+    [emojis] => 😀
+    [courseId] => 1
+    [order_number] => 3
+)
+
+[15-Mar-2025 00:24:29 Europe/Moscow] Сохранение модуля Controller: 1 sdafsdf sadfasdf 😀 1
+[15-Mar-2025 00:24:29 Europe/Moscow] Module: Стартанул модуль
+[15-Mar-2025 00:24:29 Europe/Moscow] Сохранение модуля: 1 sdafsdf sadfasdf 😀 1
+[15-Mar-2025 01:06:58 Europe/Moscow] Controller: Начали сохранять
+[15-Mar-2025 01:06:58 Europe/Moscow] Controller: получили POST Запрос:Array
+(
+    [title] => Что такое CSS
+    [description] => Изучим самый популярный язык каскадных стилей
+    [emojis] => 🎓
+    [courseId] => 1
+    [order_number] => 3
+)
+
+[15-Mar-2025 01:06:58 Europe/Moscow] Сохранение модуля Controller: 1 Что такое CSS Изучим самый популярный язык каскадных стилей 🎓 1
+[15-Mar-2025 01:06:58 Europe/Moscow] Module: Стартанул модуль
+[15-Mar-2025 01:06:58 Europe/Moscow] Сохранение модуля: 1 Что такое CSS Изучим самый популярный язык каскадных стилей 🎓 1
+[15-Mar-2025 11:32:09 Europe/Moscow] Find user result: Found
+[15-Mar-2025 13:12:48 Europe/Moscow] Find user result: Found
+[15-Mar-2025 22:17:23 Europe/Moscow] Find user result: Found
+[16-Mar-2025 13:35:51 Europe/Moscow] Find user result: Found
+[16-Mar-2025 16:06:13 Europe/Moscow] Find user result: Found
+[16-Mar-2025 16:19:37 Europe/Moscow] Controller: Начали сохранять
+[16-Mar-2025 16:19:37 Europe/Moscow] Controller: получили POST Запрос:Array
+(
+    [title] => Тестовый модуль
+    [description] => Тестовое описание
+    [emojis] => 🚀
+    [courseId] => Warning: Undefined array key 0 in /home/i/iaifirk6/academy.aifire.space/public_html/views/courses/modules.php on line 16Warning: Attempt to read property
+    [order_number] => 1
+)
+
+[16-Mar-2025 16:19:37 Europe/Moscow] Сохранение модуля Controller: Warning: Undefined array key 0 in /home/i/iaifirk6/academy.aifire.space/public_html/views/courses/modules.php on line 16Warning: Attempt to read property Тестовый модуль Тестовое описание 🚀 Warning: Undefined array key 0 in /home/i/iaifirk6/academy.aifire.space/public_html/views/courses/modules.php on line 16Warning: Attempt to read property
+[16-Mar-2025 16:19:37 Europe/Moscow] Module: Стартанул модуль
+[16-Mar-2025 16:19:37 Europe/Moscow] Сохранение модуля: Warning: Undefined array key 0 in /home/i/iaifirk6/academy.aifire.space/public_html/views/courses/modules.php on line 16Warning: Attempt to read property Тестовый модуль Тестовое описание 🚀 Warning: Undefined array key 0 in /home/i/iaifirk6/academy.aifire.space/public_html/views/courses/modules.php on line 16Warning: Attempt to read property
+[16-Mar-2025 16:19:59 Europe/Moscow] Controller: Начали сохранять
+[16-Mar-2025 16:19:59 Europe/Moscow] Controller: получили POST Запрос:Array
+(
+    [title] => 123123
+    [description] => 123123
+    [emojis] => 😀
+    [courseId] => Warning: Undefined array key 0 in /home/i/iaifirk6/academy.aifire.space/public_html/views/courses/modules.php on line 16Warning: Attempt to read property
+    [order_number] => 1
+)
+
+[16-Mar-2025 16:19:59 Europe/Moscow] Сохранение модуля Controller: Warning: Undefined array key 0 in /home/i/iaifirk6/academy.aifire.space/public_html/views/courses/modules.php on line 16Warning: Attempt to read property 123123 123123 😀 Warning: Undefined array key 0 in /home/i/iaifirk6/academy.aifire.space/public_html/views/courses/modules.php on line 16Warning: Attempt to read property
+[16-Mar-2025 16:19:59 Europe/Moscow] Module: Стартанул модуль
+[16-Mar-2025 16:19:59 Europe/Moscow] Сохранение модуля: Warning: Undefined array key 0 in /home/i/iaifirk6/academy.aifire.space/public_html/views/courses/modules.php on line 16Warning: Attempt to read property 123123 123123 😀 Warning: Undefined array key 0 in /home/i/iaifirk6/academy.aifire.space/public_html/views/courses/modules.php on line 16Warning: Attempt to read property
+[17-Mar-2025 23:51:00 Europe/Moscow] Find user result: Found
+[18-Mar-2025 00:04:04 Europe/Moscow] Find user result: Found
+[18-Mar-2025 00:04:04 Europe/Moscow] Find user result: Found
+[18-Mar-2025 00:04:13 Europe/Moscow] Database error: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'email' in 'field list'
+[18-Mar-2025 00:05:54 Europe/Moscow] Database error: SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry 'i@aifire.ru' for key 'users.email'
+[18-Mar-2025 00:08:17 Europe/Moscow] Attempting to attach email: i@aifire.ru
+[18-Mar-2025 00:08:17 Europe/Moscow] Found temp_user_id in session: 0
+[18-Mar-2025 00:08:17 Europe/Moscow] User found: User Object
+(
+    [id] => 0
+    [telegram_id] => 7346473871
+    [username] => igreskiv
+    [first_name] => Иван
+    [last_name] => Греськив
+    [avatar] => https://t.me/i/userpic/320/d2PFX1RC6YFnVueneIZv_HfWxGAUB9CQvy2Xbr-ztmJC_1xsBZwNV4qRsGezrB8I.jpg
+    [created_at] => 2025-03-11 12:38:48
+    [role] => admin
+    [access_to_courses] => 
+    [email] => 
+    [password_hash] => 
+)
+
+[18-Mar-2025 00:08:17 Europe/Moscow] Executing SQL query with params: Array
+(
+    [0] => i@aifire.ru
+    [1] => $2y$12$vb46.UneosJDBukiTiNKIeS.e9zYW.pQBPt1az2CbcyKGlTmdjyTS
+    [2] => 0
+)
+
+[18-Mar-2025 00:08:17 Europe/Moscow] Database error in attachEmail: SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry 'i@aifire.ru' for key 'users.email'
+[18-Mar-2025 00:08:17 Europe/Moscow] Failed to attach email to user ID: 0
+[18-Mar-2025 00:10:10 Europe/Moscow] Attempting to attach email: i@aifire.ru
+[18-Mar-2025 00:10:10 Europe/Moscow] Found temp_user_id in session: 0
+[18-Mar-2025 00:10:10 Europe/Moscow] User not found with ID: 0
+[18-Mar-2025 00:11:11 Europe/Moscow] Attempting to attach email: i@aifire.ru
+[18-Mar-2025 00:11:11 Europe/Moscow] Found temp_user_id in session: 0
+[18-Mar-2025 00:11:11 Europe/Moscow] User found: User Object
+(
+    [id] => 0
+    [telegram_id] => 7346473871
+    [username] => igreskiv
+    [first_name] => Иван
+    [last_name] => Греськив
+    [avatar] => https://t.me/i/userpic/320/d2PFX1RC6YFnVueneIZv_HfWxGAUB9CQvy2Xbr-ztmJC_1xsBZwNV4qRsGezrB8I.jpg
+    [created_at] => 2025-03-11 12:38:48
+    [role] => admin
+    [access_to_courses] => 
+    [email] => 
+    [password_hash] => 
+)
+
+[18-Mar-2025 00:11:11 Europe/Moscow] Executing SQL query with params: Array
+(
+    [0] => i@aifire.ru
+    [1] => $2y$12$wq7nAgtyZSA/QMlHJYWBxupA2.L.TrzIkIxnWFEFnzUrqMMhd7N5y
+    [2] => 0
+)
+
+[18-Mar-2025 00:11:11 Europe/Moscow] Email attached successfully for user ID: 0
+[18-Mar-2025 00:11:11 Europe/Moscow] Email successfully attached to user ID: 0
+[18-Mar-2025 00:11:11 Europe/Moscow] User authenticated: 0
+[18-Mar-2025 00:13:15 Europe/Moscow] Find user by email result: Found
+[18-Mar-2025 00:16:09 Europe/Moscow] Find user by email result: Not found
+[18-Mar-2025 00:16:09 Europe/Moscow] SQL Params: Array
+(
+    [0] => getintouch.hof@gmail.com
+    [1] => $2y$12$YYYPcnrJrz76vvCUjYxWceuIsCh62T2VZRbNQlDiRPfriUCn3Oh8C
+    [2] => user
+)
+
+[18-Mar-2025 00:16:09 Europe/Moscow] Last insert ID: 0
+[18-Mar-2025 00:20:22 Europe/Moscow] Find user by email result: Not found
+[18-Mar-2025 00:20:22 Europe/Moscow] SQL Params: Array
+(
+    [0] => getintouch.hof@gmail.com
+    [1] => $2y$12$Aw3DeGnRxSDp4V77c9ORse9ID2aYss.Sxfsq6t9bpY6OCBs/V6QtW
+    [2] => user
+)
+
+[18-Mar-2025 00:20:22 Europe/Moscow] Last insert ID: 4
+[18-Mar-2025 00:24:22 Europe/Moscow] Find user by email result: Found
+[18-Mar-2025 00:32:21 Europe/Moscow] Find user result: Not found
+[18-Mar-2025 00:32:21 Europe/Moscow] SQL Params: Array
+(
+    [0] => 7346473871
+    [1] => igreskiv
+    [2] => Иван
+    [3] => Греськив
+    [4] => https://t.me/i/userpic/320/d2PFX1RC6YFnVueneIZv_HfWxGAUB9CQvy2Xbr-ztmJC_1xsBZwNV4qRsGezrB8I.jpg
+    [5] => user
+)
+
+[18-Mar-2025 00:32:21 Europe/Moscow] Last insert ID: 5
+[18-Mar-2025 00:32:21 Europe/Moscow] Find user result: Found
+[18-Mar-2025 00:32:21 Europe/Moscow] Rendering attach-email form
+[18-Mar-2025 00:32:36 Europe/Moscow] Find user result: Found
+[18-Mar-2025 00:32:36 Europe/Moscow] Find user result: Found
+[18-Mar-2025 00:32:36 Europe/Moscow] Rendering attach-email form
+[18-Mar-2025 00:32:41 Europe/Moscow] Attempting to attach email: getintouch.hof@gmail.com
+[18-Mar-2025 00:32:41 Europe/Moscow] Found temp_user_id in session: 5
+[18-Mar-2025 00:32:41 Europe/Moscow] User found: User Object
+(
+    [id] => 5
+    [telegram_id] => 7346473871
+    [username] => igreskiv
+    [first_name] => Иван
+    [last_name] => Греськив
+    [avatar] => https://t.me/i/userpic/320/d2PFX1RC6YFnVueneIZv_HfWxGAUB9CQvy2Xbr-ztmJC_1xsBZwNV4qRsGezrB8I.jpg
+    [created_at] => 2025-03-18 00:32:21
+    [role] => user
+    [access_to_courses] => 
+    [email] => 
+    [password_hash] => 
+)
+
+[18-Mar-2025 00:32:41 Europe/Moscow] Executing SQL query with params: Array
+(
+    [0] => getintouch.hof@gmail.com
+    [1] => $2y$12$9beaCLKZh47e8atowKnZeuvXSxtxUPuAXaz3zLSFQYjzzo3RDv4Ei
+    [2] => 5
+)
+
+[18-Mar-2025 00:32:41 Europe/Moscow] Database error in attachEmail: SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry 'getintouch.hof@gmail.com' for key 'users.email'
+[18-Mar-2025 00:32:41 Europe/Moscow] Failed to attach email to user ID: 5
+[18-Mar-2025 00:32:43 Europe/Moscow] Rendering attach-email form
+[18-Mar-2025 00:32:51 Europe/Moscow] Find user by email result: Found
+[18-Mar-2025 00:35:14 Europe/Moscow] Find user result: Not found
+[18-Mar-2025 00:40:04 Europe/Moscow] Find user by email result: Not found
+[18-Mar-2025 00:40:13 Europe/Moscow] Find user by email result: Not found
+[18-Mar-2025 00:40:13 Europe/Moscow] SQL Params: Array
+(
+    [0] => getintouch.hof@gmail.com
+    [1] => $2y$12$asCVKKUpHbIHJ6qZPzwPJ.oC0j7h4QKbXUPgcQB2JUmCwkin5jkMO
+    [2] => user
+)
+
+[18-Mar-2025 00:40:13 Europe/Moscow] Last insert ID: 6
+[18-Mar-2025 00:40:44 Europe/Moscow] Find user result: Not found
+[18-Mar-2025 00:41:28 Europe/Moscow] Find user result: Found
+[18-Mar-2025 13:17:53 Europe/Moscow] Find user result: Not found
+[18-Mar-2025 13:17:53 Europe/Moscow] SQL Params: Array
+(
+    [0] => 565238458
+    [1] => XSkeetty
+    [2] => Denis
+    [3] => 
+    [4] => https://t.me/i/userpic/320/g0fBiCE9IP2mw5IJCU3hEUDys2ZLaFSTi6082BDOaCM.jpg
+    [5] => user
+)
+
+[18-Mar-2025 13:17:53 Europe/Moscow] Last insert ID: 7
+[18-Mar-2025 13:19:30 Europe/Moscow] Find user by email result: Found
+[19-Mar-2025 11:23:39 Europe/Moscow] Find user result: Not found
+[19-Mar-2025 11:23:39 Europe/Moscow] SQL Params: Array
+(
+    [0] => 207653574
+    [1] => AliKulikova
+    [2] => Alina Kulikova
+    [3] => 
+    [4] => https://t.me/i/userpic/320/69VVadI5eDNg-u3AMCylhpD3MQvRgM3d4LFw0qLWbFc.jpg
+    [5] => user
+)
+
+[19-Mar-2025 11:23:39 Europe/Moscow] Last insert ID: 8
+[20-Mar-2025 01:32:01 Europe/Moscow] Find user result: Found
+[20-Mar-2025 12:12:18 Europe/Moscow] Find user result: Found
+[20-Mar-2025 17:48:13 Europe/Moscow] Find user result: Found
+[21-Mar-2025 00:50:31 Europe/Moscow] Find user result: Found
+[21-Mar-2025 02:06:08 Europe/Moscow] Find user result: Found
+[26-Mar-2025 11:37:03 Europe/Moscow] Find user result: Found
+[28-Apr-2025 18:48:22 Europe/Moscow] Find user result: Found
+[28-Apr-2025 18:57:38 Europe/Moscow] Find user result: Found
+[28-Apr-2025 19:04:37 Europe/Moscow] Find user by email result: Not found
+[28-Apr-2025 19:04:37 Europe/Moscow] SQL Params: Array
+(
+    [0] => lymarmargarita@gmail.com
+    [1] => $2y$12$hvdUcWM8xEhLveODj1wqre9QxRqETKo7Mx/H6ci5HUF1bCaZPQ/ce
+    [2] => user
+)
+
+[28-Apr-2025 19:04:37 Europe/Moscow] Last insert ID: 9
+[28-Apr-2025 19:08:50 Europe/Moscow] Find user by email result: Not found
+[28-Apr-2025 19:08:50 Europe/Moscow] SQL Params: Array
+(
+    [0] => nata-23-09@mail.ru
+    [1] => $2y$12$kEs1QNjbejFoecjSVuAHIOH10qqacm0QKBEMV29m7Lgvk6XoZIw0e
+    [2] => user
+)
+
+[28-Apr-2025 19:08:50 Europe/Moscow] Last insert ID: 10
+[28-Apr-2025 19:10:06 Europe/Moscow] Find user result: Found
+[28-Apr-2025 19:11:52 Europe/Moscow] Find user result: Not found
+[28-Apr-2025 19:13:07 Europe/Moscow] Find user by email result: Not found
+[28-Apr-2025 19:13:08 Europe/Moscow] SQL Params: Array
+(
+    [0] => y.nerush@yandex.ru
+    [1] => $2y$12$J1i1ukXpM/Y2vYEafqq4N.3kTGUoN9CEAW/75Ck7slYnOGlOrGrB6
+    [2] => user
+)
+
+[28-Apr-2025 19:13:08 Europe/Moscow] Last insert ID: 11
+[28-Apr-2025 19:13:17 Europe/Moscow] Find user result: Found
+[28-Apr-2025 19:13:57 Europe/Moscow] Find user result: Not found
+[28-Apr-2025 19:13:57 Europe/Moscow] SQL Params: Array
+(
+    [0] => 523002276
+    [1] => Margarita_Lymar
+    [2] => Маргарита
+    [3] => 
+    [4] => https://t.me/i/userpic/320/dAAw68B6fU_edINgQxVkxtbd3tzg7UH5vjDrDKwJHbc.jpg
+    [5] => user
+)
+
+[28-Apr-2025 19:13:57 Europe/Moscow] Last insert ID: 12
+[28-Apr-2025 19:16:19 Europe/Moscow] Find user result: Found
+[28-Apr-2025 22:06:10 Europe/Moscow] Find user by email result: Not found
+[28-Apr-2025 22:06:10 Europe/Moscow] SQL Params: Array
+(
+    [0] => panda.ru.08@mail.ru
+    [1] => $2y$12$T3e3xNUYqOhpPJPQoIf1a.Ots9MEe8EpNvi3gpA5elj4rD1RCdgUC
+    [2] => user
+)
+
+[28-Apr-2025 22:06:10 Europe/Moscow] Last insert ID: 13
+[28-Apr-2025 22:08:51 Europe/Moscow] Find user result: Not found
+[28-Apr-2025 22:08:51 Europe/Moscow] SQL Params: Array
+(
+    [0] => 486606130
+    [1] => Kristina_Zavyalova28
+    [2] => Кристина
+    [3] => 
+    [4] => https://t.me/i/userpic/320/pjOeIVOjxMOb4RKwyJ5202mRkvo2IKSJ8dQzQWfrggg.jpg
+    [5] => user
+)
+
+[28-Apr-2025 22:08:51 Europe/Moscow] Last insert ID: 14
+[29-Apr-2025 06:37:57 Europe/Moscow] Find user by email result: Not found
+[29-Apr-2025 06:38:53 Europe/Moscow] Find user by email result: Not found
+[29-Apr-2025 06:38:54 Europe/Moscow] SQL Params: Array
+(
+    [0] => 9999111194@mail.ru
+    [1] => $2y$12$n.Elb4uZ8nyX/0sOHT61cOybcnIuQulZX/ltxuIG4T/3yponjHh76
+    [2] => user
+)
+
+[29-Apr-2025 06:38:54 Europe/Moscow] Last insert ID: 15
+[29-Apr-2025 06:41:40 Europe/Moscow] Find user by email result: Found
+[29-Apr-2025 06:46:16 Europe/Moscow] Find user by email result: Found
+[29-Apr-2025 06:50:51 Europe/Moscow] Find user result: Not found
+[29-Apr-2025 08:49:34 Europe/Moscow] Find user result: Found
+[29-Apr-2025 10:59:57 Europe/Moscow] Find user by email result: Not found
+[29-Apr-2025 10:59:57 Europe/Moscow] SQL Params: Array
+(
+    [0] => svetlanakrotova12@gmail.com
+    [1] => $2y$12$AYzATWkonUWUG9gU8xbl4OVcr7zGpvK1QFM8rb4oL8y/lZMTJVqdW
+    [2] => user
+)
+
+[29-Apr-2025 10:59:57 Europe/Moscow] Last insert ID: 16
+[29-Apr-2025 11:05:48 Europe/Moscow] Find user result: Not found
+[29-Apr-2025 11:11:39 Europe/Moscow] Find user by email result: Found
+[29-Apr-2025 15:00:23 Europe/Moscow] Find user by email result: Found
+[29-Apr-2025 18:44:36 Europe/Moscow] Find user result: Not found
+[29-Apr-2025 20:15:38 Europe/Moscow] Find user result: Found
+[30-Apr-2025 09:28:27 Europe/Moscow] Find user result: Found
+[01-May-2025 23:11:46 Europe/Moscow] Find user result: Not found
+[01-May-2025 23:11:46 Europe/Moscow] SQL Params: Array
+(
+    [0] => 1072742501
+    [1] => PRnirvana
+    [2] => Марья Карпова |
+    [3] => GC
+    [4] => https://t.me/i/userpic/320/Y7DsrfZlIh5jKWcq1VJM9MEpTzpXNf4UDlH8YwUiPiM.jpg
+    [5] => user
+)
+
+[01-May-2025 23:11:46 Europe/Moscow] Last insert ID: 17
+[05-May-2025 10:58:53 Europe/Moscow] Find user result: Found
+[07-May-2025 13:34:02 Europe/Moscow] Find user result: Found
+[08-May-2025 13:14:40 Europe/Moscow] Find user result: Found
+[08-May-2025 23:24:24 Europe/Moscow] Find user result: Found
+[15-May-2025 08:54:34 Europe/Moscow] Find user result: Found
+[30-May-2025 15:49:28 Europe/Moscow] Find user result: Found
+[30-May-2025 16:19:41 Europe/Moscow] Module ID: Warning: Undefined array key 0 in /home/i/iaifirk6/academy.aifire.space/public_html/views/courses/lessons.php on line 15Warning: Attempt to read property
+[30-May-2025 16:19:41 Europe/Moscow] Title: ыаыфваывфа
+[30-May-2025 16:19:41 Europe/Moscow] Order Number: 1
+[30-May-2025 16:19:41 Europe/Moscow] Elements: Array
+(
+    [0] => Array
+        (
+            [type] => text
+            [content] => ыфаыва
+            [url] => 
+        )
+
+    [1] => Array
+        (
+            [type] => homework
+            [questions] => Array
+                (
+                    [0] => Array
+                        (
+                            [text] => фываывфаыфа
+                            [type] => text
+                        )
+
+                    [1] => Array
+                        (
+                            [text] => фываыфваыва
+                            [type] => text
+                        )
+
+                    [2] => Array
+                        (
+                            [text] => ыфваыфваыва
+                            [type] => text
+                        )
+
+                )
+
+        )
+
+)
+
+[30-May-2025 16:19:41 Europe/Moscow] Saving lesson: title=ыаыфваывфа, order_number=1, module_id=Warning: Undefined array key 0 in /home/i/iaifirk6/academy.aifire.space/public_html/views/courses/lessons.php on line 15Warning: Attempt to read property
+[30-May-2025 16:20:10 Europe/Moscow] Module ID: Warning: Undefined array key 0 in /home/i/iaifirk6/academy.aifire.space/public_html/views/courses/lessons.php on line 15Warning: Attempt to read property
+[30-May-2025 16:20:10 Europe/Moscow] Title: ыфафываыва
+[30-May-2025 16:20:10 Europe/Moscow] Order Number: 1
+[30-May-2025 16:20:10 Europe/Moscow] Elements: Array
+(
+    [0] => Array
+        (
+            [type] => video
+            [content] => ыфваыва
+            [url] => 
+        )
+
+    [1] => Array
+        (
+            [type] => text
+            [content] => ыфаыфва
+            [url] => 
+        )
+
+)
+
+[30-May-2025 16:20:10 Europe/Moscow] Saving lesson: title=ыфафываыва, order_number=1, module_id=Warning: Undefined array key 0 in /home/i/iaifirk6/academy.aifire.space/public_html/views/courses/lessons.php on line 15Warning: Attempt to read property
+[30-May-2025 16:20:44 Europe/Moscow] Module ID: 1
+[30-May-2025 16:20:44 Europe/Moscow] Title: 2
+[30-May-2025 16:20:44 Europe/Moscow] Order Number: 2
+[30-May-2025 16:20:44 Europe/Moscow] Elements: Array
+(
+    [0] => Array
+        (
+            [type] => video
+            [content] => ыфваыва
+            [url] => 
+        )
+
+    [1] => Array
+        (
+            [type] => text
+            [content] => ыфваыфваыва
+            [url] => 
+        )
+
+)
+
+[30-May-2025 16:20:44 Europe/Moscow] Saving lesson: title=2, order_number=2, module_id=1
+[30-May-2025 16:29:10 Europe/Moscow] Module ID: 2
+[30-May-2025 16:29:10 Europe/Moscow] Title: sdfsdsdf
+[30-May-2025 16:29:10 Europe/Moscow] Order Number: 3
+[30-May-2025 16:29:10 Europe/Moscow] Elements: Array
+(
+    [0] => Array
+        (
+            [type] => video
+            [content] => sdfsdf
+            [url] => 
+        )
+
+    [1] => Array
+        (
+            [type] => link
+            [content] => sdfsdf
+            [url] => sadfsdaf
+        )
+
+)
+
+[30-May-2025 16:29:10 Europe/Moscow] Saving lesson: title=sdfsdsdf, order_number=3, module_id=2
+[30-May-2025 16:31:39 Europe/Moscow] Module ID: 2
+[30-May-2025 16:31:39 Europe/Moscow] Title: sdfsdsdf
+[30-May-2025 16:31:39 Europe/Moscow] Order Number: 3
+[30-May-2025 16:31:39 Europe/Moscow] Elements: Array
+(
+    [0] => Array
+        (
+            [type] => video
+            [content] => sdfsdf
+            [url] => 
+        )
+
+    [1] => Array
+        (
+            [type] => link
+            [content] => sdfsdf
+            [url] => sadfsdaf
+        )
+
+)
+
+[30-May-2025 16:31:39 Europe/Moscow] Saving lesson: title=sdfsdsdf, order_number=3, module_id=2
+[04-Jun-2025 12:04:16 Europe/Moscow] Find user result: Found
+[06-Jun-2025 13:36:19 Europe/Moscow] Find user result: Found
+[01-Jul-2025 21:21:10 Europe/Moscow] Find user result: Found

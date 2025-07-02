@@ -1,3 +1,7 @@
+---
+icon: fill-drip
+---
+
 # Документация функционала платформы AI Fire LMS Academy
 
 {% content-ref url="dokumentaciya-funkcionala-platformy-ai-fire-lms-academy/funkcional-polzovatelya.md" %}

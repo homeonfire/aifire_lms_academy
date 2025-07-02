@@ -4,7 +4,7 @@
 class DashboardController extends Controller {
 
     public function __construct() {
-        if (!isset($_SESSION['user_id'])) {
+        if (!isset($_SESSION['user'])) { // ИСПРАВЛЕНО
             header('Location: /login');
             exit();
         }
@@ -12,7 +12,6 @@ class DashboardController extends Controller {
 
     public function index() {
         // Подключаем модель курсов
-        require_once __DIR__ . '/../Models/Course.php';
         $courseModel = new Course();
 
         // Получаем данные из модели

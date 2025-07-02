@@ -5,10 +5,11 @@
     <nav class="nav-menu">
         <a href="/admin/dashboard" class="nav-item active">Главная</a>
         <a href="/admin/courses" class="nav-item">Курсы</a>
+        <a href="/admin/categories" class="nav-item">Категории</a>
         <a href="/admin/users" class="nav-item">Пользователи</a>
     </nav>
     <div class="sidebar-footer">
-        <a href="/" class="nav-item">Вернуться на сайт</a>
+        <a href="/dashboard" class="nav-item">Вернуться на сайт</a>
         <a href="/logout" class="nav-item">Выход</a>
     </div>
 </aside>

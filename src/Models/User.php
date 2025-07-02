@@ -71,4 +71,49 @@ class User {
 
         return $stmt->execute();
     }
+
+    /**
+     * Получает всех пользователей
+     * @return array
+     */
+    public function getAll() {
+        $stmt = $this->pdo->prepare("SELECT id, first_name, last_name, email, role, created_at FROM users ORDER BY created_at DESC");
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
+
+    /**
+     * Обновляет роль пользователя
+     * @param int $id
+     * @param string $role
+     * @return bool
+     */
+    public function updateRole($id, $role) {
+        // Простая проверка, чтобы не установить некорректную роль
+        if (!in_array($role, ['user', 'admin'])) {
+            return false;
+        }
+        $stmt = $this->pdo->prepare("UPDATE users SET role = :role WHERE id = :id");
+        return $stmt->execute(['role' => $role, 'id' => $id]);
+    }
+
+    public function updateUserData($id, $data) {
+        $stmt = $this->pdo->prepare(
+            "UPDATE users SET 
+            first_name = :first_name, 
+            last_name = :last_name,
+            role = :role,
+            experience_level = :experience_level,
+            preferred_skill_type = :preferred_skill_type
+         WHERE id = :id"
+        );
+        return $stmt->execute([
+            'first_name' => $data['first_name'],
+            'last_name' => $data['last_name'],
+            'role' => $data['role'],
+            'experience_level' => $data['experience_level'],
+            'preferred_skill_type' => $data['preferred_skill_type'],
+            'id' => $id
+        ]);
+    }
 }

@@ -7,7 +7,6 @@ class AuthController extends Controller {
 
     // Конструктор для загрузки модели
     public function __construct() {
-        require_once __DIR__ . '/../Models/User.php';
         $this->userModel = new User();
     }
 
@@ -63,16 +62,13 @@ class AuthController extends Controller {
 
         $user = $this->userModel->findByEmail($email);
 
-        // Проверяем, существует ли пользователь и верен ли пароль
         if ($user && password_verify($password, $user['password_hash'])) {
-            // Успешный вход. Сохраняем ID пользователя в сессии.
-            $_SESSION['user_id'] = $user['id'];
+            // Успешный вход. Сохраняем все данные о пользователе.
+            $_SESSION['user'] = $user;
 
-            // Перенаправляем на дашборд (пока что это будет пустая страница)
             header('Location: /dashboard');
             exit();
         } else {
-            // Неуспешный вход. Показываем форму снова с ошибкой.
             $this->render('auth/login', ['error' => 'Неверный email или пароль.']);
         }
     }

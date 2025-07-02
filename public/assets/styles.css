@@ -671,18 +671,6 @@ a.course-card-link {
     color: var(--secondary-text-color);
 }
 
-.certificate-badge {
-    margin-top: 16px;
-    display: inline-block;
-    border: 1px solid var(--primary-accent-color);
-    color: var(--primary-accent-color);
-    padding: 6px 12px;
-    border-radius: 6px;
-    font-size: 12px;
-    font-weight: 600;
-    align-self: flex-start; /* Значок не будет растягиваться */
-}
-
 /* 10. Стили для Админ-панели */
 .admin-body {
     background-color: #f4f7fa; /* Светлый фон для админки */
@@ -714,4 +702,1016 @@ a.course-card-link {
 
 .admin-layout .main-content {
     background-color: #f4f7fa;
+}
+
+/* 11. Стили для таблиц и кнопок в Админ-панели */
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.admin-table-container {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    padding: 20px;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.admin-table th, .admin-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.admin-table th {
+    background-color: #f7f9fc;
+    font-weight: 600;
+    font-size: 14px;
+    color: #555;
+}
+
+.admin-table tbody tr:hover {
+    background-color: #f7f9fc;
+}
+
+.admin-table td.actions {
+    display: flex;
+    gap: 10px;
+}
+
+/* Стили для кнопок */
+.btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-primary {
+    background-color: var(--primary-accent-color);
+    color: white;
+}
+.btn-primary:hover {
+    background-color: var(--primary-accent-hover-color);
+}
+
+.btn-secondary {
+    background-color: #bdc3c7;
+    color: #2c3e50;
+}
+.btn-secondary:hover {
+    background-color: #a5abb0;
+}
+
+.btn-danger {
+    background-color: #e74c3c;
+    color: white;
+}
+.btn-danger:hover {
+    background-color: #c0392b;
+}
+/* 12. Корректировка кнопок в админ-панели */
+.admin-header .btn {
+    width: auto; /* Убираем растягивание */
+    padding: 10px 20px; /* Делаем отступы поменьше */
+}
+
+/* 13. Стили для контента и форм в админке (Светлая тема) */
+
+.admin-card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    padding: 30px;
+}
+
+.admin-form .input-group {
+    margin-bottom: 20px;
+}
+
+.admin-form .input-group label {
+    display: block;
+    color: #555;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.admin-form .input-group input,
+.admin-form .input-group textarea {
+    width: 100%;
+    padding: 12px;
+    background-color: #fdfdfd;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    color: #333;
+    font-size: 14px;
+    font-family: 'Inter', sans-serif;
+}
+
+.admin-form .input-group textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.admin-form .input-group input:focus,
+.admin-form .input-group textarea:focus {
+    outline: none;
+    border-color: var(--primary-accent-color);
+    box-shadow: 0 0 0 3px rgba(132, 115, 255, 0.2);
+}
+
+.admin-form .btn-primary {
+    width: auto;
+    padding: 10px 20px;
+}
+
+/* 14. Стили для управления контентом курса */
+
+.modules-list .module-item {
+    background-color: #f7f9fc;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.module-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.module-header h4 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.lessons-list {
+    list-style: none;
+    padding: 0;
+}
+
+.lesson-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 15px;
+    border-bottom: 1px solid #e9e9e9;
+}
+
+.lesson-item:last-of-type {
+    border-bottom: none;
+}
+
+.add-lesson-row {
+    padding: 15px;
+}
+
+/* Маленькие кнопки */
+.btn-sm {
+    padding: 5px 10px;
+    font-size: 12px;
+}
+
+/* 15. Стили для формы добавления модуля */
+.add-module-form {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding: 20px;
+    background-color: #f0f4f8;
+    border-radius: 8px;
+}
+
+/* Правило для поля ввода: занять всё доступное место */
+.add-module-form input[type="text"] {
+    flex-grow: 1; /* Это свойство заставляет поле растягиваться */
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    padding: 10px;
+}
+
+/* Правило для кнопки: быть компактной */
+.add-module-form .btn {
+    flex-shrink: 0; /* Запрещаем кнопке сжиматься */
+    width: auto;    /* Ширина определяется контентом */
+}
+
+/* 16. Стили для формы добавления урока */
+.add-lesson-form {
+    display: flex;
+    gap: 10px;
+    padding: 10px 0; /* Добавляем отступы сверху и снизу */
+}
+.add-lesson-form input[type="text"] {
+    flex-grow: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+}
+.add-lesson-form select {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+/* 17. Стили для редактирования модуля */
+.edit-module-form {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-grow: 1;
+}
+.edit-module-form input[type="text"] {
+    flex-grow: 1;
+    padding: 8px;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    font-size: 18px;
+    font-weight: 700;
+}
+.edit-module-form input[type="text"]:focus {
+    border-color: #ccc;
+    background-color: white;
+}
+
+/* 18. Стили для редактирования урока */
+.edit-lesson-form {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-grow: 1;
+}
+
+.lesson-title-input {
+    flex-grow: 1;
+    padding: 8px;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    font-size: 14px;
+    background-color: transparent;
+}
+.lesson-title-input:focus {
+    border-color: #ccc;
+    background-color: white;
+}
+
+/* 19. Финальная полировка страницы управления контентом */
+
+/* Убираем фон у основной формы добавления модуля */
+.add-module-form {
+    background-color: transparent;
+    padding: 0;
+    margin-bottom: 30px;
+}
+
+/* Стили для контейнера модуля */
+.module-item {
+    background-color: transparent;
+    border: none; /* Убираем рамку вокруг всего модуля */
+}
+
+/* Заголовок модуля */
+.module-header {
+    background-color: #f7f9fc; /* Слегка серый фон для заголовка */
+    border: 1px solid #e0e0e0;
+    border-radius: 8px 8px 0 0; /* Скругляем только верхние углы */
+}
+
+/* Список уроков */
+.lessons-list {
+    border: 1px solid #e0e0e0;
+    border-top: none; /* Убираем верхнюю рамку, т.к. она есть у заголовка */
+    border-radius: 0 0 8px 8px; /* Скругляем нижние углы */
+}
+
+/* Делаем поле для редактирования модуля "невидимым" */
+.edit-module-form input[type="text"] {
+    background-color: transparent;
+    border-color: transparent;
+    font-size: 16px; /* Чуть крупнее для заголовка */
+    font-weight: 600;
+}
+
+/* Поле становится видимым только при наведении или фокусе */
+.edit-module-form input[type="text"]:hover,
+.edit-module-form input[type="text"]:focus {
+    background-color: white;
+    border-color: #ccc;
+}
+
+/* Делаем то же самое для полей редактирования уроков */
+.edit-lesson-form input.lesson-title-input {
+    background-color: transparent;
+    border-color: transparent;
+}
+
+.edit-lesson-form input.lesson-title-input:hover,
+.edit-lesson-form input.lesson-title-input:focus {
+    background-color: white;
+    border-color: #ccc;
+}
+
+/* Убираем лишнюю рамку у последнего урока в списке */
+.lesson-item:last-of-type {
+    border-bottom: 1px solid #e9e9e9;
+}
+
+/* Делаем кнопку добавления урока аккуратнее */
+.add-lesson-row {
+    background-color: #f7f9fc;
+}
+
+/* 20. Полировка кнопок в админке */
+
+/* Применяем Flexbox к контейнерам, чтобы управлять отступами */
+.module-header,
+.lesson-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px; /* <- Вот и наш отступ между элементами */
+}
+
+/* Делаем все маленькие кнопки чуть более скругленными и симпатичными */
+.btn-sm {
+    border-radius: 6px;
+    font-weight: 500;
+}
+
+/* Смягчаем цвет для кнопки "Сохранить" */
+.edit-module-form .btn-sm,
+.edit-lesson-form .btn-sm {
+    background-color: #e0e0e0;
+    color: #333;
+}
+.edit-module-form .btn-sm:hover,
+.edit-lesson-form .btn-sm:hover {
+    background-color: #d1d1d1;
+}
+
+/* Контейнер с кнопками "Удалить" */
+.actions {
+    flex-shrink: 0; /* Запрещаем контейнеру сжиматься */
+}
+
+/* Добавляем отступы для контейнера с кнопками урока */
+.lesson-item .actions {
+    display: flex;
+    gap: 10px;
+}
+
+/* 21. Стили для адаптивного видеоплеера */
+
+.video-player-responsive {
+    position: relative;
+    padding-bottom: 56.25%; /* Соотношение сторон 16:9 */
+    height: 0;
+    overflow: hidden;
+    width: 100%;
+    background: #000;
+    border-radius: 12px;
+}
+
+.video-player-responsive iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.homework-question-input { margin-bottom: 10px; }
+.homework-group { margin-bottom: 20px; }
+.homework-group label { font-weight: bold; }
+.homework-group p { margin-top: 5px; }
+.homework-group textarea { width: 100%; min-height: 100px; margin-top: 10px; padding: 10px; border-radius: 8px; border: 1px solid var(--border-color); background-color: var(--input-field-color); color: var(--primary-text-color);}
+
+.alert.alert-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #a5b4fc;
+    background-color: rgba(129, 140, 248, 0.1);
+    border: 1px solid rgba(129, 140, 248, 0.2);
+
+    /* --- ДОБАВЛЕННЫЕ СТИЛИ --- */
+    padding: 16px;      /* Добавляем внутренние отступы */
+    border-radius: 12px;  /* Скругляем углы */
+    margin-bottom: 20px;
+}
+
+.alert-icon {
+    font-size: 20px;
+    flex-shrink: 0; /* Гарантирует, что иконка не будет сжиматься */
+}
+
+.alert-info p {
+    margin: 0; /* Убираем лишний отступ у параграфа внутри */
+}
+
+/* Стили для таблицы в темной теме */
+.admin-table-container-dark {
+    background-color: var(--container-color);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 20px;
+}
+
+.admin-table-dark {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.admin-table-dark th, .admin-table-dark td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.admin-table-dark th {
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--secondary-text-color);
+}
+
+.admin-table-dark tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.03);
+}
+
+/* Стили для счетчика (бейджа) в меню */
+.nav-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.badge {
+    background-color: #e74c3c; /* Ярко-красный */
+    color: white;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 10px;
+    line-height: 1; /* Для лучшего вида на разных устройствах */
+}
+
+/* 22. Стили для страницы проверки ДЗ */
+.check-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 30px;
+}
+
+.page-subtitle {
+    color: var(--secondary-text-color);
+    margin-top: 5px;
+}
+
+.homework-check-container {
+    background-color: var(--container-color);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 30px;
+}
+
+.qa-block {
+    margin-bottom: 30px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 30px;
+}
+
+.qa-block:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.qa-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--secondary-text-color);
+    display: block;
+    margin-bottom: 8px;
+}
+
+.answer-block {
+    background-color: rgba(255, 255, 255, 0.03);
+    border-radius: 8px;
+    padding: 16px;
+    margin-top: 16px;
+}
+
+.answer-block p {
+    line-height: 1.6;
+}
+
+.check-actions {
+    margin-top: 30px;
+    display: flex;
+    gap: 15px;
+}
+
+.btn-success {
+    background-color: #27ae60;
+    color: white;
+}
+.btn-success:hover {
+    background-color: #229954;
+}
+
+/* 23. Стили для формы проверки ДЗ */
+.check-actions {
+    margin-top: 30px;
+    padding-top: 30px;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.check-actions .input-group label {
+    display: block;
+    color: var(--secondary-text-color);
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.check-actions textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    background-color: var(--input-field-color);
+    color: var(--primary-text-color);
+    resize: vertical;
+}
+
+.check-buttons {
+    display: flex;
+    gap: 15px;
+}
+
+/* --- Стили для статусов ДЗ --- */
+
+/* Общий стиль для всех алертов */
+.alert {
+    display: flex;
+    align-items: flex-start; /* Выравниваем по верху для длинных комментов */
+    gap: 12px;
+    padding: 16px;
+    border-radius: 12px;
+    border-width: 1px;
+    border-style: solid;
+}
+.alert-icon {
+    font-size: 20px;
+    flex-shrink: 0;
+    margin-top: -2px; /* Небольшая коррекция для иконок */
+}
+.alert p {
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* Синий: Отправлено */
+.alert.alert-info {
+    color: #a5b4fc;
+    background-color: rgba(129, 140, 248, 0.1);
+    border-color: rgba(129, 140, 248, 0.2);
+}
+
+/* Зеленый: Принято */
+.alert.alert-success {
+    color: #86efac;
+    background-color: rgba(74, 222, 128, 0.1);
+    border-color: rgba(74, 222, 128, 0.2);
+}
+
+/* Красный: Отклонено */
+.alert.alert-danger {
+    color: #fca5a5;
+    background-color: rgba(248, 113, 113, 0.1);
+    border-color: rgba(248, 113, 113, 0.2);
+}
+
+/* 24. Стили для страницы "Мои ответы" */
+.answers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+a.answer-card-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.answer-card {
+    background-color: var(--container-color);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 20px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.answer-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+.answer-card h4 {
+    margin-bottom: 8px;
+    flex-grow: 1; /* Заголовок занимает все доступное место */
+}
+.answer-card p {
+    color: var(--secondary-text-color);
+    font-size: 14px;
+    flex-grow: 1;
+    margin-bottom: 20px;
+}
+
+.status-badge {
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    text-align: center;
+    align-self: flex-start;
+}
+.status-badge.status-submitted {
+    color: #a5b4fc;
+    background-color: rgba(129, 140, 248, 0.1);
+}
+.status-badge.status-checked {
+    color: #86efac;
+    background-color: rgba(74, 222, 128, 0.1);
+}
+.status-badge.status-rejected {
+    color: #fca5a5;
+    background-color: rgba(248, 113, 113, 0.1);
+}
+
+/* Стили для формы смены роли */
+.role-change-form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.role-change-form select {
+    padding: 6px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+/* Стили для модального окна */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+.modal-content {
+    background-color: white;
+    padding: 30px;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+.modal-header h2 {
+    margin: 0;
+    font-size: 22px;
+}
+.close-modal-btn {
+    border: none;
+    background: none;
+    font-size: 28px;
+    cursor: pointer;
+    color: #888;
+}
+
+.lesson-item { position: relative; padding-left: 30px; }
+.lesson-completed-icon { position: absolute; left: 0; top: 11px; font-size: 16px; }
+.complete-lesson-wrapper { margin-top: 24px; }
+
+.admin-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 30px;
+}
+.admin-card h3 {
+    margin-bottom: 20px;
+    font-size: 18px;
+}
+.admin-table-container-flat {
+    background-color: transparent;
+    box-shadow: none;
+    padding: 0;
+}
+
+/* --- Стили для кастомных чекбоксов в виде тегов --- */
+
+.tag-checkbox-group {
+    display: flex;
+    flex-wrap: wrap; /* Позволяет тегам переноситься на новую строку */
+    gap: 10px; /* Отступ между тегами */
+    padding-top: 5px;
+}
+
+.tag-checkbox-group label {
+    display: inline-block;
+    cursor: pointer;
+}
+
+/* Прячем настоящий чекбокс */
+.tag-checkbox-group input[type="checkbox"],
+.tag-checkbox-group input[type="radio"] {
+    display: none;
+}
+
+/* Стилизуем наш кастомный тег (span внутри label) */
+.tag-checkbox-group span {
+    display: block;
+    padding: 8px 16px;
+    border: 1px solid #e0e0e0;
+    border-radius: 20px; /* Делаем теги скругленными */
+    font-weight: 500;
+    color: #555;
+    background-color: #f7f9fc;
+    transition: all 0.2s ease;
+}
+
+/* Стили, когда тег ВЫБРАН */
+.tag-checkbox-group input:checked + span {
+    background-color: var(--primary-accent-color);
+    border-color: var(--primary-accent-color);
+    color: white;
+    box-shadow: 0 4px 8px rgba(132, 115, 255, 0.2);
+}
+
+/* Эффект при наведении */
+.tag-checkbox-group input:not(:checked) + span:hover {
+    border-color: var(--primary-accent-color);
+}
+
+
+
+/* Новый стиль для кнопки сертификата */
+.certificate-badge {
+    margin-top: auto; /* Прижимает кнопку к низу карточки */
+    background-color: transparent;
+    border: 1px solid var(--primary-accent-color);
+    color: var(--primary-accent-color);
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    align-self: flex-start;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.certificate-badge:hover {
+    background-color: var(--primary-accent-color);
+    color: white;
+}
+
+/* Стили для карточек курсов (Финальная версия) */
+
+/* Делаем карточку относительной, чтобы позиционировать тег */
+.content-card {
+    position: relative;
+}
+
+/* Стили для тегов, которые будут поверх изображения */
+.tag-on-image {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    z-index: 10;
+}
+
+/* Контейнер для тегов под картинкой */
+.card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 12px;
+    /* Убираем высоту, если тегов нет */
+    min-height: 25px;
+}
+
+/* Общий стиль для всех тегов (ширина по контенту) */
+.card-tag {
+    /* Центрируем текст по всем осям */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    /* Размеры и шрифт */
+    padding: 5px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 16px;
+    line-height: 1; /* Для стабильного вида */
+}
+
+/* Стиль для тегов категорий */
+.tag-category {
+    background-color: #3a3a3a;
+    color: #e0e0e0;
+}
+
+/* Стиль для тегов уровня сложности */
+.tag-difficulty-beginner,
+.tag-difficulty-intermediate,
+.tag-difficulty-advanced {
+    background-color: var(--primary-accent-color);
+    color: white;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+/* General Card Styling */
+.course-card-link {
+    text-decoration: none; /* Remove underline from the link */
+    display: block; /* Make the link a block to wrap the card properly */
+}
+
+.course-card {
+    background-color: #2e2e2e; /* Dark background similar to the screenshot */
+    border-radius: 12px; /* Slightly rounded corners */
+    overflow: hidden; /* Ensures image corners are rounded */
+    color: #f0f0f0; /* Light text color for contrast */
+    font-family: Arial, sans-serif; /* Example font */
+    max-width: 350px; /* Adjust as needed, typical card width */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+    transition: transform 0.2s ease-in-out; /* Smooth hover effect */
+    display: flex; /* Flexbox for internal layout */
+    flex-direction: column; /* Stack image and content */
+}
+
+.course-card:hover {
+    transform: translateY(-5px); /* Lift card on hover */
+}
+
+/* Image Section */
+.course-card-image-wrapper {
+    position: relative; /* For positioning overlay icons */
+    width: 100%;
+    /* Maintain aspect ratio if image is dynamic and not fixed size */
+    padding-bottom: 56.25%; /* 16:9 aspect ratio (height / width * 100) */
+    background-color: #1a1a1a; /* Placeholder background */
+}
+
+.course-card-image-wrapper img:not(.overlay-icon) {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Cover the area, cropping if necessary */
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+}
+
+.course-card-overlay-icons {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between; /* Push logo left, avatars right */
+    align-items: flex-end; /* Align avatars to the bottom */
+    padding: 15px; /* Padding inside the image wrapper */
+    box-sizing: border-box; /* Include padding in dimensions */
+}
+
+.overlay-icon {
+    position: absolute; /* Absolute positioning within the wrapper */
+    z-index: 10; /* Ensure icons are on top of the main image */
+}
+
+.company-logo {
+    left: 15px;
+    bottom: 15px;
+    width: 60px; /* Adjust size as needed */
+    height: 60px; /* Adjust size as needed */
+    border-radius: 8px; /* Slightly rounded corners for the logo */
+    background-color: #000; /* Example background if logo is transparent */
+    padding: 8px; /* Padding around the logo */
+}
+
+.instructor-avatar {
+    width: 45px; /* Size of the avatar */
+    height: 45px; /* Size of the avatar */
+    border-radius: 50%; /* Make it circular */
+    border: 2px solid #2e2e2e; /* Border color matching card background */
+    background-color: #555; /* Placeholder for avatar if image not loaded */
+    object-fit: cover;
+    right: 15px; /* Align to the right */
+    bottom: 15px; /* Align to the bottom */
+}
+
+.instructor-avatar-1 {
+    right: 70px; /* Position first avatar */
+}
+
+.instructor-avatar-2 {
+    right: 15px; /* Position second avatar */
+}
+
+
+/* Content Section */
+.course-card-content {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px; /* Space between title, difficulty, and categories */
+    flex-grow: 1; /* Allow content to take available space */
+}
+
+.course-card-title {
+    font-size: 1.25rem; /* Larger title font size */
+    font-weight: bold;
+    margin: 0; /* Remove default margin */
+    color: #fff; /* White for the title */
+    line-height: 1.3;
+}
+
+/* Difficulty Tag */
+.course-card-difficulty {
+    display: inline-block; /* Allows padding and background */
+    padding: 4px 10px;
+    border-radius: 5px; /* Slightly rounded corners for the tag */
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+/* Difficulty specific colors */
+.tag-difficulty-beginner {
+    background-color: #28a745; /* Green for Beginner */
+    color: #fff;
+}
+
+.tag-difficulty-intermediate {
+    background-color: #ffc107; /* Yellow/Orange for Intermediate */
+    color: #333; /* Darker text for readability */
+}
+
+.tag-difficulty-advanced {
+    background-color: #dc3545; /* Red for Advanced */
+    color: #fff;
+}
+
+/* Categories */
+.course-card-categories {
+    font-size: 0.9rem;
+    color: #a0a0a0; /* Grey color for categories */
+    margin-top: auto; /* Pushes categories to the bottom of the content area */
+    white-space: nowrap; /* Prevent categories from wrapping */
+    overflow: hidden; /* Hide overflow */
+    text-overflow: ellipsis; /* Add ellipsis for overflow */
+}
+
+/* Optional: For responsiveness if cards are in a grid */
+@media (max-width: 768px) {
+    .course-card {
+        max-width: 100%; /* Full width on smaller screens */
+    }
 }

@@ -6,76 +6,162 @@ class Router {
         $uri = strtok($_SERVER['REQUEST_URI'], '?');
         $method = $_SERVER['REQUEST_METHOD'];
 
-        switch (true) { // Обратите внимание: true
+        switch (true) {
+            // --- Главные роуты и авторизация ---
             case $uri === '/':
-                header('Location: /login');
-                exit();
+            case $uri === '/login':
+                $controller = new AuthController();
+                if ($method === 'GET') $controller->showLoginPage();
+                elseif ($method === 'POST') $controller->loginUser();
+                break;
 
-            case $uri === '/login' && $method === 'GET':
-            case $uri === '/register' && $method === 'GET':
-            case $uri === '/login' && $method === 'POST':
-            case $uri === '/register' && $method === 'POST':
+            case $uri === '/register':
+                $controller = new AuthController();
+                if ($method === 'GET') $controller->showRegistrationPage();
+                elseif ($method === 'POST') $controller->registerUser();
+                break;
+
             case $uri === '/logout':
-                require_once __DIR__ . '/../Controllers/AuthController.php';
-                $authController = new AuthController();
-                if ($uri === '/login' && $method === 'GET') $authController->showLoginPage();
-                elseif ($uri === '/register' && $method === 'GET') $authController->showRegistrationPage();
-                elseif ($uri === '/login' && $method === 'POST') $authController->loginUser();
-                elseif ($uri === '/register' && $method === 'POST') $authController->registerUser();
-                elseif ($uri === '/logout') $authController->logout();
+                (new AuthController())->logout();
                 break;
 
+            // --- Роуты пользовательской части ---
             case $uri === '/dashboard':
-                require_once __DIR__ . '/../Controllers/DashboardController.php';
-                $dashboardController = new DashboardController();
-                $dashboardController->index();
+                (new DashboardController())->index();
                 break;
 
-            // --- НОВЫЙ ДИНАМИЧЕСКИЙ РОУТ ---
-            // --- НАЧАЛО НОВОГО БЛОКА РОУТОВ ДЛЯ КУРСОВ ---
-            case preg_match('/^\/course\/(\d+)\/lesson\/(\d+)$/', $uri, $matches):
-                require_once __DIR__ . '/../Controllers/CourseController.php';
-                $courseController = new CourseController();
-                $courseId = $matches[1];
-                $lessonId = $matches[2];
-                $courseController->show($courseId, $lessonId);
-                break;
-
-            case preg_match('/^\/course\/(\d+)$/', $uri, $matches):
-                require_once __DIR__ . '/../Controllers/CourseController.php';
-                $courseController = new CourseController();
-                $courseId = $matches[1];
-                $courseController->show($courseId); // Вызываем без lessonId
-                break;
-            // --- КОНЕЦ НОВОГО БЛОКА РОУТОВ ДЛЯ КУРСОВ ---
-            // --- НАЧАЛО НОВОГО БЛОКА ДЛЯ ПРОФИЛЯ ---
-            case $uri === '/profile' && $method === 'GET':
-                require_once __DIR__ . '/../Controllers/ProfileController.php';
-                $profileController = new ProfileController();
-                $profileController->index();
-                break;
-
-            case $uri === '/profile/update' && $method === 'POST':
-                require_once __DIR__ . '/../Controllers/ProfileController.php';
-                $profileController = new ProfileController();
-                $profileController->update();
-                break;
-            // --- КОНЕЦ НОВОГО БЛОКА ДЛЯ ПРОФИЛЯ ---
-            // --- НОВЫЙ РОУТ ДЛЯ КАТАЛОГА КУРСОВ ---
             case $uri === '/courses':
-                require_once __DIR__ . '/../Controllers/CourseController.php';
-                $courseController = new CourseController();
-                $courseController->index();
+                (new CourseController())->index();
                 break;
-            // ------------------------------------
-            // --- РОУТЫ АДМИН-ПАНЕЛИ ---
-            case preg_match('/^\/admin\/dashboard/', $uri):
-                require_once __DIR__ . '/../Controllers/Admin/DashboardController.php';
-                $controller = new DashboardController();
-                $controller->index();
-                break;
-            // -------------------------
 
+            case preg_match('/^\/course\/(\d+)\/lesson\/(\d+)$/', $uri, $m):
+                (new CourseController())->show($m[1], $m[2]);
+                break;
+
+            case preg_match('/^\/course\/(\d+)$/', $uri, $m):
+                (new CourseController())->show($m[1]);
+                break;
+
+            case preg_match('/^\/lesson\/complete\/(\d+)$/', $uri, $m) && $method === 'POST':
+                (new LessonProgressController())->complete($m[1]);
+                break;
+
+            case $uri === '/my-answers':
+                (new MyAnswersController())->index();
+                break;
+
+            case $uri === '/profile':
+                (new ProfileController())->index();
+                break;
+
+            case $uri === '/homework/submit' && $method === 'POST':
+                (new HomeworkController())->submit();
+                break;
+
+            case $uri === '/homework-check':
+                (new HomeworkCheckController())->index();
+                break;
+
+            case preg_match('/^\/homework-check\/(\d+)$/', $uri, $m):
+                $controller = new HomeworkCheckController();
+                if ($method === 'GET') $controller->show($m[1]);
+                elseif ($method === 'POST') $controller->processCheck($m[1]);
+                break;
+
+            // --- Роуты Админ-панели (с исправленными именами классов) ---
+            case $uri === '/admin/dashboard':
+                (new AdminDashboardController())->index();
+                break;
+
+            case $uri === '/admin/courses':
+                (new AdminCourseController())->index();
+                break;
+
+            case $uri === '/admin/courses/new':
+                (new AdminCourseController())->new();
+                break;
+
+            case $uri === '/admin/courses/create' && $method === 'POST':
+                (new AdminCourseController())->create();
+                break;
+
+            case preg_match('/^\/admin\/courses\/content\/(\d+)$/', $uri, $m):
+                (new AdminCourseController())->content($m[1]);
+                break;
+
+            case preg_match('/^\/admin\/courses\/edit\/(\d+)$/', $uri, $m):
+                (new AdminCourseController())->edit($m[1]);
+                break;
+
+            case preg_match('/^\/admin\/courses\/update\/(\d+)$/', $uri, $m) && $method === 'POST':
+                (new AdminCourseController())->update($m[1]);
+                break;
+
+            case preg_match('/^\/admin\/courses\/delete\/(\d+)$/', $uri, $m):
+                (new AdminCourseController())->delete($m[1]);
+                break;
+
+            case $uri === '/admin/modules/create' && $method === 'POST':
+                (new AdminModuleController())->create();
+                break;
+
+            case $uri === '/admin/modules/update' && $method === 'POST':
+                (new AdminModuleController())->update();
+                break;
+
+            case preg_match('/^\/admin\/modules\/delete\/(\d+)\/course\/(\d+)$/', $uri, $m):
+                (new AdminModuleController())->delete($m[1], $m[2]);
+                break;
+
+            case $uri === '/admin/lessons/create' && $method === 'POST':
+                (new AdminLessonController())->create();
+                break;
+
+            case $uri === '/admin/lessons/update' && $method === 'POST':
+                (new AdminLessonController())->update();
+                break;
+
+            case preg_match('/^\/admin\/lessons\/delete\/(\d+)\/course\/(\d+)$/', $uri, $m):
+                (new AdminLessonController())->delete($m[1], $m[2]);
+                break;
+
+            case preg_match('/^\/admin\/lessons\/edit-content\/(\d+)$/', $uri, $m):
+                (new AdminLessonController())->editContent($m[1]);
+                break;
+
+            case preg_match('/^\/admin\/lessons\/save-content\/(\d+)$/', $uri, $m) && $method === 'POST':
+                (new AdminLessonController())->saveContent($m[1]);
+                break;
+
+            case $uri === '/admin/users':
+                (new AdminUserController())->index();
+                break;
+
+            case preg_match('/^\/admin\/users\/get\/(\d+)$/', $uri, $m):
+                (new AdminUserController())->getUserJson($m[1]);
+                break;
+
+            case preg_match('/^\/admin\/users\/update\/(\d+)$/', $uri, $m) && $method === 'POST':
+                (new AdminUserController())->updateUser($m[1]);
+                break;
+
+            case $uri === '/admin/categories' && $method === 'GET':
+                (new AdminCategoryController())->index();
+                break;
+
+            case $uri === '/admin/categories/create' && $method === 'POST':
+                (new AdminCategoryController())->create();
+                break;
+
+            case preg_match('/^\/admin\/categories\/update\/(\d+)$/', $uri, $m) && $method === 'POST':
+                (new AdminCategoryController())->update($m[1]);
+                break;
+
+            case preg_match('/^\/admin\/categories\/delete\/(\d+)$/', $uri, $m) && $method === 'GET':
+                (new AdminCategoryController())->delete($m[1]);
+                break;
+
+            // --- Роут по умолчанию (404) ---
             default:
                 http_response_code(404);
                 echo "<h1>404 Страница не найдена</h1>";

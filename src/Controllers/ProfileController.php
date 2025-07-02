@@ -6,7 +6,7 @@ class ProfileController extends Controller {
     private $userModel;
 
     public function __construct() {
-        if (!isset($_SESSION['user_id'])) {
+        if (!isset($_SESSION['user'])) { // ИСПРАВЛЕНО
             header('Location: /login');
             exit();
         }
@@ -18,7 +18,7 @@ class ProfileController extends Controller {
      * Показывает страницу профиля
      */
     public function index() {
-        $user = $this->userModel->findById($_SESSION['user_id']);
+        $user = $this->userModel->findById($_SESSION['user']['id']);
 
         $data = [
             'title' => 'Мой профиль',
@@ -41,7 +41,7 @@ class ProfileController extends Controller {
         ];
 
         // Вызываем метод модели для обновления
-        $success = $this->userModel->update($_SESSION['user_id'], $data);
+        $success = $this->userModel->update($_SESSION['user']['id'], $data); // ИСПРАВЛЕНО
 
         // Перенаправляем обратно на страницу профиля
         // В будущем можно добавить сообщение об успехе

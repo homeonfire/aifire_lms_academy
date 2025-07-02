@@ -1,0 +1,14 @@
+<aside class="sidebar admin-sidebar">
+    <div class="sidebar-header">
+        <a href="/admin/dashboard" class="logo">АДМИН-ПАНЕЛЬ</a>
+    </div>
+    <nav class="nav-menu">
+        <a href="/admin/dashboard" class="nav-item active">Главная</a>
+        <a href="/admin/courses" class="nav-item">Курсы</a>
+        <a href="/admin/users" class="nav-item">Пользователи</a>
+    </nav>
+    <div class="sidebar-footer">
+        <a href="/" class="nav-item">Вернуться на сайт</a>
+        <a href="/logout" class="nav-item">Выход</a>
+    </div>
+</aside>

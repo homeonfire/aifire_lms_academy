@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="iaifirk6_academy@iaifirk6.beget.tech" uuid="94f55abf-e491-4e32-8d81-361c513f1fee">
+    <data-source source="LOCAL" name="iaifirk6_academy@iaifirk6.beget.tech" uuid="78ec3f46-1575-44e6-9555-4d3bcbef3199">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
-      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <remarks>iaifirk6.beget.tech</remarks>
+      <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
       <jdbc-url>jdbc:mysql://iaifirk6.beget.tech:3306/iaifirk6_academy</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
+      <driver-properties>
+        <property name="allowPublicKeyRetrieval" value="TRUE" />
+      </driver-properties>
     </data-source>
   </component>
 </project>

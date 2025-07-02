@@ -9,6 +9,14 @@
         <a href="#" class="nav-item">Гайды</a>
         <a href="#" class="nav-item">Мастер-классы</a>
 
+
+
+    </nav>
+    <div class="sidebar-footer">
+        <a href="#" class="nav-item theme-switcher-btn" id="theme-switcher-btn">
+            <span>Сменить тему</span>
+            <span class="theme-indicator"></span>
+        </a>
         <?php
         // БЛОК ДЛЯ ПРОВЕРКИ ДЗ (только для админа)
         if (isset($_SESSION['user']) && $_SESSION['user']['role'] === 'admin'):
@@ -23,10 +31,6 @@
                 <?php endif; ?>
             </a>
         <?php endif; ?>
-
-    </nav>
-    <div class="sidebar-footer">
-
         <?php if (isset($_SESSION['user']) && $_SESSION['user']['role'] === 'admin'): ?>
             <a href="/admin/dashboard" class="nav-item">
                 <span>Админ-панель</span>

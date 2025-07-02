@@ -8,16 +8,22 @@ $difficultyLevels = [
 ];
 $difficultyText = $difficultyLevels[$course['difficulty_level']] ?? 'Не указан';
 $categories = !empty($course['categories']) ? explode(',', $course['categories']) : [];
+
+// Динамические URL для изображений. Замените на ваши реальные данные.
+// Если $course['image_url'] не существует, будет использоваться placehold.co
+$imageUrl = $course['image_url'] ?? 'https://placehold.co/300x170/2A2A2A/FFFFFF?text=+';
+$companyLogoUrl = $course['company_logo'] ?? 'https://placehold.co/48x48/000/FFFFFF?text=B'; // Пример
+$instructorAvatar1 = $course['instructor_avatar_1'] ?? 'https://placehold.co/40x40/555/FFFFFF?text=I1'; // Пример
+$instructorAvatar2 = $course['instructor_avatar_2'] ?? 'https://placehold.co/40x40/555/FFFFFF?text=I2'; // Пример
 ?>
 <a href="/course/<?= $course['id'] ?>" class="course-card-link">
     <div class="course-card">
         <div class="course-card-image-wrapper">
-            <img src="https://placehold.co/300x170/2A2A2A/FFFFFF?text=+" alt="<?= htmlspecialchars($course['title']) ?>">
-            <?php /* You could add the bookmark icon here if desired, absolutely positioned */ ?>
+            <img src="<?= htmlspecialchars($imageUrl) ?>" alt="<?= htmlspecialchars($course['title']) ?>">
             <div class="course-card-overlay-icons">
-                <img src="/path/to/your/b-icon.png" alt="Company Logo" class="overlay-icon company-logo">
-                <img src="/path/to/your/avatar-placeholder-1.png" alt="Instructor" class="overlay-icon instructor-avatar instructor-avatar-1">
-                <img src="/path/to/your/avatar-placeholder-2.png" alt="Instructor" class="overlay-icon instructor-avatar instructor-avatar-2">
+                <?php if ($companyLogoUrl): ?>
+                    <img src="<?= htmlspecialchars($companyLogoUrl) ?>" alt="Company Logo" class="overlay-icon company-logo">
+                <?php endif; ?>
             </div>
         </div>
 

@@ -1,23 +1,23 @@
 /* =============================================== */
-/* AI FIRE LMS - NEW STYLES V1.0                   */
+/* AI FIRE LMS - LIGHT THEME STYLES V1.0           */
 /* =============================================== */
 
 /* 1. Глобальные переменные и сброс стилей */
 :root {
-    --background-color: #141414;
-    --container-color: #1C1C1C;
-    --border-color: #2A2A2A;
-    --primary-accent-color: #8473FF;
-    --primary-accent-hover-color: #7a68eb;
+    --background-color: #F0F2F5; /* Светлый фон всей страницы */
+    --container-color: #FFFFFF; /* Белый фон для основных блоков/карточек */
+    --border-color: #E0E0E0;    /* Светлая граница */
+    --primary-accent-color: #8473FF; /* Фиолетовый акцент - без изменений */
+    --primary-accent-hover-color: #7a68eb; /* Акцент при наведении - без изменений */
 
-    --primary-text-color: #FFFFFF;
-    --secondary-text-color: #A0A0A0;
+    --primary-text-color: #333333; /* Темный текст для основного контента */
+    --secondary-text-color: #6B7280; /* Средне-серый текст для второстепенной информации */
 
-    --input-field-color: #141414;
-    --input-border-color: #444;
+    --input-field-color: #F9FAFB; /* Очень светлый фон полей ввода */
+    --input-border-color: #D1D5DB; /* Светлая граница полей ввода */
 
-    --error-color: #ff6b6b;
-    --error-background-color: rgba(255, 107, 107, 0.1);
+    --error-color: #EF4444; /* Красный для ошибок - без изменений */
+    --error-background-color: rgba(239, 68, 68, 0.1); /* Фон ошибок - без изменений */
 }
 
 * {
@@ -62,6 +62,7 @@ body {
     font-size: 28px;
     font-weight: 600;
     margin-bottom: 8px;
+    color: var(--primary-text-color); /* Темный цвет текста */
 }
 
 .auth-header p {
@@ -70,10 +71,11 @@ body {
 }
 
 .auth-form {
-    background-color: var(--container-color);
-    border: 1px solid var(--border-color);
+    background-color: var(--container-color); /* Белый фон */
+    border: 1px solid var(--border-color); /* Светлая граница */
     border-radius: 12px;
     padding: 24px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05); /* Легкая тень */
 }
 
 .input-group {
@@ -106,16 +108,17 @@ a.forgot-password:hover {
 .input-group input {
     width: 100%;
     padding: 12px;
-    background-color: var(--input-field-color);
-    border: 1px solid var(--border-color);
+    background-color: var(--input-field-color); /* Очень светлый фон */
+    border: 1px solid var(--input-border-color); /* Светлая граница */
     border-radius: 8px;
-    color: var(--primary-text-color);
+    color: var(--primary-text-color); /* Темный текст */
     font-size: 14px;
 }
 
 .input-group input:focus {
     outline: none;
     border-color: var(--primary-accent-color);
+    box-shadow: 0 0 0 2px rgba(132, 115, 255, 0.2); /* Акцентная тень */
 }
 
 .btn-primary {
@@ -173,32 +176,37 @@ a.forgot-password:hover {
     border-radius: 8px;
     text-align: center;
     font-size: 14px;
-    color: #34D399; /* Зеленый цвет */
-    background-color: rgba(52, 211, 153, 0.1);
-    border: 1px solid #34D399;
+    color: #059669; /* Зеленый цвет */
+    background-color: rgba(5, 150, 105, 0.1);
+    border: 1px solid #059669;
 }
 
 /* 3. Стили для личного кабинета (App Layout) */
 
 .app-layout {
     display: flex;
+    min-height: 100vh;
 }
 
 .sidebar {
     width: 260px;
     height: 100vh;
-    background-color: var(--container-color);
-    border-right: 1px solid var(--border-color);
+    background-color: var(--container-color); /* Белый фон */
+    border-right: 1px solid var(--border-color); /* Светлая граница */
     display: flex;
     flex-direction: column;
     padding: 20px;
     position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.03); /* Легкая тень */
 }
 
 .sidebar-header .logo {
     font-size: 20px;
     font-weight: 700;
-    color: var(--primary-text-color);
+    color: var(--primary-text-color); /* Темный цвет текста */
     text-decoration: none;
 }
 
@@ -209,7 +217,7 @@ a.forgot-password:hover {
 
 .nav-item {
     display: block;
-    color: var(--secondary-text-color);
+    color: var(--secondary-text-color); /* Средне-серый текст */
     text-decoration: none;
     padding: 12px;
     border-radius: 8px;
@@ -219,31 +227,33 @@ a.forgot-password:hover {
 }
 
 .nav-item:hover {
-    background-color: var(--border-color);
-    color: var(--primary-text-color);
+    background-color: var(--background-color); /* Светлее при наведении */
+    color: var(--primary-text-color); /* Темный текст */
 }
 
 .nav-item.active {
     background-color: var(--primary-accent-color);
-    color: var(--primary-text-color);
+    color: white;
 }
 
 .main-content {
-    margin-left: 260px; /* Та же ширина, что и у sidebar */
+    margin-left: 260px;
     width: calc(100% - 260px);
     padding: 40px;
+    background-color: var(--background-color); /* Светлый фон */
 }
 
 /* 4. Стили для контента Дашборда */
 
 .promo-block {
-    background-color: var(--container-color);
-    border: 1px solid var(--border-color);
+    background-color: var(--container-color); /* Белый фон */
+    border: 1px solid var(--border-color); /* Светлая граница */
     border-radius: 12px;
     padding: 24px;
     display: flex;
     gap: 30px;
     align-items: center;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05); /* Легкая тень */
 }
 
 .promo-thumbnail {
@@ -271,16 +281,17 @@ a.forgot-password:hover {
 .promo-details h2 {
     font-size: 24px;
     margin-bottom: 12px;
+    color: var(--primary-text-color); /* Темный текст */
 }
 
 .promo-details p {
-    color: var(--secondary-text-color);
+    color: var(--secondary-text-color); /* Средне-серый текст */
     line-height: 1.6;
     margin-bottom: 20px;
 }
 
 .promo-details .btn-primary {
-    max-width: 150px; /* Ограничиваем ширину кнопки */
+    max-width: 150px;
 }
 
 .content-section {
@@ -290,6 +301,7 @@ a.forgot-password:hover {
 .section-title {
     font-size: 22px;
     margin-bottom: 20px;
+    color: var(--primary-text-color); /* Темный текст */
 }
 
 .content-carousel {
@@ -298,18 +310,18 @@ a.forgot-password:hover {
     gap: 20px;
 }
 
-/* --- Original .content-card styles from your styles.css for reference, if needed elsewhere --- */
 .content-card {
-    background-color: var(--container-color);
-    border: 1px solid var(--border-color);
+    background-color: var(--container-color); /* Белый фон */
+    border: 1px solid var(--border-color); /* Светлая граница */
     border-radius: 12px;
-    overflow: hidden; /* Чтобы скруглить углы у картинки */
+    overflow: hidden;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05); /* Легкая тень */
 }
 
 .content-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1); /* Более выраженная тень */
 }
 
 .content-card img {
@@ -321,13 +333,14 @@ a.forgot-password:hover {
 
 .content-card h4 {
     padding: 16px 16px 8px 16px;
+    color: var(--primary-text-color); /* Темный текст */
 }
 
 .content-card span {
     display: block;
     padding: 0 16px 16px 16px;
     font-size: 14px;
-    color: var(--secondary-text-color);
+    color: var(--secondary-text-color); /* Средне-серый текст */
 }
 
 
@@ -343,7 +356,7 @@ a.forgot-password:hover {
 }
 
 .back-link {
-    color: var(--secondary-text-color);
+    color: var(--secondary-text-color); /* Средне-серый текст */
     text-decoration: none;
     margin-bottom: 24px;
     display: inline-block;
@@ -352,13 +365,14 @@ a.forgot-password:hover {
 .course-title {
     font-size: 36px;
     margin-bottom: 16px;
+    color: var(--primary-text-color); /* Темный текст */
 }
 
 .course-description {
     font-size: 16px;
-    color: var(--secondary-text-color);
+    color: var(--secondary-text-color); /* Средне-серый текст */
     line-height: 1.6;
-    max-width: 80ch; /* Ограничиваем длину строки для читаемости */
+    max-width: 80ch;
 }
 
 .course-meta {
@@ -375,20 +389,22 @@ a.forgot-password:hover {
 }
 
 .course-progress, .course-content-list {
-    background-color: var(--container-color);
-    border: 1px solid var(--border-color);
+    background-color: var(--container-color); /* Белый фон */
+    border: 1px solid var(--border-color); /* Светлая граница */
     border-radius: 12px;
     padding: 20px;
     margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05); /* Легкая тень */
 }
 
 .course-progress h4, .course-content-list h4 {
     margin-bottom: 16px;
+    color: var(--primary-text-color); /* Темный текст */
 }
 
 .progress-bar {
     height: 8px;
-    background-color: var(--border-color);
+    background-color: var(--border-color); /* Светлая граница */
     border-radius: 4px;
     overflow: hidden;
     margin-bottom: 8px;
@@ -411,7 +427,7 @@ a.forgot-password:hover {
 
 .course-content-list li {
     padding: 10px 0;
-    border-bottom: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color); /* Светлая граница */
     font-size: 14px;
     cursor: pointer;
 }
@@ -422,12 +438,12 @@ a.forgot-password:hover {
 
 .course-content-list li.module-item {
     font-weight: 700;
-    color: var(--primary-text-color);
+    color: var(--primary-text-color); /* Темный текст */
     padding-top: 20px;
 }
 
 .course-content-list li.lesson-item {
-    color: var(--secondary-text-color);
+    color: var(--secondary-text-color); /* Средне-серый текст */
     padding-left: 20px;
 }
 
@@ -447,21 +463,23 @@ a.forgot-password:hover {
 }
 .lesson-title {
     font-size: 28px;
+    color: var(--primary-text-color); /* Темный текст */
 }
 .lesson-subtitle {
-    color: var(--secondary-text-color);
+    color: var(--secondary-text-color); /* Средне-серый текст */
     font-weight: 500;
 }
 
 .lesson-viewer {
     width: 100%;
     aspect-ratio: 16 / 9;
-    background-color: var(--container-color);
+    background-color: var(--container-color); /* Белый фон */
     border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--border-color); /* Светлая граница */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05); /* Легкая тень */
 }
 
 .video-player-mockup {
@@ -482,7 +500,7 @@ a.forgot-password:hover {
     transform: translate(-50%, -50%);
     width: 80px;
     height: 80px;
-    background-color: rgba(0,0,0,0.5);
+    background-color: rgba(0,0,0,0.5); /* Полупрозрачный черный */
     border-radius: 50%;
     border: 2px solid white;
     cursor: pointer;
@@ -502,30 +520,24 @@ a.forgot-password:hover {
 .text-content-mockup {
     padding: 40px;
     text-align: center;
+    color: var(--primary-text-color); /* Темный текст */
 }
 
 .lesson-description {
     margin-top: 32px;
     padding: 24px;
-    background-color: var(--container-color);
-    border: 1px solid var(--border-color);
+    background-color: var(--container-color); /* Белый фон */
+    border: 1px solid var(--border-color); /* Светлая граница */
     border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05); /* Легкая тень */
 }
 .lesson-description h3 {
     margin-bottom: 12px;
+    color: var(--primary-text-color); /* Темный текст */
 }
 .lesson-description p {
-    color: var(--secondary-text-color);
+    color: var(--secondary-text-color); /* Средне-серый текст */
     line-height: 1.6;
-}
-
-/* Переименовываем старый класс для ясности */
-.course-main-info {
-    /* Теперь это .lesson-content-area */
-}
-
-.course-title {
-    /* Теперь это .lesson-title */
 }
 
 /* 7. Стили для ссылок на уроки */
@@ -539,29 +551,31 @@ a.lesson-link {
     font-size: 28px;
     font-weight: 700;
     margin-bottom: 30px;
+    color: var(--primary-text-color); /* Темный текст */
 }
 
-/* ИЗМЕНЕНИЕ: Сделали форму уже, изменив max-width */
 .profile-form {
     max-width: 600px;
 }
 
 .form-section {
-    background-color: var(--container-color);
-    border: 1px solid var(--border-color);
+    background-color: var(--container-color); /* Белый фон */
+    border: 1px solid var(--border-color); /* Светлая граница */
     border-radius: 12px;
     padding: 24px;
     margin-bottom: 30px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05); /* Легкая тень */
 }
 
 .form-section .section-title {
     font-size: 20px;
     margin-bottom: 8px;
+    color: var(--primary-text-color); /* Темный текст */
 }
 
 .form-section .section-subtitle {
     font-size: 14px;
-    color: var(--secondary-text-color);
+    color: var(--secondary-text-color); /* Средне-серый текст */
     margin-bottom: 24px;
 }
 
@@ -571,7 +585,7 @@ a.lesson-link {
 
 .profile-form .input-group label {
     display: block;
-    color: var(--secondary-text-color);
+    color: var(--secondary-text-color); /* Средне-серый текст */
     font-size: 14px;
     font-weight: 500;
     margin-bottom: 8px;
@@ -581,10 +595,10 @@ a.lesson-link {
 .profile-form .input-group select {
     width: 100%;
     padding: 12px;
-    background-color: var(--input-field-color);
-    border: 1px solid var(--border-color);
+    background-color: var(--input-field-color); /* Очень светлый фон */
+    border: 1px solid var(--input-border-color); /* Светлая граница */
     border-radius: 8px;
-    color: var(--primary-text-color);
+    color: var(--primary-text-color); /* Темный текст */
     font-size: 14px;
     font-family: 'Raleway', sans-serif;
 }
@@ -593,11 +607,12 @@ a.lesson-link {
 .profile-form .input-group select:focus {
     outline: none;
     border-color: var(--primary-accent-color);
+    box-shadow: 0 0 0 2px rgba(132, 115, 255, 0.2); /* Акцентная тень */
 }
 
 .profile-form .input-group input:disabled {
-    background-color: #2a2a2a;
-    color: var(--secondary-text-color);
+    background-color: #EFEFEF; /* Светлее, чем обычный input */
+    color: #A0A0A0; /* Темно-серый текст */
     cursor: not-allowed;
 }
 
@@ -608,11 +623,10 @@ a.lesson-link {
     margin-top: 8px;
 }
 
-/* ИЗМЕНЕНИЕ: Убрали растягивание кнопки и сделали ее компактной */
 .profile-form .btn-primary {
-    width: auto; /* Убираем растягивание */
-    padding: 10px 20px; /* Уменьшаем внутренние отступы */
-    font-size: 14px; /* Уменьшаем шрифт */
+    width: auto;
+    padding: 10px 20px;
+    font-size: 14px;
 }
 
 /* 9. Стили для каталога и карточек (универсальные) */
@@ -633,37 +647,37 @@ a.lesson-link {
 a.course-card-link {
     text-decoration: none;
     color: inherit;
-    display: flex; /* Для корректного растягивания */
+    display: flex;
 }
 
-/* --- НАЧАЛО ИСПРАВЛЕННЫХ СТИЛЕЙ ДЛЯ .course-card --- */
+/* --- Стили для .course-card (Светлая тема) --- */
 
 .course-card {
-    background-color: #2e2e2e; /* Темный фон, как в макете */
+    background-color: var(--container-color); /* Белый фон */
     border-radius: 12px;
     overflow: hidden;
-    color: #f0f0f0;
-    font-family: Arial, sans-serif;
-    width: 300px; /* Фиксированная ширина карточки */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transition: transform 0.2s ease-in-out;
+    color: var(--primary-text-color); /* Темный текст */
+    font-family: 'Raleway', sans-serif; /* Единый шрифт */
+    width: 300px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); /* Легкая тень */
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease;
     display: flex;
     flex-direction: column;
 }
 
 .course-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1); /* Более выраженная тень */
 }
 
 .course-card-image-wrapper {
     position: relative;
     width: 100%;
-    padding-bottom: 56.66%; /* 170 / 300 = 0.5666 -> 56.66% */
-    background-color: #1a1a1a; /* Фоновый цвет, если нет изображения */
-    border-top-left-radius: 12px; /* Скругление углов изображения */
+    padding-bottom: 56.666%;
+    background-color: #EFEFEF; /* Очень светлый фон, если нет изображения */
+    border-top-left-radius: 12px;
     border-top-right-radius: 12px;
-    overflow: hidden; /* Обрезает содержимое, выходящее за границы */
+    overflow: hidden;
 }
 
 .course-card-image-wrapper img:not(.overlay-icon) {
@@ -672,8 +686,8 @@ a.course-card-link {
     left: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Изображение будет покрывать всю область, обрезая лишнее */
-    /* border-radius уже применяется к родителю */
+    object-fit: cover;
+    display: block;
 }
 
 .course-card-overlay-icons {
@@ -682,46 +696,46 @@ a.course-card-link {
     left: 0;
     width: 100%;
     height: 100%;
-    padding: 15px; /* Отступы от края изображения */
+    padding: 15px;
     box-sizing: border-box;
-    pointer-events: none; /* Пропускаем события мыши, чтобы ссылка была кликабельной */
+    pointer-events: none;
 }
 
 .overlay-icon {
     position: absolute;
     z-index: 10;
-    pointer-events: auto; /* Включаем события мыши для самих иконок */
+    pointer-events: auto;
 }
 
 .company-logo {
     left: 15px;
     bottom: 15px;
-    width: 48px; /* Размер логотипа */
+    width: 48px;
     height: 48px;
-    border-radius: 8px; /* Скругление углов логотипа */
-    background-color: #000; /* Цвет фона логотипа */
+    border-radius: 8px;
+    background-color: rgba(0,0,0,0.7); /* Темный полупрозрачный фон для лого */
     padding: 8px;
     box-sizing: border-box;
 }
 
 .instructor-avatar {
-    width: 40px; /* Размер аватара */
+    width: 40px;
     height: 40px;
-    border-radius: 50%; /* Круглый аватар */
-    border: 2px solid #2e2e2e; /* Обводка аватара */
-    background-color: #555; /* Фоновый цвет, если нет изображения аватара */
+    border-radius: 50%;
+    border: 2px solid var(--container-color); /* Обводка белым цветом контейнера */
+    background-color: #CCC; /* Светлый фон, если нет аватара */
     object-fit: cover;
 }
 
 .instructor-avatar-1 {
-    right: 60px; /* Позиционирование первого аватара */
+    right: 60px;
     bottom: 15px;
 }
 
 .instructor-avatar-2 {
-    right: 15px; /* Позиционирование второго аватара */
+    right: 15px;
     bottom: 15px;
-    z-index: 11; /* Убедитесь, что второй аватар поверх первого */
+    z-index: 11;
 }
 
 .course-card-content {
@@ -732,86 +746,84 @@ a.course-card-link {
 }
 
 .course-card-title {
-    font-size: 1rem; /* Размер шрифта заголовка */
+    font-size: 1rem;
     font-weight: bold;
-    margin: 0 0 5px 0; /* Отступ снизу для тега сложности */
-    color: #fff;
+    margin: 0 0 5px 0;
+    color: var(--primary-text-color); /* Темный текст */
     line-height: 1.3;
 }
 
 .course-card-difficulty {
     display: inline-block;
     padding: 4px 10px;
-    border-radius: 400px; /* Скругление углов тега сложности */
+    border-radius: 400px;
     font-size: 0.75rem;
     font-weight: 400;
     text-transform: capitalize;
-    margin-bottom: 15px; /* Отступ снизу для категорий */
-    width: 120px;
+    margin-bottom: 15px;
+    width: 120px; /* Фиксированная ширина для единообразия */
     text-align: center;
 }
 
-/* Цвета для тегов сложности */
+/* Цвета для тегов сложности (важно, чтобы они были после общего стиля .course-card-difficulty) */
 .tag-difficulty-beginner {
-    background-color: rgb(16 185 129/.1); /* Зеленый для "Начинающий" */
-    --tw-text-opacity: 1;
-    color: rgb(16 185 129 / var(--tw-text-opacity,1));
+    background-color: rgba(16, 185, 129, 0.1); /* Зеленый, полупрозрачный */
+    color: #10B981; /* Темно-зеленый текст */
 }
 
 .tag-difficulty-intermediate {
-    background-color: rgb(245 158 11/.1); /* Желтый/оранжевый для "Средний" */
-    color: rgb(245 158 11/var(--tw-text-opacity,1));
-    --tw-text-opacity: 1;
+    background-color: rgba(245, 158, 11, 0.1); /* Оранжевый, полупрозрачный */
+    color: #F59E0B; /* Темно-оранжевый текст */
 }
 
 .tag-difficulty-advanced {
-    background-color: rgb(244 63 94/.1); /* Красный для "Продвинутый" */
-    --tw-text-opacity: 1;
-    color: rgb(244 63 94 / var(--tw-text-opacity,1));
+    background-color: rgba(244, 63, 94, 0.1); /* Красный, полупрозрачный */
+    color: #F43F5E; /* Темно-красный текст */
 }
 
 .course-card-categories {
     font-size: 0.9rem;
-    color: #a0a0a0; /* Серый цвет для категорий */
-    margin-top: auto; /* Прижимает категории к низу, если контента мало */
-    white-space: nowrap; /* Запрещает перенос строк */
-    overflow: hidden; /* Скрывает содержимое, выходящее за границы */
-    text-overflow: ellipsis; /* Добавляет многоточие */
+    color: var(--secondary-text-color); /* Средне-серый текст */
+    margin-top: auto;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-/* --- КОНЕЦ ИСПРАВЛЕННЫХ СТИЛЕЙ ДЛЯ .course-card --- */
+/* --- КОНЕЦ СТИЛЕЙ ДЛЯ .course-card (Светлая тема) --- */
 
 
 /* Optional: For responsiveness if cards are in a grid */
 @media (max-width: 768px) {
     .course-card {
-        max-width: 100%; /* Full width on smaller screens */
+        max-width: 100%;
     }
 }
 
 
 /* 10. Стили для Админ-панели */
 .admin-body {
-    background-color: #f4f7fa; /* Светлый фон для админки */
-    color: #333;
+    background-color: var(--background-color); /* Светлый фон админки */
+    color: var(--primary-text-color); /* Темный текст */
 }
 
 .admin-sidebar {
-    background-color: #2c3e50; /* Темно-синий сайдбар */
-    border-right: none;
+    background-color: var(--container-color); /* Белый сайдбар */
+    border-right: 1px solid var(--border-color); /* Светлая граница */
+    box-shadow: 2px 0 5px rgba(0,0,0,0.03); /* Легкая тень */
 }
 
 .admin-sidebar .logo {
-    color: white;
+    color: var(--primary-text-color); /* Темный текст */
 }
 
 .admin-sidebar .nav-item {
-    color: #bdc3c7; /* Светло-серый текст */
+    color: var(--secondary-text-color); /* Средне-серый текст */
 }
 
 .admin-sidebar .nav-item:hover {
-    background-color: #34495e;
-    color: white;
+    background-color: var(--background-color); /* Светлее при наведении */
+    color: var(--primary-text-color); /* Темный текст */
 }
 
 .admin-sidebar .nav-item.active {
@@ -820,7 +832,7 @@ a.course-card-link {
 }
 
 .admin-layout .main-content {
-    background-color: #f4f7fa;
+    background-color: var(--background-color);
 }
 
 /* 11. Стили для таблиц и кнопок в Админ-панели */
@@ -832,9 +844,9 @@ a.course-card-link {
 }
 
 .admin-table-container {
-    background-color: white;
+    background-color: var(--container-color); /* Белый фон */
     border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05); /* Легкая тень */
     padding: 20px;
 }
 
@@ -846,18 +858,19 @@ a.course-card-link {
 .admin-table th, .admin-table td {
     padding: 12px 15px;
     text-align: left;
-    border-bottom: 1px solid #e0e0e0;
+    border-bottom: 1px solid var(--border-color); /* Светлая граница */
+    color: var(--primary-text-color); /* Темный текст */
 }
 
 .admin-table th {
-    background-color: #f7f9fc;
+    background-color: #F9FAFB; /* Очень светлый фон заголовков */
     font-weight: 600;
     font-size: 14px;
-    color: #555;
+    color: var(--secondary-text-color); /* Средне-серый текст */
 }
 
 .admin-table tbody tr:hover {
-    background-color: #f7f9fc;
+    background-color: #F9FAFB; /* Очень светлый фон при наведении */
 }
 
 .admin-table td.actions {
@@ -886,33 +899,37 @@ a.course-card-link {
 }
 
 .btn-secondary {
-    background-color: #bdc3c7;
-    color: #2c3e50;
+    background-color: #E5E7EB; /* Светло-серый */
+    color: #4B5563; /* Темно-серый текст */
 }
 .btn-secondary:hover {
-    background-color: #a5abb0;
+    background-color: #D1D5DB; /* Темнее серый при наведении */
 }
 
 .btn-danger {
-    background-color: #e74c3c;
+    background-color: #EF4444; /* Красный */
     color: white;
 }
 .btn-danger:hover {
-    background-color: #c0392b;
+    background-color: #DC2626; /* Темнее красный */
 }
 /* 12. Корректировка кнопок в админ-панели */
 .admin-header .btn {
-    width: auto; /* Убираем растягивание */
-    padding: 10px 20px; /* Делаем отступы поменьше */
+    width: auto;
+    padding: 10px 20px;
 }
 
 /* 13. Стили для контента и форм в админке (Светлая тема) */
 
 .admin-card {
-    background-color: white;
+    background-color: var(--container-color); /* Белый фон */
     border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05); /* Легкая тень */
     padding: 30px;
+}
+
+.admin-card h3 {
+    color: var(--primary-text-color); /* Темный текст */
 }
 
 .admin-form .input-group {
@@ -921,7 +938,7 @@ a.course-card-link {
 
 .admin-form .input-group label {
     display: block;
-    color: #555;
+    color: var(--secondary-text-color); /* Средне-серый текст */
     font-size: 14px;
     font-weight: 500;
     margin-bottom: 8px;
@@ -931,10 +948,10 @@ a.course-card-link {
 .admin-form .input-group textarea {
     width: 100%;
     padding: 12px;
-    background-color: #fdfdfd;
-    border: 1px solid #e0e0e0;
+    background-color: var(--input-field-color); /* Очень светлый фон */
+    border: 1px solid var(--input-border-color); /* Светлая граница */
     border-radius: 8px;
-    color: #333;
+    color: var(--primary-text-color); /* Темный текст */
     font-size: 14px;
     font-family: 'Raleway', sans-serif;
 }
@@ -959,8 +976,8 @@ a.course-card-link {
 /* 14. Стили для управления контентом курса */
 
 .modules-list .module-item {
-    background-color: #f7f9fc;
-    border: 1px solid #e0e0e0;
+    background-color: var(--container-color); /* Белый фон */
+    border: 1px solid var(--border-color); /* Светлая граница */
     border-radius: 8px;
     margin-bottom: 20px;
 }
@@ -970,12 +987,13 @@ a.course-card-link {
     justify-content: space-between;
     align-items: center;
     padding: 15px;
-    border-bottom: 1px solid #e0e0e0;
+    border-bottom: 1px solid var(--border-color); /* Светлая граница */
 }
 
 .module-header h4 {
     margin: 0;
     font-size: 18px;
+    color: var(--primary-text-color); /* Темный текст */
 }
 
 .lessons-list {
@@ -988,7 +1006,7 @@ a.course-card-link {
     justify-content: space-between;
     align-items: center;
     padding: 12px 15px;
-    border-bottom: 1px solid #e9e9e9;
+    border-bottom: 1px solid var(--border-color); /* Светлая граница */
 }
 
 .lesson-item:last-of-type {
@@ -1011,43 +1029,48 @@ a.course-card-link {
     gap: 10px;
     margin-bottom: 20px;
     padding: 20px;
-    background-color: #f0f4f8;
+    background-color: var(--background-color); /* Светлый фон */
     border-radius: 8px;
+    border: 1px solid var(--border-color); /* Светлая граница */
 }
 
-/* Правило для поля ввода: занять всё доступное место */
 .add-module-form input[type="text"] {
-    flex-grow: 1; /* Это свойство заставляет поле растягиваться */
-    border: 1px solid #ccc;
+    flex-grow: 1;
+    border: 1px solid var(--input-border-color); /* Светлая граница */
     border-radius: 6px;
     font-size: 14px;
     padding: 10px;
+    background-color: var(--input-field-color); /* Очень светлый фон */
+    color: var(--primary-text-color); /* Темный текст */
 }
 
-/* Правило для кнопки: быть компактной */
 .add-module-form .btn {
-    flex-shrink: 0; /* Запрещаем кнопке сжиматься */
-    width: auto;    /* Ширина определяется контентом */
+    flex-shrink: 0;
+    width: auto;
 }
 
 /* 16. Стили для формы добавления урока */
 .add-lesson-form {
     display: flex;
     gap: 10px;
-    padding: 10px 0; /* Добавляем отступы сверху и снизу */
+    padding: 10px 0;
 }
 .add-lesson-form input[type="text"] {
     flex-grow: 1;
     padding: 8px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--input-border-color); /* Светлая граница */
     border-radius: 6px;
     font-size: 14px;
+    background-color: var(--input-field-color); /* Очень светлый фон */
+    color: var(--primary-text-color); /* Темный текст */
 }
 .add-lesson-form select {
     padding: 8px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--input-border-color); /* Светлая граница */
     border-radius: 6px;
     font-size: 14px;
+    background-color: var(--input-field-color); /* Очень светлый фон */
+    color: var(--primary-text-color); /* Темный текст */
 }
 
 /* 17. Стили для редактирования модуля */
@@ -1064,10 +1087,11 @@ a.course-card-link {
     border-radius: 6px;
     font-size: 18px;
     font-weight: 700;
+    color: var(--primary-text-color); /* Темный текст */
 }
 .edit-module-form input[type="text"]:focus {
-    border-color: #ccc;
-    background-color: white;
+    border-color: var(--input-border-color); /* Светлая граница */
+    background-color: var(--container-color); /* Белый фон */
 }
 
 /* 18. Стили для редактирования урока */
@@ -1085,112 +1109,76 @@ a.course-card-link {
     border-radius: 6px;
     font-size: 14px;
     background-color: transparent;
+    color: var(--primary-text-color); /* Темный текст */
 }
 .lesson-title-input:focus {
-    border-color: #ccc;
-    background-color: white;
+    border-color: var(--input-border-color); /* Светлая граница */
+    background-color: var(--container-color); /* Белый фон */
 }
 
 /* 19. Финальная полировка страницы управления контентом */
 
-/* Убираем фон у основной формы добавления модуля */
 .add-module-form {
     background-color: transparent;
     padding: 0;
     margin-bottom: 30px;
+    border: none; /* Убираем рамку */
 }
 
-/* Стили для контейнера модуля */
 .module-item {
-    background-color: transparent;
-    border: none; /* Убираем рамку вокруг всего модуля */
+    background-color: var(--container-color); /* Белый фон */
+    border: 1px solid var(--border-color); /* Светлая граница */
 }
 
-/* Заголовок модуля */
 .module-header {
-    background-color: #f7f9fc; /* Слегка серый фон для заголовка */
-    border: 1px solid #e0e0e0;
-    border-radius: 8px 8px 0 0; /* Скругляем только верхние углы */
+    background-color: #F9FAFB; /* Очень светлый фон заголовков */
+    border: 1px solid var(--border-color);
+    border-radius: 8px 8px 0 0;
 }
 
-/* Список уроков */
 .lessons-list {
-    border: 1px solid #e0e0e0;
-    border-top: none; /* Убираем верхнюю рамку, т.к. она есть у заголовка */
-    border-radius: 0 0 8px 8px; /* Скругляем нижние углы */
+    border: 1px solid var(--border-color);
+    border-top: none;
+    border-radius: 0 0 8px 8px;
 }
 
-/* Делаем поле для редактирования модуля "невидимым" */
-.edit-module-form input[type="text"] {
-    background-color: transparent;
-    border-color: transparent;
-    font-size: 16px; /* Чуть крупнее для заголовка */
-    font-weight: 600;
-}
-
-/* Поле становится видимым только при наведении или фокусе */
-.edit-module-form input[type="text"]:hover,
-.edit-module-form input[type="text"]:focus {
-    background-color: white;
-    border-color: #ccc;
-}
-
-/* Делаем то же самое для полей редактирования уроков */
-.edit-lesson-form input.lesson-title-input {
-    background-color: transparent;
-    border-color: transparent;
-}
-
-.edit-lesson-form input.lesson-title-input:hover,
-.edit-lesson-form input.lesson-title-input:focus {
-    background-color: white;
-    border-color: #ccc;
-}
-
-/* Убираем лишнюю рамку у последнего урока в списке */
 .lesson-item:last-of-type {
-    border-bottom: 1px solid #e9e9e9;
+    border-bottom: 1px solid var(--border-color); /* Возвращаем границу */
 }
 
-/* Делаем кнопку добавления урока аккуратнее */
 .add-lesson-row {
-    background-color: #f7f9fc;
+    background-color: #F9FAFB; /* Очень светлый фон */
 }
 
 /* 20. Полировка кнопок в админке */
 
-/* Применяем Flexbox к контейнерам, чтобы управлять отступами */
 .module-header,
 .lesson-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 10px; /* <- Вот и наш отступ между элементами */
+    gap: 10px;
 }
 
-/* Делаем все маленькие кнопки чуть более скругленными и симпатичными */
 .btn-sm {
     border-radius: 6px;
     font-weight: 500;
 }
 
-/* Смягчаем цвет для кнопки "Сохранить" */
 .edit-module-form .btn-sm,
 .edit-lesson-form .btn-sm {
-    background-color: #e0e0e0;
-    color: #333;
+    background-color: #E5E7EB; /* Светло-серый */
+    color: #4B5563; /* Темно-серый текст */
 }
 .edit-module-form .btn-sm:hover,
 .edit-lesson-form .btn-sm:hover {
-    background-color: #d1d1d1;
+    background-color: #D1D5DB; /* Темнее серый при наведении */
 }
 
-/* Контейнер с кнопками "Удалить" */
 .actions {
-    flex-shrink: 0; /* Запрещаем контейнеру сжиматься */
+    flex-shrink: 0;
 }
 
-/* Добавляем отступы для контейнера с кнопками урока */
 .lesson-item .actions {
     display: flex;
     gap: 10px;
@@ -1200,12 +1188,13 @@ a.course-card-link {
 
 .video-player-responsive {
     position: relative;
-    padding-bottom: 56.25%; /* Соотношение сторон 16:9 */
+    padding-bottom: 56.25%;
     height: 0;
     overflow: hidden;
     width: 100%;
-    background: #000;
+    background: #CCC; /* Светлый фон для плеера */
     border-radius: 12px;
+    border: 1px solid var(--border-color); /* Светлая граница */
 }
 
 .video-player-responsive iframe {
@@ -1220,37 +1209,43 @@ a.course-card-link {
 .homework-group { margin-bottom: 20px; }
 .homework-group label { font-weight: bold; }
 .homework-group p { margin-top: 5px; }
-.homework-group textarea { width: 100%; min-height: 100px; margin-top: 10px; padding: 10px; border-radius: 8px; border: 1px solid var(--border-color); background-color: var(--input-field-color); color: var(--primary-text-color);}
+.homework-group textarea {
+    width: 100%; min-height: 100px; margin-top: 10px; padding: 10px; border-radius: 8px;
+    border: 1px solid var(--input-border-color); /* Светлая граница */
+    background-color: var(--input-field-color); /* Очень светлый фон */
+    color: var(--primary-text-color); /* Темный текст */
+}
 
 .alert.alert-info {
     display: flex;
     align-items: center;
     gap: 12px;
-    color: #a5b4fc;
-    background-color: rgba(129, 140, 248, 0.1);
-    border: 1px solid rgba(129, 140, 248, 0.2);
-
-    /* --- ДОБАВЛЕННЫЕ СТИЛИ --- */
-    padding: 16px;      /* Добавляем внутренние отступы */
-    border-radius: 12px;  /* Скругляем углы */
+    color: #4F46E5; /* Синий текст */
+    background-color: rgba(79, 70, 229, 0.1);
+    border: 1px solid rgba(79, 70, 229, 0.2);
+    padding: 16px;
+    border-radius: 12px;
     margin-bottom: 20px;
 }
 
 .alert-icon {
     font-size: 20px;
-    flex-shrink: 0; /* Гарантирует, что иконка не будет сжиматься */
+    flex-shrink: 0;
+    margin-top: -2px;
 }
 
 .alert-info p {
-    margin: 0; /* Убираем лишний отступ у параграфа внутри */
+    margin: 0;
+    line-height: 1.5;
 }
 
-/* Стили для таблицы в темной теме */
+/* Стили для таблицы в темной теме (переделано под светлую) */
 .admin-table-container-dark {
-    background-color: var(--container-color);
-    border: 1px solid var(--border-color);
+    background-color: var(--container-color); /* Белый фон */
+    border: 1px solid var(--border-color); /* Светлая граница */
     border-radius: 12px;
     padding: 20px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05); /* Легкая тень */
 }
 
 .admin-table-dark {
@@ -1261,17 +1256,19 @@ a.course-card-link {
 .admin-table-dark th, .admin-table-dark td {
     padding: 12px 15px;
     text-align: left;
-    border-bottom: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color); /* Светлая граница */
+    color: var(--primary-text-color); /* Темный текст */
 }
 
 .admin-table-dark th {
     font-weight: 600;
     font-size: 14px;
-    color: var(--secondary-text-color);
+    color: var(--secondary-text-color); /* Средне-серый текст */
+    background-color: #F9FAFB; /* Очень светлый фон заголовков */
 }
 
 .admin-table-dark tbody tr:hover {
-    background-color: rgba(255, 255, 255, 0.03);
+    background-color: #F9FAFB; /* Очень светлый фон при наведении */
 }
 
 /* Стили для счетчика (бейджа) в меню */
@@ -1282,13 +1279,13 @@ a.course-card-link {
 }
 
 .badge {
-    background-color: #e74c3c; /* Ярко-красный */
+    background-color: #EF4444; /* Красный */
     color: white;
     font-size: 12px;
     font-weight: 700;
     padding: 3px 8px;
     border-radius: 10px;
-    line-height: 1; /* Для лучшего вида на разных устройствах */
+    line-height: 1;
 }
 
 /* 22. Стили для страницы проверки ДЗ */
@@ -1300,20 +1297,21 @@ a.course-card-link {
 }
 
 .page-subtitle {
-    color: var(--secondary-text-color);
+    color: var(--secondary-text-color); /* Средне-серый текст */
     margin-top: 5px;
 }
 
 .homework-check-container {
-    background-color: var(--container-color);
-    border: 1px solid var(--border-color);
+    background-color: var(--container-color); /* Белый фон */
+    border: 1px solid var(--border-color); /* Светлая граница */
     border-radius: 12px;
     padding: 30px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05); /* Легкая тень */
 }
 
 .qa-block {
     margin-bottom: 30px;
-    border-bottom: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color); /* Светлая граница */
     padding-bottom: 30px;
 }
 
@@ -1326,20 +1324,22 @@ a.course-card-link {
 .qa-label {
     font-size: 14px;
     font-weight: 600;
-    color: var(--secondary-text-color);
+    color: var(--secondary-text-color); /* Средне-серый текст */
     display: block;
     margin-bottom: 8px;
 }
 
 .answer-block {
-    background-color: rgba(255, 255, 255, 0.03);
+    background-color: #F9FAFB; /* Очень светлый фон */
     border-radius: 8px;
     padding: 16px;
     margin-top: 16px;
+    border: 1px solid var(--input-border-color); /* Светлая граница */
 }
 
 .answer-block p {
     line-height: 1.6;
+    color: var(--primary-text-color); /* Темный текст */
 }
 
 .check-actions {
@@ -1349,18 +1349,18 @@ a.course-card-link {
 }
 
 .btn-success {
-    background-color: #27ae60;
+    background-color: #22C55E; /* Зеленый */
     color: white;
 }
 .btn-success:hover {
-    background-color: #229954;
+    background-color: #16A34A; /* Темнее зеленый */
 }
 
 /* 23. Стили для формы проверки ДЗ */
 .check-actions {
     margin-top: 30px;
     padding-top: 30px;
-    border-top: 1px solid var(--border-color);
+    border-top: 1px solid var(--border-color); /* Светлая граница */
     display: flex;
     flex-direction: column;
     gap: 15px;
@@ -1368,7 +1368,7 @@ a.course-card-link {
 
 .check-actions .input-group label {
     display: block;
-    color: var(--secondary-text-color);
+    color: var(--secondary-text-color); /* Средне-серый текст */
     margin-bottom: 8px;
     font-size: 14px;
 }
@@ -1377,9 +1377,9 @@ a.course-card-link {
     width: 100%;
     padding: 10px;
     border-radius: 8px;
-    border: 1px solid var(--border-color);
-    background-color: var(--input-field-color);
-    color: var(--primary-text-color);
+    border: 1px solid var(--input-border-color); /* Светлая граница */
+    background-color: var(--input-field-color); /* Очень светлый фон */
+    color: var(--primary-text-color); /* Темный текст */
     resize: vertical;
 }
 
@@ -1390,10 +1390,9 @@ a.course-card-link {
 
 /* --- Стили для статусов ДЗ --- */
 
-/* Общий стиль для всех алертов */
 .alert {
     display: flex;
-    align-items: flex-start; /* Выравниваем по верху для длинных комментов */
+    align-items: flex-start;
     gap: 12px;
     padding: 16px;
     border-radius: 12px;
@@ -1403,32 +1402,29 @@ a.course-card-link {
 .alert-icon {
     font-size: 20px;
     flex-shrink: 0;
-    margin-top: -2px; /* Небольшая коррекция для иконок */
+    margin-top: -2px;
 }
 .alert p {
     margin: 0;
     line-height: 1.5;
 }
 
-/* Синий: Отправлено */
 .alert.alert-info {
-    color: #a5b4fc;
-    background-color: rgba(129, 140, 248, 0.1);
-    border-color: rgba(129, 140, 248, 0.2);
+    color: #4F46E5; /* Синий текст */
+    background-color: rgba(79, 70, 229, 0.1);
+    border-color: rgba(79, 70, 229, 0.2);
 }
 
-/* Зеленый: Принято */
 .alert.alert-success {
-    color: #86efac;
-    background-color: rgba(74, 222, 128, 0.1);
-    border-color: rgba(74, 222, 128, 0.2);
+    color: #10B981; /* Зеленый текст */
+    background-color: rgba(16, 185, 129, 0.1);
+    border-color: rgba(16, 185, 129, 0.2);
 }
 
-/* Красный: Отклонено */
 .alert.alert-danger {
-    color: #fca5a5;
-    background-color: rgba(248, 113, 113, 0.1);
-    border-color: rgba(248, 113, 113, 0.2);
+    color: #EF4444; /* Красный текст */
+    background-color: rgba(239, 68, 68, 0.1);
+    border-color: rgba(239, 68, 68, 0.2);
 }
 
 /* 24. Стили для страницы "Мои ответы" */
@@ -1444,25 +1440,27 @@ a.answer-card-link {
 }
 
 .answer-card {
-    background-color: var(--container-color);
-    border: 1px solid var(--border-color);
+    background-color: var(--container-color); /* Белый фон */
+    border: 1px solid var(--border-color); /* Светлая граница */
     border-radius: 12px;
     padding: 20px;
     height: 100%;
     display: flex;
     flex-direction: column;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05); /* Легкая тень */
 }
 .answer-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1); /* Более выраженная тень */
 }
 .answer-card h4 {
     margin-bottom: 8px;
-    flex-grow: 1; /* Заголовок занимает все доступное место */
+    flex-grow: 1;
+    color: var(--primary-text-color); /* Темный текст */
 }
 .answer-card p {
-    color: var(--secondary-text-color);
+    color: var(--secondary-text-color); /* Средне-серый текст */
     font-size: 14px;
     flex-grow: 1;
     margin-bottom: 20px;
@@ -1477,16 +1475,16 @@ a.answer-card-link {
     align-self: flex-start;
 }
 .status-badge.status-submitted {
-    color: #a5b4fc;
-    background-color: rgba(129, 140, 248, 0.1);
+    color: #4F46E5; /* Синий текст */
+    background-color: rgba(79, 70, 229, 0.1);
 }
 .status-badge.status-checked {
-    color: #86efac;
-    background-color: rgba(74, 222, 128, 0.1);
+    color: #10B981; /* Зеленый текст */
+    background-color: rgba(16, 185, 129, 0.1);
 }
 .status-badge.status-rejected {
-    color: #fca5a5;
-    background-color: rgba(248, 113, 113, 0.1);
+    color: #EF4444; /* Красный текст */
+    background-color: rgba(239, 68, 68, 0.1);
 }
 
 /* Стили для формы смены роли */
@@ -1498,9 +1496,11 @@ a.answer-card-link {
 
 .role-change-form select {
     padding: 6px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--input-border-color); /* Светлая граница */
     border-radius: 6px;
     font-size: 14px;
+    background-color: var(--input-field-color); /* Очень светлый фон */
+    color: var(--primary-text-color); /* Темный текст */
 }
 
 /* Стили для модального окна */
@@ -1510,38 +1510,39 @@ a.answer-card-link {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.6);
+    background-color: rgba(0, 0, 0, 0.4); /* Менее темный оверлей */
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 1000;
 }
 .modal-content {
-    background-color: white;
+    background-color: var(--container-color); /* Белый фон */
     padding: 30px;
     border-radius: 12px;
     width: 100%;
     max-width: 500px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1); /* Легкая тень */
 }
 .modal-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid #e0e0e0;
+    border-bottom: 1px solid var(--border-color); /* Светлая граница */
     padding-bottom: 15px;
     margin-bottom: 20px;
 }
 .modal-header h2 {
     margin: 0;
     font-size: 22px;
+    color: var(--primary-text-color); /* Темный текст */
 }
 .close-modal-btn {
     border: none;
     background: none;
     font-size: 28px;
     cursor: pointer;
-    color: #888;
+    color: #6B7280; /* Средне-серый */
 }
 
 .lesson-item { position: relative; padding-left: 30px; }
@@ -1567,8 +1568,8 @@ a.answer-card-link {
 
 .tag-checkbox-group {
     display: flex;
-    flex-wrap: wrap; /* Позволяет тегам переноситься на новую строку */
-    gap: 10px; /* Отступ между тегами */
+    flex-wrap: wrap;
+    gap: 10px;
     padding-top: 5px;
 }
 
@@ -1577,25 +1578,22 @@ a.answer-card-link {
     cursor: pointer;
 }
 
-/* Прячем настоящий чекбокс */
 .tag-checkbox-group input[type="checkbox"],
 .tag-checkbox-group input[type="radio"] {
     display: none;
 }
 
-/* Стилизуем наш кастомный тег (span внутри label) */
 .tag-checkbox-group span {
     display: block;
     padding: 8px 16px;
-    border: 1px solid #e0e0e0;
-    border-radius: 20px; /* Делаем теги скругленными */
+    border: 1px solid var(--border-color); /* Светлая граница */
+    border-radius: 20px;
     font-weight: 500;
-    color: #555;
-    background-color: #f7f9fc;
+    color: var(--secondary-text-color); /* Средне-серый текст */
+    background-color: var(--input-field-color); /* Очень светлый фон */
     transition: all 0.2s ease;
 }
 
-/* Стили, когда тег ВЫБРАН */
 .tag-checkbox-group input:checked + span {
     background-color: var(--primary-accent-color);
     border-color: var(--primary-accent-color);
@@ -1603,16 +1601,13 @@ a.answer-card-link {
     box-shadow: 0 4px 8px rgba(132, 115, 255, 0.2);
 }
 
-/* Эффект при наведении */
 .tag-checkbox-group input:not(:checked) + span:hover {
     border-color: var(--primary-accent-color);
 }
 
-
-
-/* Новый стиль для кнопки сертификата */
+/* Стиль для кнопки сертификата (если используется) */
 .certificate-badge {
-    margin-top: auto; /* Прижимает кнопку к низу карточки */
+    margin-top: auto;
     background-color: transparent;
     border: 1px solid var(--primary-accent-color);
     color: var(--primary-accent-color);
@@ -1629,14 +1624,11 @@ a.answer-card-link {
     color: white;
 }
 
-/* Стили для карточек курсов (Финальная версия) */
-
-/* Делаем карточку относительной, чтобы позиционировать тег */
+/* Стиль для content-card (если используется на дашборде) */
 .content-card {
     position: relative;
 }
 
-/* Стили для тегов, которые будут поверх изображения */
 .tag-on-image {
     position: absolute;
     top: 12px;
@@ -1644,35 +1636,26 @@ a.answer-card-link {
     z-index: 10;
 }
 
-/* Контейнер для тегов под картинкой */
 .card-tags {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
     margin-bottom: 12px;
-    /* Убираем высоту, если тегов нет */
     min-height: 25px;
 }
 
-/* Общий стиль для всех тегов (ширина по контенту) */
 .card-tag {
-    /* Центрируем текст по всем осям */
     display: inline-flex;
     align-items: center;
     justify-content: center;
-
-    /* Размеры и шрифт */
     padding: 5px 12px;
     font-size: 12px;
     font-weight: 600;
     border-radius: 16px;
-    line-height: 1; /* Для стабильного вида */
+    line-height: 1;
 }
 
-/* Стиль для тегов категорий */
 .tag-category {
-    background-color: #3a3a3a;
-    color: #e0e0e0;
+    background-color: #E5E7EB; /* Светло-серый */
+    color: #4B5563; /* Темно-серый текст */
 }
-
-

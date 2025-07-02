@@ -1,5 +1,5 @@
 # Table of contents
 
-* [Документация функционала платформы AI Fire LMS Academy](README.md)
-  * [Функционал пользователя](dokumentaciya-funkcionala-platformy-ai-fire-lms-academy/funkcional-polzovatelya.md)
-  * [Функционал администратора](dokumentaciya-funkcionala-platformy-ai-fire-lms-academy/funkcional-administratora.md)
+* [Пользовательская документация функционала платформы AI Fire LMS Academy](README.md)
+  * [Функционал пользователя](polzovatelskaya-dokumentaciya-funkcionala-platformy-ai-fire-lms-academy/funkcional-polzovatelya.md)
+  * [Функционал администратора](polzovatelskaya-dokumentaciya-funkcionala-platformy-ai-fire-lms-academy/funkcional-administratora.md)

@@ -21,7 +21,7 @@
 
                         <div class="input-group">
                             <label>Текст урока</label>
-                            <textarea id="editorjs" style="border: 1px solid #e0e0e0; border-radius: 8px; padding: 10px; min-height: 300px;"></textarea>
+                            <div id="editorjs" style="border: 1px solid #e0e0e0; border-radius: 8px; padding: 10px; min-height: 300px;background: #fafafa;"></div>
                             <input type="hidden" name="content_json" id="content_json_output">
                         </div>
 

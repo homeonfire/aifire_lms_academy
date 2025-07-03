@@ -59,11 +59,7 @@
                                                 <input type="hidden" name="course_id" value="<?= $course['id'] ?>">
                                                 <input type="hidden" name="module_id" value="<?= $module['id'] ?>">
                                                 <input type="text" name="title" placeholder="Название нового урока" required>
-                                                <select name="content_type">
-                                                    <option value="video">Видео</option>
-                                                    <option value="text">Текст</option>
-                                                    <option value="guide">Гайд</option>
-                                                </select>
+                                                <input type="hidden" name="content_json" value="{}">
                                                 <button type="submit" class="btn btn-secondary btn-sm">Добавить урок</button>
                                             </form>
                                         </li>

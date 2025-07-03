@@ -1,6 +1,5 @@
 <?php
 // src/Controllers/Admin/LessonController.php
-require_once __DIR__ . '/AdminController.php';
 
 class AdminLessonController extends AdminController {
 
@@ -20,23 +19,23 @@ class AdminLessonController extends AdminController {
         $courseId = $_POST['course_id'] ?? null;
         $moduleId = $_POST['module_id'] ?? null;
         $title = $_POST['title'] ?? '';
-
-        // Тип контента нам больше не нужен
-        // $contentType = $_POST['content_type'] ?? 'video';
+        $contentJson = $_POST['content_json'] ?? null; // ДОБАВЛЕНО: получение content_json
 
         if (empty($title) || empty($moduleId) || empty($courseId)) {
+            // Можно добавить сообщение об ошибке в сессию
+            $_SESSION['error_message'] = 'Название урока и модуль обязательны.';
             header('Location: ' . $_SERVER['HTTP_REFERER']);
             exit();
         }
 
-        // ИСПРАВЛЕНО: Убран третий параметр
-        $this->lessonModel->create($moduleId, $title);
+        // Вызываем create метод модели с новым параметром content_json
+        // ИЗМЕНЕНО: Передача contentJson
+        $this->lessonModel->create($moduleId, $title, $contentJson);
 
+        $_SESSION['success_message'] = 'Урок "' . htmlspecialchars($title) . '" успешно создан!'; // ДОБАВЛЕНО: Сообщение об успехе
         header('Location: /admin/courses/content/' . $courseId);
         exit();
     }
-
-    // ... (остальные методы класса без изменений) ...
 
     public function update() {
         $courseId = $_POST['course_id'] ?? null;
@@ -45,6 +44,9 @@ class AdminLessonController extends AdminController {
 
         if (!empty($title) && !empty($lessonId)) {
             $this->lessonModel->update($lessonId, $title);
+            $_SESSION['success_message'] = 'Название урока успешно обновлено.'; // ДОБАВЛЕНО: Сообщение об успехе
+        } else {
+            $_SESSION['error_message'] = 'Название урока не может быть пустым.'; // ДОБАВЛЕНО: Сообщение об ошибке
         }
 
         header('Location: /admin/courses/content/' . $courseId);
@@ -53,6 +55,7 @@ class AdminLessonController extends AdminController {
 
     public function delete($id, $courseId) {
         $this->lessonModel->delete($id);
+        $_SESSION['success_message'] = 'Урок успешно удален.'; // ДОБАВЛЕНО: Сообщение об успехе
         header('Location: /admin/courses/content/' . $courseId);
         exit();
     }
@@ -75,7 +78,14 @@ class AdminLessonController extends AdminController {
     public function saveContent($id) {
         $courseId = $_POST['course_id'] ?? null;
         $contentUrl = $_POST['content_url'] ?? null;
-        $contentText = $_POST['content_text'] ?? null;
+        $contentJson = $_POST['content_json'] ?? null; // ИЗМЕНЕНО: Теперь получаем content_json
+
+        // Валидация contentJson (можно доработать, если нужно)
+        if (!empty($contentJson) && json_decode($contentJson) === null && $contentJson !== '{}') {
+            $_SESSION['error_message'] = 'Некорректный формат контента урока (JSON).';
+            header('Location: /admin/lessons/edit-content/' . $id . '?course_id=' . $courseId);
+            exit();
+        }
 
         $homeworkQuestions = $_POST['homework_questions'] ?? [];
         $filteredQuestions = array_filter($homeworkQuestions, function($q) {
@@ -89,9 +99,15 @@ class AdminLessonController extends AdminController {
             $this->homeworkModel->createOrUpdate($id, json_encode($questionsForJson));
         } else {
             // Если вопросы пустые, можно добавить логику удаления ДЗ
+            $this->homeworkModel->deleteByLessonId($id); // ДОБАВЛЕНО: Удаление ДЗ, если вопросов нет
         }
 
-        $this->lessonModel->updateContent($id, $contentUrl, $contentText);
+        // ИЗМЕНЕНО: Передаем contentJson вместо contentText
+        if ($this->lessonModel->updateContent($id, $contentUrl, $contentJson)) {
+            $_SESSION['success_message'] = 'Контент урока успешно обновлен!';
+        } else {
+            $_SESSION['error_message'] = 'Ошибка при обновлении контента урока.';
+        }
 
         header('Location: /admin/courses/content/' . $courseId);
         exit();

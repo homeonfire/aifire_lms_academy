@@ -2,7 +2,9 @@
 $this->render('layouts/app-header', ['title' => $title]);
 
 $embedUrl = $activeLesson ? getVideoEmbedUrl($activeLesson['content_url']) : null;
-$hasText = $activeLesson && !empty(trim($activeLesson['content_text'] ?? ''));
+// Поле content_text больше не используется для основного текста, теперь это content_json
+// $hasText = $activeLesson && !empty(trim($activeLesson['content_text'] ?? ''));
+$hasEditorJsContent = $activeLesson && !empty(trim($activeLesson['content_json'] ?? '')) && ($activeLesson['content_json'] !== '{}'); // Проверяем, что контент не пустой JSON
 $isSubmitted = !empty($userAnswer);
 $isLocked = $isSubmitted && in_array($userAnswer['status'], ['submitted', 'checked']);
 $isLessonFavorite = $activeLesson && isset($favoritedLessonIds) && in_array($activeLesson['id'], $favoritedLessonIds);
@@ -17,7 +19,7 @@ $isLessonFavorite = $activeLesson && isset($favoritedLessonIds) && in_array($act
                     <div class="lesson-header">
                         <a href="/dashboard" class="back-link">← Назад к <?= ($type === 'masterclass') ? 'мастер-классам' : 'курсам' ?></a>
                         <h1 class="lesson-title">
-                            <?php if ($activeLesson && $type === 'course'): // <-- НАЧАЛО ИЗМЕНЕНИЙ ?>
+                            <?php if ($activeLesson && $type === 'course'): ?>
                                 <button
                                         class="favorite-toggle-btn <?= $isLessonFavorite ? 'active' : '' ?>"
                                         data-item-id="<?= $activeLesson['id'] ?>"
@@ -25,13 +27,24 @@ $isLessonFavorite = $activeLesson && isset($favoritedLessonIds) && in_array($act
                                         title="Добавить урок в избранное">
                                     <svg viewBox="0 0 24 24"><path d="M12,21.35L10.55,20.03C5.4,15.36 2,12.27 2,8.5C2,5.41 4.42,3 7.5,3C9.24,3 10.91,3.81 12,5.08C13.09,3.81 14.76,3 16.5,3C19.58,3 22,5.41 22,8.5C22,12.27 18.6,15.36 13.45,20.03L12,21.35Z"></path></svg>
                                 </button>
-                            <?php endif; // <-- КОНЕЦ ИЗМЕНЕНИЙ ?>
+                            <?php endif; ?>
                             <span>
                             <?= htmlspecialchars($course['title']) ?>:
                             <span class="lesson-subtitle"><?= $activeLesson ? htmlspecialchars($activeLesson['title']) : 'Выберите урок' ?></span>
                         </span>
                         </h1>
                     </div>
+
+                    <?php if (isset($_SESSION['error_message'])): ?>
+                        <div class="alert alert-danger" style="margin-bottom: 24px;">
+                            <?= htmlspecialchars($_SESSION['error_message']); unset($_SESSION['error_message']); ?>
+                        </div>
+                    <?php endif; ?>
+                    <?php if (isset($_SESSION['success_message'])): ?>
+                        <div class="alert alert-success" style="margin-bottom: 24px;">
+                            <?= htmlspecialchars($_SESSION['success_message']); unset($_SESSION['success_message']); ?>
+                        </div>
+                    <?php endif; ?>
 
                     <?php if ($isSubmitted): ?>
                         <?php
@@ -58,21 +71,31 @@ $isLessonFavorite = $activeLesson && isset($favoritedLessonIds) && in_array($act
                             <div class="video-player-responsive">
                                 <iframe src="<?= $embedUrl ?>" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer; clipboard-write; screen-wake-lock;" allowfullscreen></iframe>
                             </div>
-                        <?php elseif ($hasText): ?>
-                            <div class="text-content-mockup">
-                                <p><?= nl2br(htmlspecialchars($activeLesson['content_text'])) ?></p>
-                            </div>
-                        <?php else: ?>
+                        <?php elseif (!$hasEditorJsContent): // Если нет видео и нет контента Editor.js, показываем заглушку ?>
                             <p>Контент для этого урока еще не добавлен.</p>
                         <?php endif; ?>
                     </div>
-
+                    <?php if ($hasEditorJsContent): ?>
+                        <div class="lesson-description" style="margin-top: 20px;">
+                            <h3>Содержание урока</h3>
+                            <div id="editorjs-viewer" class="editorjs-viewer-container"></div>
+                        </div>
+                    <?php endif; ?>
+                    <?php
+                    // Старый блок content_text, если он был отдельно.
+                    // Если content_text не используется, этот блок можно убрать или оставить закомментированным.
+                    // Если вы хотите, чтобы старый content_text отображался ВМЕСТЕ с Editor.js (если есть),
+                    // то $hasText нужно определить снова и не убирать этот блок.
+                    // Сейчас предполагается, что content_json заменяет content_text.
+                    /*
                     <?php if ($embedUrl && $hasText): ?>
                         <div class="lesson-description">
                             <h3>Материалы к уроку</h3>
                             <p><?= nl2br(htmlspecialchars($activeLesson['content_text'])) ?></p>
                         </div>
                     <?php endif; ?>
+                    */
+                    ?>
 
                     <?php if (!empty($course['description'])): ?>
                         <div class="lesson-description">
@@ -107,6 +130,7 @@ $isLessonFavorite = $activeLesson && isset($favoritedLessonIds) && in_array($act
                             </form>
                         </div>
                     <?php endif; ?>
+
                     <?php
                     if ($activeLesson && !$homework && !in_array($activeLesson['id'], $completedLessonIds)):
                         ?>
@@ -154,4 +178,47 @@ $isLessonFavorite = $activeLesson && isset($favoritedLessonIds) && in_array($act
         </main>
     </div>
 
+    <script src="/public/assets/editor.js" defer></script>
+    <script src="/public/assets/header.js" defer></script>
+    <script src="/public/assets/list.js" defer></script>
+    <script>
+        // Данные для Editor.js (парсим JSON-строку)
+        const editorJsData = <?= !empty($activeLesson['content_json']) ? $activeLesson['content_json'] : '{}' ?>;
+
+        // Функция для инициализации Editor.js в режиме только для чтения
+        function initializeEditorViewer() {
+            const editorViewerHolder = document.getElementById('editorjs-viewer');
+            // Проверяем наличие элемента и что данные не являются пустым объектом
+            if (editorViewerHolder && Object.keys(editorJsData).length > 0) {
+                try {
+                    const editorViewer = new EditorJS({
+                        holder: 'editorjs-viewer',
+                        readOnly: true, // Включаем режим только для чтения
+                        data: editorJsData,
+                        minHeight: 100,
+                        style: 'padding-bottom: 0px;',
+                        tools: { // Обязательно перечислите все используемые блоки, даже в режиме readOnly
+                            header: Header,
+                            list: EditorjsList
+                        }
+                    });
+                    console.log("Editor.js viewer initialized successfully.");
+                } catch (e) {
+                    console.error("Error initializing Editor.js viewer:", e);
+                    // Можно скрыть элемент, если произошла ошибка инициализации
+                    editorViewerHolder.style.display = 'none';
+                }
+            } else if (editorViewerHolder) {
+                // Если нет контента Editor.js, скрываем контейнер
+                editorViewerHolder.style.display = 'none';
+                console.log("No Editor.js content to display for viewer, hiding container.");
+            }
+        }
+
+        // Ждем загрузки всех скриптов (включая defer-скрипты Editor.js)
+        // и DOM-дерева
+        window.addEventListener('load', () => {
+            initializeEditorViewer();
+        });
+    </script>
 <?php $this->render('layouts/footer'); ?>

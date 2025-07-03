@@ -14,9 +14,25 @@ function initializeEditor() {
         console.log("⏳ [Шаг 5] Пытаюсь создать экземпляр EditorJS...");
         const editor = new EditorJS({
             holder: 'editorjs',
+            // ДОБАВЛЕНО: placeholder для EditorJS в целом (для первого пустого блока)
+            placeholder: 'Начните писать здесь или нажмите "/" для добавления блока',
             tools: {
-                header: Header,
-                list: List
+                header: {
+                    class: Header,
+                    // ДОБАВЛЕНО: плейсхолдер для инструмента "Заголовок"
+                    placeholder: 'Введите заголовок',
+                },
+                list: {
+                    class: EditorjsList, // ИЗМЕНЕНО: Использовать EditorjsList
+                    // ДОБАВЛЕНО: плейсхолдер для инструмента "Список"
+                    placeholder: 'Введите пункт списка',
+                },
+                paragraph: { // Встроенный инструмент "Параграф" (текст)
+                    // Его класс по умолчанию — `EditorJS.tools.paragraph`, но можно настроить через `config`
+                    // Если вы не переопределяете Paragraph Tool, он будет использован по умолчанию.
+                    // Для явного указания плейсхолдера его можно добавить так:
+                    placeholder: 'Введите текст',
+                }
             },
             data: window.editorData || {}
         });
@@ -51,7 +67,7 @@ function dependencyChecker() {
     // Проверяем каждую зависимость отдельно и логируем ее статус
     const editorJsDefined = typeof EditorJS !== 'undefined';
     const headerDefined = typeof Header !== 'undefined';
-    const listDefined = typeof List !== 'undefined';
+    const listDefined = typeof EditorjsList !== 'undefined'; // ИЗМЕНЕНО: Проверять EditorjsList
 
     console.log(`- EditorJS: ${editorJsDefined ? '✅ Найден' : '❌ Не найден'}`);
     console.log(`- Header: ${headerDefined ? '✅ Найден' : '❌ Не найден'}`);

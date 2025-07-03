@@ -440,6 +440,8 @@ a.forgot-password:hover {
 
 .lesson-content-area {
     flex-grow: 1;
+    /* ИЗМЕНЕНО: Добавлены отступы по бокам */
+    /* box-sizing: border-box; уже установлен глобально в * {} */
 }
 
 .lesson-header {
@@ -641,7 +643,7 @@ a.course-card-link {
 .course-card {
     background-color: #2e2e2e; /* Темный фон, как в макете */
     border-radius: 12px;
-    overflow: hidden;
+    overflow: hidden; /* Чтобы скруглить углы у картинки */
     color: #f0f0f0;
     font-family: Arial, sans-serif;
     width: 300px; /* Фиксированная ширина карточки */
@@ -1567,8 +1569,8 @@ a.answer-card-link {
 
 .tag-checkbox-group {
     display: flex;
-    flex-wrap: wrap; /* Позволяет тегам переноситься на новую строку */
-    gap: 10px; /* Отступ между тегами */
+    flex-wrap: wrap;
+    gap: 10px;
     padding-top: 5px;
 }
 
@@ -1588,7 +1590,7 @@ a.answer-card-link {
     display: block;
     padding: 8px 16px;
     border: 1px solid #e0e0e0;
-    border-radius: 20px; /* Делаем теги скругленными */
+    border-radius: 20px;
     font-weight: 500;
     color: #555;
     background-color: #f7f9fc;
@@ -1898,4 +1900,161 @@ h1 .favorite-toggle-btn.active svg {
 .guide-card span {
     font-size: 14px;
     color: var(--secondary-text-color);
+}
+
+/* --- Стили для контента Editor.js на стороне пользователя --- */
+
+/* Контейнер для отображения Editor.js контента */
+.editorjs-viewer-container {
+    background-color: var(--container-color); /* Фоновый цвет контейнера */
+    padding: 24px; /* Внутренние отступы для всего блока Editor.js.
+                       Это создает "рамку" вокруг всего контента редактора.
+                       Можете настроить это значение, например, на 16px, если хотите меньше. */
+    border-radius: 8px; /* Скругление углов контейнера */
+    line-height: 1.6; /* Межстрочный интервал для читаемости */
+    color: var(--primary-text-color); /* Основной цвет текста */
+    font-family: 'Raleway', sans-serif; /* Ваш основной шрифт */
+
+    /* Убедимся, что контейнер занимает всю доступную ширину и не имеет внешних отступов */
+    width: 100%;
+    max-width: none; /* Убираем любое ограничение ширины, если оно было */
+    margin: 0; /* Убираем внешние отступы */
+    box-sizing: border-box; /* Важно, чтобы padding не увеличивал общую ширину */
+}
+
+/* ЭТО КРИТИЧЕСКИ ВАЖНО: Переопределяем встроенные стили Editor.js */
+/* Editor.js по умолчанию ограничивает ширину своих внутренних блоков .ce-block__content
+   и центрирует их. Мы заставляем их занимать 100% ширины нашего контейнера. */
+.editorjs-viewer-container .ce-block__content {
+    max-width: 100% !important; /* Заставляем занимать всю ширину */
+    margin: 0 !important; /* Убираем центрирование */
+    padding: 0 !important; /* Убираем любые внутренние отступы, которые Editor.js может добавить по умолчанию */
+}
+
+/* Общие стили для параграфов */
+.editorjs-viewer-container .ce-paragraph {
+    margin-bottom: 1em; /* Отступ между параграфами */
+}
+
+/* Заголовки, сгенерированные Editor.js (Header Tool) */
+.editorjs-viewer-container .ce-header {
+    margin-top: 2em; /* Отступ сверху перед заголовком */
+    margin-bottom: 1em; /* Отступ снизу после заголовка */
+    font-weight: bold;
+    line-height: 1.3;
+    color: var(--primary-text-color);
+}
+
+.editorjs-viewer-container .ce-header--1 { /* H1 */
+    font-size: 2.5em;
+}
+
+.editorjs-viewer-container .ce-header--2 { /* H2 */
+    font-size: 2em;
+    border-bottom: 1px solid var(--border-color); /* Горизонтальная линия под H2 */
+    padding-bottom: 0.5em; /* Отступ под линией */
+}
+
+.editorjs-viewer-container .ce-header--3 { /* H3 */
+    font-size: 1.6em;
+}
+
+.editorjs-viewer-container .ce-header--4 { /* H4 */
+    font-size: 1.3em;
+}
+
+.editorjs-viewer-container .ce-header--5 { /* H5 */
+    font-size: 1.1em;
+}
+
+.editorjs-viewer-container .ce-header--6 { /* H6 */
+    font-size: 1em;
+}
+
+/* Стили для списков (List Tool) */
+.editorjs-viewer-container .cdx-list {
+    margin-left: 25px; /* Отступ для маркеров/нумерации */
+    margin-bottom: 1em;
+    padding: 0;
+}
+
+.editorjs-viewer-container .cdx-list__item {
+    margin-bottom: 0.5em;
+    color: var(--primary-text-color);
+}
+
+/* Нумерованный список */
+.editorjs-viewer-container .cdx-list--ordered {
+    list-style-type: decimal;
+}
+
+/* Маркированный список */
+.editorjs-viewer-container .cdx-list--unordered {
+    list-style-type: disc;
+}
+
+/* Дополнительные отступы для вложенных списков */
+.editorjs-viewer-container .cdx-list .cdx-list {
+    margin-left: 20px;
+}
+
+/* Если вы используете другие стандартные инструменты Editor.js, например, Blockquote Tool */
+.editorjs-viewer-container .ce-blockquote {
+    font-style: italic;
+    padding: 10px 20px;
+    margin: 1.5em 0;
+    border-left: 4px solid var(--border-color);
+    background-color: var(--input-field-color);
+    color: var(--secondary-text-color);
+}
+
+/* Если вы используете Code Tool */
+.editorjs-viewer-container .ce-code {
+    background-color: var(--input-field-color);
+    padding: 10px;
+    border-radius: 5px;
+    font-family: monospace;
+    font-size: 0.9em;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    color: var(--primary-text-color);
+    border: 1px solid var(--border-color);
+}
+
+/* НОВОЕ ДОБАВЛЕНИЕ: Убираем отступы у самого первого и самого последнего блока внутри Editor.js.
+   Это помогает убрать лишние отступы сверху и снизу от контента внутри контейнера. */
+.editorjs-viewer-container .codex-editor__redactor > .ce-block:first-child .ce-block__content,
+.editorjs-viewer-container .codex-editor__redactor > .ce-block:last-child .ce-block__content {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+/* НОВОЕ ДОБАВЛЕНИЕ: Убедимся, что общие элементы HTML внутри Editor.js (если они не переопределены плагинами)
+   тоже не имеют лишних марджинов по умолчанию, которые могли бы создать 300px. */
+.editorjs-viewer-container > div:first-child {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+}
+.editorjs-viewer-container > div:last-child {
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+.editorjs-viewer-container .ce-header:first-child {
+    margin-top: 0 !important; /* Обнуляем верхний отступ у первого заголовка */
+}
+
+/* Также, если проблема не только с заголовками, а с первым любым блоком: */
+.editorjs-viewer-container .codex-editor__redactor > .ce-block:first-child .ce-block__content {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+}
+
+/* Убираем верхний отступ у первого элемента в .lesson-description,
+   если он не .editorjs-viewer-container, но может влиять. */
+.lesson-description > *:first-child {
+    margin-top: 0 !important;
 }

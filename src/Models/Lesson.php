@@ -14,31 +14,26 @@ class Lesson {
      * Создает новый урок в модуле
      * @param int $moduleId
      * @param string $title
-     * @param string $contentType
+     * @param string $contentJson Добавлен параметр для контента Editor.js
      * @return bool
      */
-    /**
-     * Создает новый урок в модуле
-     * @param int $moduleId
-     * @param string $title
-     * @return bool
-     */
-    public function create($moduleId, $title) {
+    public function create($moduleId, $title, $contentJson = null) { // ИЗМЕНЕНО: Добавлен contentJson
         // Определяем следующий порядковый номер урока в модуле
         $stmtOrder = $this->pdo->prepare("SELECT MAX(order_number) as max_order FROM lessons WHERE module_id = ?");
         $stmtOrder->execute([$moduleId]);
         $maxOrder = $stmtOrder->fetchColumn();
         $newOrder = ($maxOrder === null) ? 1 : $maxOrder + 1;
 
-        // ИСПРАВЛЕНО: Убран столбец 'content_type' из запроса
+        // ИЗМЕНЕНО: Добавлен столбец 'content_json' в запрос INSERT
         $stmt = $this->pdo->prepare(
-            "INSERT INTO lessons (module_id, title, order_number) VALUES (:module_id, :title, :order_number)"
+            "INSERT INTO lessons (module_id, title, order_number, content_json) VALUES (:module_id, :title, :order_number, :content_json)"
         );
 
         return $stmt->execute([
             'module_id' => $moduleId,
             'title' => $title,
-            'order_number' => $newOrder
+            'order_number' => $newOrder,
+            'content_json' => $contentJson // ИЗМЕНЕНО: Присвоение content_json
         ]);
     }
 
@@ -46,7 +41,6 @@ class Lesson {
      * Обновляет урок
      * @param int $id
      * @param string $title
-     * @param string $contentType
      * @return bool
      */
     public function update($id, $title) {
@@ -72,23 +66,23 @@ class Lesson {
     public function findById($id) {
         $stmt = $this->pdo->prepare("SELECT * FROM lessons WHERE id = ?");
         $stmt->execute([$id]);
-        return $stmt->fetch();
+        return $stmt->fetch(PDO::FETCH_ASSOC); // ИЗМЕНЕНО: Указываем FETCH_ASSOC для получения ассоциативного массива
     }
 
     /**
      * Обновляет контент урока
      * @param int $id
      * @param string|null $contentUrl
-     * @param string|null $contentText
+     * @param string|null $contentJson Добавлен/изменен параметр для контента Editor.js
      * @return bool
      */
-    public function updateContent($id, $contentUrl, $contentText) {
+    public function updateContent($id, $contentUrl, $contentJson) { // ИЗМЕНЕНО: $contentText заменен на $contentJson
         $stmt = $this->pdo->prepare(
-            "UPDATE lessons SET content_url = :content_url, content_text = :content_text WHERE id = :id"
+            "UPDATE lessons SET content_url = :content_url, content_json = :content_json WHERE id = :id" // ИЗМЕНЕНО: content_text заменен на content_json
         );
         return $stmt->execute([
             'content_url' => $contentUrl,
-            'content_text' => $contentText,
+            'content_json' => $contentJson, // ИЗМЕНЕНО: Присвоение content_json
             'id' => $id
         ]);
     }

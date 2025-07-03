@@ -2,10 +2,12 @@
 // src/Controllers/Admin/UserController.php
 
 class AdminUserController extends AdminController {
-
+    private $visitModel; // Добавляем свойство для модели визитов
+    private $categoryModel; // Добавляем свойство для модели категорий
     public function __construct() {
         parent::__construct();
-        // Модель User уже подключена в родительском AdminController
+        $this->visitModel = new Visit();
+        $this->categoryModel = new Category();
     }
 
     /**
@@ -57,9 +59,8 @@ class AdminUserController extends AdminController {
 
     // Добавьте этот метод в класс UserController (в админке)
     public function updateUser($id) {
-        // Проверка, чтобы админ не мог изменить роль сам себе
         if ($id == $_SESSION['user']['id'] && $_POST['role'] !== 'admin') {
-            header('Location: /admin/users'); // Просто игнорируем попытку
+            header('Location: /admin/users/show/' . $id);
             exit();
         }
 
@@ -67,13 +68,58 @@ class AdminUserController extends AdminController {
             'first_name' => $_POST['first_name'] ?? '',
             'last_name' => $_POST['last_name'] ?? '',
             'role' => $_POST['role'] ?? 'user',
-            'experience_level' => $_POST['experience_level'] ?? 'beginner',
-            'preferred_skill_type' => $_POST['preferred_skill_type'] ?? ''
         ];
 
         $this->userModel->updateUserData($id, $data);
 
-        header('Location: /admin/users');
+        // Редирект обратно на карточку пользователя
+        header('Location: /admin/users/show/' . $id);
+        exit();
+    }
+
+    /**
+     * Показывает детальную карточку пользователя.
+     * @param int $id
+     */
+    public function show($id) {
+        $user = $this->userModel->findById($id);
+        if (!$user) {
+            http_response_code(404);
+            die('Пользователь не найден');
+        }
+
+        // Данные для карточки
+        $firstUtm = $this->visitModel->getFirstUtmByUserId($id);
+        $preferredCategoryIds = $this->userModel->getPreferredCategoryIds($id);
+        $allCategories = $this->categoryModel->getAll();
+
+        // Данные для пагинации
+        $page = 1;
+        $limit = 10;
+        $visits = $this->visitModel->getVisitsByUserId($id, $page, $limit);
+        $totalVisits = $this->visitModel->countVisitsByUserId($id);
+        $totalPages = ceil($totalVisits / $limit);
+
+        $this->renderAdminPage('admin/users/show', [
+            'title' => 'Карточка пользователя: ' . $user['email'],
+            'user' => $user,
+            'firstUtm' => $firstUtm,
+            'preferredCategoryIds' => $preferredCategoryIds,
+            'allCategories' => $allCategories,
+            'visits' => $visits,
+            'currentPage' => $page,
+            'totalPages' => $totalPages
+        ]);
+    }
+
+    public function getVisitsJson($id) {
+        $page = $_GET['page'] ?? 1;
+        $limit = 10;
+
+        $visits = $this->visitModel->getVisitsByUserId($id, (int)$page, $limit);
+
+        header('Content-Type: application/json');
+        echo json_encode($visits);
         exit();
     }
 }

@@ -4,12 +4,16 @@
 class AuthController extends Controller {
 
     private $userModel;
+    private $categoryModel; // Добавляем модель категорий
 
-    // Конструктор для загрузки модели
+    // --- НАЧАЛО ИЗМЕНЕНИЙ В КОНСТРУКТОРЕ ---
     public function __construct() {
         $this->userModel = new User();
+        $this->categoryModel = new Category(); // Создаем экземпляр
     }
+    // --- КОНЕЦ ИЗМЕНЕНИЙ ---
 
+    // --- БЕЗ ИЗМЕНЕНИЙ ---
     public function showLoginPage() {
         $this->render('auth/login');
     }
@@ -17,9 +21,13 @@ class AuthController extends Controller {
     public function showRegistrationPage() {
         $this->render('auth/register');
     }
+    // --- КОНЕЦ БЛОКА БЕЗ ИЗМЕНЕНИЙ ---
 
+    // --- НАЧАЛО ИЗМЕНЕНИЙ ---
+    /**
+     * Шаг 1: Регистрация email и пароля
+     */
     public function registerUser() {
-        // ... (ваш существующий код для registerUser) ...
         $email = $_POST['email'] ?? '';
         $password = $_POST['password'] ?? '';
         $password_confirm = $_POST['password_confirm'] ?? '';
@@ -43,10 +51,14 @@ class AuthController extends Controller {
         }
 
         $passwordHash = password_hash($password, PASSWORD_DEFAULT);
-        $success = $this->userModel->create($email, $passwordHash);
+        $userId = $this->userModel->create($email, $passwordHash); // Получаем ID созданного пользователя
 
-        if ($success) {
-            header('Location: /login?status=registered');
+        if ($userId) {
+            // Сразу авторизуем пользователя, чтобы связать с ним следующие шаги
+            $user = $this->userModel->findById($userId);
+            $_SESSION['user'] = $user;
+            // Перенаправляем на второй шаг регистрации
+            header('Location: /register/step2');
             exit();
         } else {
             $this->render('auth/register', ['error' => 'Произошла ошибка при регистрации. Попробуйте снова.']);
@@ -54,8 +66,75 @@ class AuthController extends Controller {
     }
 
     /**
-     * Обрабатывает данные из формы входа
+     * Шаг 2: Отображение страницы выбора уровня навыка
      */
+    public function showStep2() {
+        if (!isset($_SESSION['user'])) {
+            header('Location: /login');
+            exit();
+        }
+        $this->render('auth/register-step2', ['title' => 'Шаг 2: Ваш уровень']);
+    }
+
+    /**
+     * Шаг 2: Обработка выбора уровня навыка
+     */
+    public function processStep2() {
+        if (!isset($_SESSION['user'])) {
+            header('Location: /login');
+            exit();
+        }
+
+        $userId = $_SESSION['user']['id'];
+        $data = [
+            'experience_level' => $_POST['experience_level'] ?? 'beginner'
+        ];
+
+        // Используем специальный метод для обновления только нужных полей
+        $this->userModel->updateUserProfileData($userId, $data);
+
+        header('Location: /register/step3');
+        exit();
+    }
+
+    /**
+     * Шаг 3: Отображение страницы выбора интересующих навыков
+     */
+    public function showStep3() {
+        if (!isset($_SESSION['user'])) {
+            header('Location: /login');
+            exit();
+        }
+
+        $allCategories = $this->categoryModel->getAll();
+
+        $this->render('auth/register-step3', [
+            'title' => 'Шаг 3: Ваши интересы',
+            'allCategories' => $allCategories
+        ]);
+    }
+
+    /**
+     * Шаг 3: Обработка выбора интересующих навыков
+     */
+    public function processStep3() {
+        if (!isset($_SESSION['user'])) {
+            header('Location: /login');
+            exit();
+        }
+
+        $userId = $_SESSION['user']['id'];
+        $categoryIds = $_POST['category_ids'] ?? [];
+
+        $this->userModel->syncPreferredCategories($userId, $categoryIds);
+
+        // Регистрация завершена, отправляем на дашборд
+        header('Location: /dashboard');
+        exit();
+    }
+    // --- КОНЕЦ ИЗМЕНЕНИЙ ---
+
+    // --- БЕЗ ИЗМЕНЕНИЙ ---
     public function loginUser() {
         $email = $_POST['email'] ?? '';
         $password = $_POST['password'] ?? '';
@@ -63,9 +142,7 @@ class AuthController extends Controller {
         $user = $this->userModel->findByEmail($email);
 
         if ($user && password_verify($password, $user['password_hash'])) {
-            // Успешный вход. Сохраняем все данные о пользователе.
             $_SESSION['user'] = $user;
-
             header('Location: /dashboard');
             exit();
         } else {
@@ -79,4 +156,5 @@ class AuthController extends Controller {
         header('Location: /login');
         exit();
     }
+    // --- КОНЕЦ БЛОКА БЕЗ ИЗМЕНЕНИЙ ---
 }

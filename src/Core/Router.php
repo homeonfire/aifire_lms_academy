@@ -21,6 +21,18 @@ class Router {
                 elseif ($method === 'POST') $controller->registerUser();
                 break;
 
+            case $uri === '/register/step2':
+                $controller = new AuthController();
+                if ($method === 'GET') $controller->showStep2();
+                elseif ($method === 'POST') $controller->processStep2();
+                break;
+
+            case $uri === '/register/step3':
+                $controller = new AuthController();
+                if ($method === 'GET') $controller->showStep3();
+                elseif ($method === 'POST') $controller->processStep3();
+                break;
+
             case $uri === '/logout':
                 (new AuthController())->logout();
                 break;
@@ -163,6 +175,25 @@ class Router {
 
             case preg_match('/^\/admin\/categories\/delete\/(\d+)$/', $uri, $m) && $method === 'GET':
                 (new AdminCategoryController())->delete($m[1]);
+                break;
+
+            case $uri === '/admin/visits' && $method === 'GET':
+                (new AdminVisitController())->index();
+                break;
+
+            // Новый роут для карточки пользователя
+            case preg_match('/^\/admin\/users\/show\/(\d+)$/', $uri, $m) && $method === 'GET':
+                (new AdminUserController())->show($m[1]);
+                break;
+
+            // Новый роут для AJAX пагинации визитов
+            case preg_match('/^\/admin\/users\/visits\/(\d+)$/', $uri, $m) && $method === 'GET':
+                (new AdminUserController())->getVisitsJson($m[1]);
+                break;
+
+            // Обновляем роут для сохранения
+            case preg_match('/^\/admin\/users\/update\/(\d+)$/', $uri, $m) && $method === 'POST':
+                (new AdminUserController())->updateUser($m[1]);
                 break;
 
             case $uri === '/favorites' && $method === 'GET':

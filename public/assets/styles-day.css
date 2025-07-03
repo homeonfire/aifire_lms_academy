@@ -1759,3 +1759,47 @@ h1 .favorite-toggle-btn svg {
 h1 .favorite-toggle-btn.active svg {
     fill: #ff6b6b;
 }
+
+/* --- Стили для кастомных чекбоксов в виде тегов --- */
+
+.tag-checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding-top: 5px;
+}
+
+.tag-checkbox-group label {
+    display: inline-block;
+    cursor: pointer;
+}
+
+/* Прячем настоящий чекбокс */
+.tag-checkbox-group input[type="checkbox"] {
+    display: none;
+}
+
+/* Стилизуем наш кастомный тег (span внутри label) */
+.tag-checkbox-group span {
+    display: block;
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    font-weight: 500;
+    color: var(--secondary-text-color);
+    background-color: var(--input-field-color);
+    transition: all 0.2s ease;
+}
+
+/* Стили, когда тег ВЫБРАН */
+.tag-checkbox-group input:checked + span {
+    background-color: var(--primary-accent-color);
+    border-color: var(--primary-accent-color);
+    color: white;
+    box-shadow: 0 4px 8px rgba(132, 115, 255, 0.2);
+}
+
+/* Эффект при наведении */
+.tag-checkbox-group input:not(:checked) + span:hover {
+    border-color: var(--primary-accent-color);
+}

@@ -10,6 +10,12 @@ $this->render('layouts/header', ['title' => $title]);
                 <p>Присоединяйтесь к нашему сообществу</p>
             </div>
 
+            <div class="progress-indicator-container">
+                <div class="progress-step active">1. Аккаунт</div>
+                <div class="progress-step">2. Уровень</div>
+                <div class="progress-step">3. Интересы</div>
+            </div>
+
             <?php if (isset($error)): ?>
                 <div class="alert alert-danger">
                     <?= htmlspecialchars($error) ?>

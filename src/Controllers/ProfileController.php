@@ -4,6 +4,7 @@
 class ProfileController extends Controller {
 
     private $userModel;
+    private $categoryModel; // Добавлено свойство для модели категорий
 
     public function __construct() {
         if (!isset($_SESSION['user'])) {
@@ -12,17 +13,27 @@ class ProfileController extends Controller {
         }
 
         $this->userModel = new User();
+        $this->categoryModel = new Category(); // Создаем экземпляр модели категорий
     }
 
     /**
      * Показывает страницу профиля
      */
     public function index() {
-        $user = $this->userModel->findById($_SESSION['user']['id']);
+        $userId = $_SESSION['user']['id'];
+        $user = $this->userModel->findById($userId);
+
+        // Получаем все доступные категории для выбора
+        $allCategories = $this->categoryModel->getAll();
+
+        // Получаем ID категорий, которые пользователь уже выбрал
+        $preferredCategoryIds = $this->userModel->getPreferredCategoryIds($userId);
 
         $data = [
             'title' => 'Мой профиль',
-            'user' => $user
+            'user' => $user,
+            'allCategories' => $allCategories, // Передаем все категории
+            'preferredCategoryIds' => $preferredCategoryIds // Передаем ID выбранных
         ];
 
         $this->render('profile/index', $data);
@@ -32,18 +43,11 @@ class ProfileController extends Controller {
      * Обрабатывает обновление профиля
      */
     public function update() {
-        // Получаем текущие данные пользователя, чтобы сохранить старый путь к аватару, если новый не будет загружен
-        $currentUser = $this->userModel->findById($_SESSION['user']['id']);
+        $userId = $_SESSION['user']['id'];
+        $currentUser = $this->userModel->findById($userId);
 
-        $data = [
-            'first_name' => $_POST['first_name'] ?? '',
-            'last_name' => $_POST['last_name'] ?? '',
-            'experience_level' => $_POST['experience_level'] ?? 'beginner',
-            'preferred_skill_type' => $_POST['preferred_skill_type'] ?? '',
-            'avatar_path' => $currentUser['avatar_path'] // Сохраняем старый путь по умолчанию
-        ];
-
-        // --- ЛОГИКА ЗАГРУЗКИ АВАТАРА ---
+        // --- ЛОГИКА ЗАГРУЗКИ АВАТАРА (без изменений) ---
+        $avatarPath = $currentUser['avatar_path']; // Старый путь по умолчанию
         if (isset($_FILES['avatar']) && $_FILES['avatar']['error'] === UPLOAD_ERR_OK) {
             $uploadDir = __DIR__ . '/../../public/uploads/avatars/';
             if (!is_dir($uploadDir)) {
@@ -53,14 +57,10 @@ class ProfileController extends Controller {
             $fileName = uniqid() . '-' . basename($_FILES['avatar']['name']);
             $targetPath = $uploadDir . $fileName;
 
-            // Проверка типа файла
             $allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
             if (in_array($_FILES['avatar']['type'], $allowedTypes)) {
                 if (move_uploaded_file($_FILES['avatar']['tmp_name'], $targetPath)) {
-                    // Обновляем путь в данных для сохранения в БД
-                    $data['avatar_path'] = '/public/uploads/avatars/' . $fileName;
-
-                    // Удаляем старый аватар, если он был и это не дефолтный
+                    $avatarPath = '/public/uploads/avatars/' . $fileName;
                     if (!empty($currentUser['avatar_path']) && strpos($currentUser['avatar_path'], 'default-avatar.png') === false) {
                         $oldAvatarFullPath = __DIR__ . '/../../' . ltrim($currentUser['avatar_path'], '/');
                         if (file_exists($oldAvatarFullPath)) {
@@ -70,15 +70,23 @@ class ProfileController extends Controller {
                 }
             }
         }
-        // --- КОНЕЦ ЛОГИКИ ЗАГРУЗКИ ---
 
-        $success = $this->userModel->update($_SESSION['user']['id'], $data);
+        // --- Обновляем ОСНОВНЫЕ ДАННЫЕ пользователя ---
+        $data = [
+            'first_name' => $_POST['first_name'] ?? '',
+            'last_name' => $_POST['last_name'] ?? '',
+            'experience_level' => $_POST['experience_level'] ?? 'beginner',
+            'avatar_path' => $avatarPath
+        ];
+        $this->userModel->update($userId, $data);
 
-        // Обновляем данные в сессии, чтобы аватар сразу обновился в интерфейсе
-        if ($success) {
-            $updatedUser = $this->userModel->findById($_SESSION['user']['id']);
-            $_SESSION['user'] = $updatedUser;
-        }
+        // --- Обновляем ИНТЕРЕСУЮЩИЕ КАТЕГОРИИ ---
+        $categoryIds = $_POST['category_ids'] ?? [];
+        $this->userModel->syncPreferredCategories($userId, $categoryIds);
+
+        // --- Обновляем данные в сессии ---
+        $updatedUser = $this->userModel->findById($userId);
+        $_SESSION['user'] = $updatedUser;
 
         header('Location: /profile');
         exit();

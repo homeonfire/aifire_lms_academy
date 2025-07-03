@@ -9,5 +9,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <script src="/public/assets/admin.js" defer></script>
+    <script src="/public/assets/user-card.js" defer></script>
 </head>
 <body class="admin-body">

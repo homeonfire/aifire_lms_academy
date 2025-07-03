@@ -40,17 +40,37 @@
                         <p class="section-subtitle">Эта информация поможет нам рекомендовать вам подходящие курсы.</p>
 
                         <div class="input-group">
-                            <label for="experience_level">Ваш уровень</label>
-                            <select id="experience_level" name="experience_level">
-                                <option value="beginner" <?= ($user['experience_level'] ?? '') === 'beginner' ? 'selected' : '' ?>>Начинающий</option>
-                                <option value="intermediate" <?= ($user['experience_level'] ?? '') === 'intermediate' ? 'selected' : '' ?>>Средний</option>
-                                <option value="advanced" <?= ($user['experience_level'] ?? '') === 'advanced' ? 'selected' : '' ?>>Продвинутый</option>
-                            </select>
+                            <label>Ваш уровень</label>
+                            <div class="tag-checkbox-group">
+                                <label>
+                                    <input type="radio" name="experience_level" value="beginner" <?= ($user['experience_level'] ?? '') === 'beginner' ? 'checked' : '' ?>>
+                                    <span>Начинающий</span>
+                                </label>
+                                <label>
+                                    <input type="radio" name="experience_level" value="intermediate" <?= ($user['experience_level'] ?? '') === 'intermediate' ? 'checked' : '' ?>>
+                                    <span>Средний</span>
+                                </label>
+                                <label>
+                                    <input type="radio" name="experience_level" value="advanced" <?= ($user['experience_level'] ?? '') === 'advanced' ? 'checked' : '' ?>>
+                                    <span>Продвинутый</span>
+                                </label>
+                            </div>
                         </div>
 
                         <div class="input-group">
-                            <label for="preferred_skill_type">Интересующие навыки</label>
-                            <input type="text" id="preferred_skill_type" name="preferred_skill_type" value="<?= htmlspecialchars($user['preferred_skill_type'] ?? '') ?>" placeholder="Например: Кодинг, Дизайн">
+                            <label>Интересующие навыки</label>
+                            <div class="tag-checkbox-group">
+                                <?php foreach ($allCategories as $category): ?>
+                                    <label>
+                                        <?php
+                                        // Проверяем, есть ли ID этой категории в массиве выбранных
+                                        $isChecked = in_array($category['id'], $preferredCategoryIds);
+                                        ?>
+                                        <input type="checkbox" name="category_ids[]" value="<?= $category['id'] ?>" <?= $isChecked ? 'checked' : '' ?>>
+                                        <span><?= htmlspecialchars($category['name']) ?></span>
+                                    </label>
+                                <?php endforeach; ?>
+                            </div>
                         </div>
                     </div>
 

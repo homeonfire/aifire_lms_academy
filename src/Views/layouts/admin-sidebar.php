@@ -7,6 +7,7 @@
         <a href="/admin/courses" class="nav-item">Курсы</a>
         <a href="/admin/categories" class="nav-item">Категории</a>
         <a href="/admin/users" class="nav-item">Пользователи</a>
+        <a href="/admin/visits" class="nav-item">Посещения</a>
     </nav>
     <div class="sidebar-footer">
         <a href="/dashboard" class="nav-item">Вернуться на сайт</a>

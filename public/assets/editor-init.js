@@ -1,4 +1,4 @@
-// editor-init.js (версия с подробным логированием)
+// editor-init.js
 
 function initializeEditor() {
     console.log("✔️ [Шаг 3] Вызвана функция initializeEditor(). Все зависимости на месте.");
@@ -14,25 +14,30 @@ function initializeEditor() {
         console.log("⏳ [Шаг 5] Пытаюсь создать экземпляр EditorJS...");
         const editor = new EditorJS({
             holder: 'editorjs',
-            // ДОБАВЛЕНО: placeholder для EditorJS в целом (для первого пустого блока)
             placeholder: 'Начните писать здесь или нажмите "/" для добавления блока',
+            minHeight: 100, // Минимальная высота редактора
             tools: {
                 header: {
                     class: Header,
-                    // ДОБАВЛЕНО: плейсхолдер для инструмента "Заголовок"
                     placeholder: 'Введите заголовок',
                 },
                 list: {
-                    class: EditorjsList, // ИЗМЕНЕНО: Использовать EditorjsList
-                    // ДОБАВЛЕНО: плейсхолдер для инструмента "Список"
+                    class: EditorjsList,
                     placeholder: 'Введите пункт списка',
                 },
-                paragraph: { // Встроенный инструмент "Параграф" (текст)
-                    // Его класс по умолчанию — `EditorJS.tools.paragraph`, но можно настроить через `config`
-                    // Если вы не переопределяете Paragraph Tool, он будет использован по умолчанию.
-                    // Для явного указания плейсхолдера его можно добавить так:
+                paragraph: {
                     placeholder: 'Введите текст',
-                }
+                },
+                // Если у вас есть ImageTool, убедитесь, что он подключен и настроен здесь
+                // image: {
+                //     class: ImageTool,
+                //     config: {
+                //         uploader: {
+                //             uploadByFile: '/admin/upload-image', // Ваш эндпоинт для загрузки
+                //             uploadByUrl: '/admin/fetch-image-by-url' // Ваш эндпоинт для URL
+                //         }
+                //     }
+                // }
             },
             data: window.editorData || {}
         });
@@ -64,20 +69,20 @@ function dependencyChecker() {
     console.log("---");
     console.log("⏳ [Шаг 2] Проверяю зависимости...");
 
-    // Проверяем каждую зависимость отдельно и логируем ее статус
     const editorJsDefined = typeof EditorJS !== 'undefined';
     const headerDefined = typeof Header !== 'undefined';
-    const listDefined = typeof EditorjsList !== 'undefined'; // ИЗМЕНЕНО: Проверять EditorjsList
+    const listDefined = typeof EditorjsList !== 'undefined';
+    // const imageToolDefined = typeof ImageTool !== 'undefined'; // Если используете ImageTool, раскомментируйте
 
     console.log(`- EditorJS: ${editorJsDefined ? '✅ Найден' : '❌ Не найден'}`);
     console.log(`- Header: ${headerDefined ? '✅ Найден' : '❌ Не найден'}`);
     console.log(`- List: ${listDefined ? '✅ Найден' : '❌ Не найден'}`);
+    // console.log(`- ImageTool: ${imageToolDefined ? '✅ Найден' : '❌ Не найден'}`); // Если используете ImageTool, раскомментируйте
 
+    // Если используете ImageTool, добавьте && imageToolDefined сюда
     if (editorJsDefined && headerDefined && listDefined) {
-        // Если все на месте, запускаем наш основной код
         initializeEditor();
     } else {
-        // Если чего-то не хватает, проверяем снова через 200 миллисекунд
         console.log("...жду 200мс и пробую снова...");
         setTimeout(dependencyChecker, 200);
     }

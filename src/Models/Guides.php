@@ -1,17 +1,16 @@
 <?php
 // src/Models/Guide.php
 
-class Guide {
+// namespace App\Models; // ЗАКОММЕНТИРУЙТЕ ИЛИ УДАЛИТЕ ЭТУ СТРОКУ, если вы используете глобальное пространство имен
+
+class Guide { // Имя класса Guide (единственное число), как в вашем файле
+
     private $pdo;
 
-    // --- БЕЗ ИЗМЕНЕНИЙ ---
     public function __construct() {
-        require_once __DIR__ . '/../Config/database.php';
         $this->pdo = getDBConnection();
     }
-    // --- КОНЕЦ БЛОКА БЕЗ ИЗМЕНЕНИЙ ---
 
-    // --- НАЧАЛО ИЗМЕНЕНИЙ ---
     /**
      * Получает все гайды с их категориями.
      * @return array
@@ -26,9 +25,7 @@ class Guide {
         $stmt = $this->pdo->query($sql);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    // --- КОНЕЦ ИЗМЕНЕНИЙ ---
 
-    // --- БЕЗ ИЗМЕНЕНИЙ ---
     public function findBySlug($slug) {
         $stmt = $this->pdo->prepare("SELECT * FROM guides WHERE slug = ?");
         $stmt->execute([$slug]);
@@ -40,16 +37,20 @@ class Guide {
         $stmt->execute([$id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
-    // --- КОНЕЦ БЛОКА БЕЗ ИЗМЕНЕНИЙ ---
 
-    // --- НАЧАЛО ИЗМЕНЕНИЙ ---
     /**
      * Создает новый гайд.
+     * @param string $title
+     * @param string $slug
+     * @param string $difficulty_level
+     * @param string $content_url
+     * @param string|null $contentJson - контент Editor.js
+     * @return int|false ID нового гайда или false при ошибке
      */
-    public function create($title, $slug, $difficulty_level, $content_text, $content_url) {
-        $sql = "INSERT INTO guides (title, slug, difficulty_level, content_text, content_url) VALUES (?, ?, ?, ?, ?)";
+    public function create($title, $slug, $difficulty_level, $content_url, $contentJson = null) { // ИЗМЕНЕНО: content_text УДАЛЕН
+        $sql = "INSERT INTO guides (title, slug, difficulty_level, content_url, content_json, created_at) VALUES (?, ?, ?, ?, ?, NOW())"; // ИЗМЕНЕНО: content_text УДАЛЕН из SQL
         $stmt = $this->pdo->prepare($sql);
-        if ($stmt->execute([$title, $slug, $difficulty_level, $content_text, $content_url])) {
+        if ($stmt->execute([$title, $slug, $difficulty_level, $content_url, $contentJson])) { // ИЗМЕНЕНО: content_text УДАЛЕН из execute
             return $this->pdo->lastInsertId();
         }
         return false;
@@ -57,22 +58,26 @@ class Guide {
 
     /**
      * Обновляет существующий гайд.
+     * @param int $id
+     * @param string $title
+     * @param string $slug
+     * @param string $difficulty_level
+     * @param string $content_url
+     * @param string|null $contentJson - контент Editor.js
+     * @return bool
      */
-    public function update($id, $title, $slug, $difficulty_level, $content_text, $content_url) {
-        $sql = "UPDATE guides SET title = ?, slug = ?, difficulty_level = ?, content_text = ?, content_url = ? WHERE id = ?";
+    public function update($id, $title, $slug, $difficulty_level, $content_url, $contentJson = null) { // ИЗМЕНЕНО: content_text УДАЛЕН
+        $sql = "UPDATE guides SET title = ?, slug = ?, difficulty_level = ?, content_url = ?, content_json = ? WHERE id = ?"; // ИЗМЕНЕНО: content_text УДАЛЕН из SQL
         $stmt = $this->pdo->prepare($sql);
-        return $stmt->execute([$title, $slug, $difficulty_level, $content_text, $content_url, $id]);
+        return $stmt->execute([$title, $slug, $difficulty_level, $content_url, $contentJson, $id]); // ИЗМЕНЕНО: content_text УДАЛЕН из execute
     }
-    // --- КОНЕЦ ИЗМЕНЕНИЙ ---
 
-    // --- БЕЗ ИЗМЕНЕНИЙ ---
     public function delete($id) {
         $stmt = $this->pdo->prepare("DELETE FROM guides WHERE id = ?");
         return $stmt->execute([$id]);
     }
 
     public function getLatest($limit = 5) {
-        // Мы обновим этот метод, чтобы он тоже получал категории
         $sql = "SELECT g.*, GROUP_CONCAT(cat.name) as categories
                 FROM guides g
                 LEFT JOIN guide_categories gc ON g.id = gc.guide_id
@@ -85,9 +90,7 @@ class Guide {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    // --- КОНЕЦ БЛОКА БЕЗ ИЗМЕНЕНИЙ ---
 
-    // --- НОВЫЕ МЕТОДЫ ---
     public function getCategoryIdsForGuide($guideId) {
         $stmt = $this->pdo->prepare("SELECT category_id FROM guide_categories WHERE guide_id = ?");
         $stmt->execute([$guideId]);
@@ -105,5 +108,4 @@ class Guide {
             }
         }
     }
-    // --- КОНЕЦ НОВЫХ МЕТОДОВ ---
 }

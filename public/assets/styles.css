@@ -37,6 +37,7 @@ body {
     font-family: 'Raleway', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     background-color: var(--background-color);
     color: var(--primary-text-color);
+    overflow-x: hidden; /* Предотвращаем горизонтальную прокрутку */
 }
 
 /* 2. Стили для страницы авторизации */
@@ -182,6 +183,7 @@ a.forgot-password:hover {
 
 .app-layout {
     display: flex;
+    flex-direction: row; /* По умолчанию для больших экранов */
 }
 
 .sidebar {
@@ -193,6 +195,10 @@ a.forgot-password:hover {
     flex-direction: column;
     padding: 20px;
     position: fixed;
+    z-index: 100; /* Sidebar поверх контента */
+    top: 0;
+    left: 0;
+    transition: transform 0.3s ease-in-out; /* Для анимации открытия/закрытия */
 }
 
 .sidebar-header .logo {
@@ -441,6 +447,8 @@ a.forgot-password:hover {
 .lesson-content-area {
     flex-grow: 1;
     /* ИЗМЕНЕНО: Добавлены отступы по бокам */
+    padding-left: 24px; /* Отступ слева */
+    padding-right: 24px; /* Отступ справа */
     /* box-sizing: border-box; уже установлен глобально в * {} */
 }
 
@@ -2057,4 +2065,287 @@ h1 .favorite-toggle-btn.active svg {
    если он не .editorjs-viewer-container, но может влиять. */
 .lesson-description > *:first-child {
     margin-top: 0 !important;
+}
+
+/* =============================================== */
+/* АДАПТИВНЫЙ ДИЗАЙН (MOBILE)         */
+/* =============================================== */
+
+@media (max-width: 768px) {
+    /* Общие корректировки макета */
+    body {
+        font-size: 15px;
+    }
+
+    /* 3. Стили для личного кабинета (App Layout) */
+    .app-layout {
+        flex-direction: column; /* Сайдбар будет сверху или снизу основного контента */
+    }
+
+    .sidebar {
+        position: static; /* Сайдбар больше не фиксирован */
+        width: 100%; /* Занимает всю ширину */
+        height: auto; /* Высота по контенту */
+        border-right: none;
+        border-bottom: 1px solid var(--border-color); /* Граница снизу */
+        padding: 15px 20px; /* Уменьшаем padding */
+        z-index: 90; /* Немного ниже, чем для Desktop */
+    }
+
+    .main-content {
+        margin-left: 0; /* Убираем отступ, так как сайдбар не фиксирован */
+        width: 100%; /* Занимает всю ширину */
+        padding: 20px; /* Уменьшаем основной padding */
+    }
+
+    .sidebar-header {
+        text-align: center;
+    }
+
+    .nav-menu {
+        margin-top: 20px; /* Уменьшаем отступ сверху */
+        display: flex;
+        flex-wrap: wrap; /* Разрешаем пунктам меню переноситься */
+        justify-content: center; /* Центрируем пункты меню */
+        gap: 10px; /* Отступ между пунктами меню */
+    }
+
+    .nav-item {
+        padding: 8px 12px; /* Уменьшаем padding для пунктов меню */
+        margin-bottom: 0; /* Убираем нижний отступ */
+        font-size: 14px; /* Уменьшаем шрифт */
+    }
+
+    /* 4. Стили для контента Дашборда */
+    .promo-block {
+        flex-direction: column; /* Элементы блока промо будут располагаться вертикально */
+        align-items: flex-start; /* Выравниваем по левому краю */
+        text-align: left;
+        padding: 20px; /* Уменьшаем padding */
+        gap: 20px; /* Уменьшаем отступ между элементами */
+    }
+
+    .promo-thumbnail img {
+        width: 100%; /* Изображение займет всю ширину */
+        height: auto;
+    }
+
+    .promo-details {
+        width: 100%;
+    }
+
+    .promo-details h2 {
+        font-size: 20px; /* Уменьшаем размер заголовка */
+        margin-bottom: 8px;
+    }
+
+    .promo-details p {
+        font-size: 14px; /* Уменьшаем размер текста */
+        margin-bottom: 15px;
+    }
+
+    .content-section {
+        margin-top: 30px; /* Уменьшаем отступ между секциями */
+    }
+
+    .section-title {
+        font-size: 20px; /* Уменьшаем размер заголовка секции */
+        margin-bottom: 15px;
+    }
+
+    .content-carousel {
+        grid-template-columns: 1fr; /* Одна колонка на мобильных */
+    }
+
+    /* 5. Стили для страницы курса */
+    .course-page-wrapper {
+        flex-direction: column; /* Основной контент и сайдбар курса будут вертикально */
+        gap: 20px; /* Уменьшаем отступ */
+    }
+
+    .course-main-info {
+        width: 100%; /* Занимает всю ширину */
+    }
+
+    .course-title {
+        font-size: 28px; /* Уменьшаем размер заголовка курса */
+    }
+
+    .course-description {
+        font-size: 15px; /* Уменьшаем размер текста */
+        max-width: 100%; /* Убираем ограничение ширины по символам */
+    }
+
+    .course-meta {
+        flex-direction: column; /* Элементы мета-информации вертикально */
+        gap: 10px;
+    }
+
+    .course-sidebar {
+        width: 100%; /* Сайдбар курса займет всю ширину */
+    }
+
+    .course-progress, .course-content-list {
+        padding: 15px; /* Уменьшаем padding */
+        margin-bottom: 15px;
+    }
+
+    /* 6. Стили для отображения контента урока */
+    .lesson-content-area {
+        padding-left: 15px; /* Уменьшаем отступы по бокам */
+        padding-right: 15px;
+    }
+
+    .lesson-header {
+        margin-bottom: 15px;
+    }
+    .lesson-title {
+        font-size: 24px;
+    }
+
+    .lesson-description {
+        margin-top: 20px;
+        padding: 20px; /* Уменьшаем padding */
+    }
+    .lesson-description h3 {
+        font-size: 18px; /* Уменьшаем размер заголовка */
+    }
+
+    /* 8. Стили для страницы профиля */
+    .profile-form {
+        max-width: 100%; /* Занимает всю ширину на мобильных */
+    }
+
+    .form-section {
+        padding: 20px; /* Уменьшаем padding */
+        margin-bottom: 20px;
+    }
+
+    .form-section .section-title {
+        font-size: 18px;
+    }
+
+    .profile-form .btn-primary {
+        width: 100%; /* Кнопка во всю ширину */
+        padding: 12px;
+        font-size: 16px;
+    }
+
+    /* 9. Стили для каталога и карточек */
+    .catalog-header {
+        flex-direction: column; /* Заголовок каталога вертикально */
+        align-items: flex-start;
+        margin-bottom: 20px;
+    }
+
+    .catalog-grid {
+        grid-template-columns: 1fr; /* Одна колонка для карточек */
+    }
+
+    .course-card {
+        width: 100%; /* Карточка занимает всю ширину */
+        max-width: none;
+    }
+
+    /* 11. Стили для таблиц и кнопок в Админ-панели */
+    .admin-table-container {
+        padding: 10px;
+        overflow-x: auto; /* Позволяем таблице прокручиваться горизонтально */
+    }
+
+    .admin-table {
+        min-width: 600px; /* Минимальная ширина таблицы, чтобы избежать сжатия */
+    }
+
+    .admin-table th, .admin-table td {
+        padding: 8px 10px;
+        font-size: 13px;
+    }
+
+    .admin-table td.actions {
+        flex-direction: column; /* Кнопки действий вертикально */
+        gap: 5px;
+    }
+
+    .btn {
+        padding: 10px 15px; /* Уменьшаем padding кнопок */
+        font-size: 14px;
+    }
+
+    .admin-header .btn {
+        padding: 8px 12px;
+    }
+
+    /* 13. Стили для контента и форм в админке */
+    .admin-card {
+        padding: 20px;
+    }
+
+    /* 22. Стили для страницы проверки ДЗ */
+    .check-header {
+        flex-direction: column;
+        align-items: flex-start;
+        margin-bottom: 20px;
+    }
+
+    .homework-check-container {
+        padding: 20px;
+    }
+
+    .check-actions {
+        flex-direction: column; /* Кнопки действий проверки ДЗ вертикально */
+        gap: 10px;
+        padding-top: 20px;
+    }
+
+    .check-buttons {
+        flex-direction: column; /* Кнопки "Принять/Отклонить" вертикально */
+        gap: 10px;
+    }
+
+    /* 24. Стили для страницы "Мои ответы" */
+    .answers-grid {
+        grid-template-columns: 1fr; /* Одна колонка */
+    }
+
+    /* Стили для модального окна */
+    .modal-content {
+        padding: 20px;
+        margin: 20px; /* Отступы от краев экрана */
+    }
+    .modal-header h2 {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Дополнительные корректировки для очень маленьких экранов */
+    body {
+        font-size: 14px;
+    }
+
+    .main-content {
+        padding: 15px;
+    }
+
+    .lesson-content-area {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .lesson-title {
+        font-size: 22px;
+    }
+    .lesson-subtitle {
+        font-size: 14px;
+    }
+
+    .course-progress h4, .course-content-list h4 {
+        font-size: 16px;
+    }
+
+    .tag-checkbox-group span {
+        padding: 6px 12px; /* Чуть меньше теги */
+        font-size: 13px;
+    }
 }

@@ -5,20 +5,16 @@
 
         <main class="main-content">
             <div class="content-wrapper">
-                <div class="catalog-header">
-                    <h1 class="page-title">Курсы</h1>
-                </div>
-
+                <h1 class="page-title">Все курсы</h1>
                 <div class="catalog-grid">
-                    <?php if (!empty($courses)): ?>
-                        <?php foreach ($courses as $course): ?>
-                            <?php $this->render('partials/course-card', ['course' => $course]); ?>
-                        <?php endforeach; ?>
-                    <?php else: ?>
-                        <p>Курсы пока не добавлены.</p>
-                    <?php endif; ?>
+                    <?php foreach ($courses as $course): ?>
+                        <?php // Передаем ID избранных в каждую карточку
+                        $this->render('partials/course-card', [
+                            'course' => $course,
+                            'favoritedCourseIds' => $favoritedCourseIds
+                        ]); ?>
+                    <?php endforeach; ?>
                 </div>
-
             </div>
         </main>
     </div>

@@ -12,8 +12,11 @@
                     <?php if (!empty($favoritedCourses)): ?>
                         <div class="catalog-grid">
                             <?php foreach ($favoritedCourses as $course): ?>
-                                <?php // Здесь мы используем уже существующий шаблон для карточки курса ?>
-                                <?php $this->render('partials/course-card', ['course' => $course]); ?>
+                                <?php // Передаем ID избранных в каждую карточку
+                                $this->render('partials/course-card', [
+                                    'course' => $course,
+                                    'favoritedCourseIds' => $favoritedCourseIds
+                                ]); ?>
                             <?php endforeach; ?>
                         </div>
                     <?php else: ?>

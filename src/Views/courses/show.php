@@ -18,6 +18,8 @@ $hasText = $activeLesson && !empty(trim($activeLesson['content_text'] ?? ''));
 $isSubmitted = !empty($userAnswer);
 $isLocked = $isSubmitted && in_array($userAnswer['status'], ['submitted', 'checked']);
 // --- Конец исправления ---
+
+$isLessonFavorite = $activeLesson && isset($favoritedLessonIds) && in_array($activeLesson['id'], $favoritedLessonIds);
 ?>
 
     <div class="app-layout">
@@ -25,13 +27,24 @@ $isLocked = $isSubmitted && in_array($userAnswer['status'], ['submitted', 'check
 
         <main class="main-content">
             <div class="course-page-wrapper">
-
                 <div class="lesson-content-area">
                     <div class="lesson-header">
                         <a href="/dashboard" class="back-link">← Назад к курсам</a>
-                        <h1 class="lesson-title">
+                        <h1 class="lesson-title" style="display: flex; align-items: center;">
+                            <?php if ($activeLesson): ?>
+                                <button
+                                        class="favorite-toggle-btn <?= $isLessonFavorite ? 'active' : '' ?>"
+                                        data-item-id="<?= $activeLesson['id'] ?>"
+                                        data-item-type="lesson"
+                                        title="Добавить урок в избранное">
+                                    <svg viewBox="0 0 24 24"><path d="M12,21.35L10.55,20.03C5.4,15.36 2,12.27 2,8.5C2,5.41 4.42,3 7.5,3C9.24,3 10.91,3.81 12,5.08C13.09,3.81 14.76,3 16.5,3C19.58,3 22,5.41 22,8.5C22,12.27 18.6,15.36 13.45,20.03L12,21.35Z"></path></svg>
+                                </button>
+                            <?php endif; ?>
+
+                            <span>
                             <?= htmlspecialchars($course['title']) ?>:
                             <span class="lesson-subtitle"><?= $activeLesson ? htmlspecialchars($activeLesson['title']) : 'Выберите урок' ?></span>
+                        </span>
                         </h1>
                     </div>
 

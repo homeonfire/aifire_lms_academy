@@ -1,6 +1,10 @@
 <?php
 // src/Views/partials/course-card.php
 
+// Определяем, находится ли курс в избранном.
+// Переменная $favoritedCourseIds должна приходить из контроллера.
+$isFavorite = isset($favoritedCourseIds) && in_array($course['id'], $favoritedCourseIds);
+
 $difficultyLevels = [
     'beginner' => 'Начинающий',
     'intermediate' => 'Средний',
@@ -9,33 +13,39 @@ $difficultyLevels = [
 $difficultyText = $difficultyLevels[$course['difficulty_level']] ?? 'Не указан';
 $categories = !empty($course['categories']) ? explode(',', $course['categories']) : [];
 
-// Динамические URL для изображений. Замените на ваши реальные данные.
-// Если $course['image_url'] не существует, будет использоваться placehold.co
 $imageUrl = $course['image_url'] ?? 'https://placehold.co/300x170/2A2A2A/FFFFFF?text=+';
-$companyLogoUrl = $course['company_logo'] ?? 'https://placehold.co/48x48/000/FFFFFF?text=B'; // Пример
-$instructorAvatar1 = $course['instructor_avatar_1'] ?? 'https://placehold.co/40x40/555/FFFFFF?text=I1'; // Пример
-$instructorAvatar2 = $course['instructor_avatar_2'] ?? 'https://placehold.co/40x40/555/FFFFFF?text=I2'; // Пример
+$companyLogoUrl = $course['company_logo'] ?? 'https://placehold.co/48x48/000/FFFFFF?text=B';
 ?>
-<a href="/course/<?= $course['id'] ?>" class="course-card-link">
-    <div class="course-card">
-        <div class="course-card-image-wrapper">
-            <img src="<?= htmlspecialchars($imageUrl) ?>" alt="<?= htmlspecialchars($course['title']) ?>">
-            <div class="course-card-overlay-icons">
-                <?php if ($companyLogoUrl): ?>
-                    <img src="<?= htmlspecialchars($companyLogoUrl) ?>" alt="Company Logo" class="overlay-icon company-logo">
+<div class="course-card-wrapper" style="position: relative;">
+    <a href="/course/<?= $course['id'] ?>" class="course-card-link">
+        <div class="course-card">
+            <div class="course-card-image-wrapper">
+                <img src="<?= htmlspecialchars($imageUrl) ?>" alt="<?= htmlspecialchars($course['title']) ?>">
+                <div class="course-card-overlay-icons">
+                    <?php if ($companyLogoUrl): ?>
+                        <img src="<?= htmlspecialchars($companyLogoUrl) ?>" alt="Company Logo" class="overlay-icon company-logo">
+                    <?php endif; ?>
+                </div>
+            </div>
+
+            <div class="course-card-content">
+                <h4 class="course-card-title"><?= htmlspecialchars($course['title']) ?></h4>
+                <span class="course-card-difficulty tag-difficulty-<?= $course['difficulty_level'] ?>"><?= $difficultyText ?></span>
+
+                <?php if (!empty($categories)): ?>
+                    <div class="course-card-categories">
+                        <?= htmlspecialchars(implode(' | ', array_slice($categories, 0, 3))) ?><?php if (count($categories) > 3) echo '...'; ?>
+                    </div>
                 <?php endif; ?>
             </div>
         </div>
+    </a>
 
-        <div class="course-card-content">
-            <h4 class="course-card-title"><?= htmlspecialchars($course['title']) ?></h4>
-            <span class="course-card-difficulty tag-difficulty-<?= $course['difficulty_level'] ?>"><?= $difficultyText ?></span>
-
-            <?php if (!empty($categories)): ?>
-                <div class="course-card-categories">
-                    <?= htmlspecialchars(implode(' | ', array_slice($categories, 0, 3))) ?><?php if (count($categories) > 3) echo '...'; ?>
-                </div>
-            <?php endif; ?>
-        </div>
-    </div>
-</a>
+    <button
+            class="favorite-toggle-btn <?= $isFavorite ? 'active' : '' ?>"
+            data-item-id="<?= $course['id'] ?>"
+            data-item-type="course"
+            title="Добавить в избранное">
+        <svg viewBox="0 0 24 24"><path d="M12,21.35L10.55,20.03C5.4,15.36 2,12.27 2,8.5C2,5.41 4.42,3 7.5,3C9.24,3 10.91,3.81 12,5.08C13.09,3.81 14.76,3 16.5,3C19.58,3 22,5.41 22,8.5C22,12.27 18.6,15.36 13.45,20.03L12,21.35Z"></path></svg>
+    </button>
+</div>

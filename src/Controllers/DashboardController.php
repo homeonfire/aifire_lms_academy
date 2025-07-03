@@ -4,25 +4,29 @@
 class DashboardController extends Controller {
 
     public function __construct() {
-        if (!isset($_SESSION['user'])) { // ИСПРАВЛЕНО
+        if (!isset($_SESSION['user'])) {
             header('Location: /login');
             exit();
         }
     }
 
     public function index() {
-        // Подключаем модель курсов
         $courseModel = new Course();
+        $favoriteModel = new Favorite(); // Создаем экземпляр новой модели
+        $userId = $_SESSION['user']['id'];
 
-        // Получаем данные из модели
+        // Получаем ID всех курсов в избранном
+        $favoritedCoursesRaw = $favoriteModel->getFavoritedCourses($userId);
+        $favoritedCourseIds = array_column($favoritedCoursesRaw, 'id');
+
         $featuredCourse = $courseModel->getFeaturedCourse();
-        $latestCourses = $courseModel->getLatest(5); // Получаем 5 последних курсов
+        $latestCourses = $courseModel->getLatest(5);
 
-        // Передаем данные в шаблон
         $data = [
             'title' => 'Дашборд',
             'featuredCourse' => $featuredCourse,
-            'latestCourses' => $latestCourses
+            'latestCourses' => $latestCourses,
+            'favoritedCourseIds' => $favoritedCourseIds // Передаем ID в шаблон
         ];
 
         $this->render('dashboard/index', $data);

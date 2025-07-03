@@ -52,10 +52,14 @@ class FavoriteController extends Controller {
         $favoritedCourses = $this->favoriteModel->getFavoritedCourses($userId);
         $favoritedLessons = $this->favoriteModel->getFavoritedLessons($userId);
 
+        // Получаем ID курсов, чтобы передать их в partial
+        $favoritedCourseIds = array_column($favoritedCourses, 'id');
+
         $data = [
             'title' => 'Мое избранное',
             'favoritedCourses' => $favoritedCourses,
-            'favoritedLessons' => $favoritedLessons
+            'favoritedLessons' => $favoritedLessons,
+            'favoritedCourseIds' => $favoritedCourseIds // Добавляем ID в данные для вида
         ];
 
         $this->render('favorites/index', $data);

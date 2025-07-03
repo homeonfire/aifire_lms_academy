@@ -15,9 +15,18 @@ class CourseController extends Controller {
 
     public function index() {
         $courses = $this->courseModel->getAll();
+
+        // --- Добавляем логику избранного ---
+        $favoriteModel = new Favorite();
+        $userId = $_SESSION['user']['id'];
+        $favoritedCoursesRaw = $favoriteModel->getFavoritedCourses($userId);
+        $favoritedCourseIds = array_column($favoritedCoursesRaw, 'id');
+        // --- Конец логики ---
+
         $data = [
             'title' => 'Все курсы',
-            'courses' => $courses
+            'courses' => $courses,
+            'favoritedCourseIds' => $favoritedCourseIds // Передаем ID в шаблон
         ];
         $this->render('courses/index', $data);
     }
@@ -51,11 +60,8 @@ class CourseController extends Controller {
             }
         }
 
-        // --- ИСПРАВЛЕНИЕ: Инициализируем переменные здесь ---
         $homework = null;
         $userAnswer = null;
-        // ----------------------------------------------------
-
         if ($activeLesson) {
             $homeworkModel = new Homework();
             $homeworkAnswerModel = new HomeworkAnswer();
@@ -71,6 +77,12 @@ class CourseController extends Controller {
         $completedCount = count($completedLessonIds);
         $progressPercentage = ($totalLessons > 0) ? round(($completedCount / $totalLessons) * 100) : 0;
 
+        // --- ДОБАВЛЯЕМ ЛОГИКУ ИЗБРАННОГО ---
+        $favoriteModel = new Favorite();
+        $favoritedLessonsRaw = $favoriteModel->getFavoritedLessons($_SESSION['user']['id']);
+        $favoritedLessonIds = array_column($favoritedLessonsRaw, 'id');
+        // --- КОНЕЦ ЛОГИКИ ---
+
         $data = [
             'title' => $course['title'],
             'course' => $course,
@@ -78,7 +90,8 @@ class CourseController extends Controller {
             'homework' => $homework,
             'userAnswer' => $userAnswer,
             'progressPercentage' => $progressPercentage,
-            'completedLessonIds' => $completedLessonIds
+            'completedLessonIds' => $completedLessonIds,
+            'favoritedLessonIds' => $favoritedLessonIds // <-- Добавляем новую переменную
         ];
 
         $this->render('courses/show', $data);

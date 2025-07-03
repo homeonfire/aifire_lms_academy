@@ -1688,3 +1688,90 @@ a.answer-card-link {
     object-fit: cover;
     flex-shrink: 0; /* Гарантирует, что аватар не будет сжиматься */
 }
+
+/* Стили для кнопки "Добавить в избранное" */
+.favorite-toggle-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 10;
+    width: 36px;
+    height: 36px;
+    background-color: rgba(0, 0, 0, 0.4);
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.favorite-toggle-btn:hover {
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+.favorite-toggle-btn svg {
+    width: 20px;
+    height: 20px;
+    fill: #ffffff;
+    transition: fill 0.2s, transform 0.2s;
+}
+
+/* Стиль для активной кнопки (когда в избранном) */
+.favorite-toggle-btn.active svg {
+    fill: #ff6b6b; /* Ярко-красный цвет для активного сердца */
+    transform: scale(1.1);
+}
+
+/* Уменьшаем кнопку "избранное" для списка уроков */
+.lesson-link {
+    flex-grow: 1; /* Позволяет ссылке занимать все доступное место */
+}
+
+li .favorite-toggle-btn.small-btn {
+    width: 28px;
+    height: 28px;
+    background-color: transparent; /* Делаем фон прозрачным по умолчанию */
+}
+
+li .favorite-toggle-btn.small-btn:hover {
+    background-color: rgba(0, 0, 0, 0.1); /* Легкий фон при наведении */
+}
+
+li .favorite-toggle-btn.small-btn svg {
+    width: 16px;
+    height: 16px;
+    fill: #888; /* Серый цвет для неактивного сердца */
+}
+
+li .favorite-toggle-btn.small-btn.active svg {
+    fill: #ff6b6b; /* Красный для активного */
+}
+
+/* Применяем flexbox к элементу списка для выравнивания */
+.module-item ul li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+h1 .favorite-toggle-btn {
+    position: static; /* Возвращаем кнопку в обычный поток документа */
+    display: inline-flex; /* Чтобы она вела себя как элемент строки */
+    vertical-align: middle; /* Выравниваем по центру строки */
+    background-color: transparent;
+}
+
+h1 .favorite-toggle-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+h1 .favorite-toggle-btn svg {
+    fill: #aaa;
+}
+
+h1 .favorite-toggle-btn.active svg {
+    fill: #ff6b6b;
+}

@@ -50,8 +50,12 @@ class Router {
                 (new MyAnswersController())->index();
                 break;
 
-            case $uri === '/profile':
+            case $uri === '/profile' && $method === 'GET':
                 (new ProfileController())->index();
+                break;
+
+            case $uri === '/profile/update' && $method === 'POST':
+                (new ProfileController())->update();
                 break;
 
             case $uri === '/homework/submit' && $method === 'POST':

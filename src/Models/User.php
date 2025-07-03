@@ -7,7 +7,6 @@ class User {
 
     public function __construct() {
         // Подключаем функцию и получаем соединение
-        require_once __DIR__ . '/../Config/database.php';
         $this->pdo = getDBConnection();
     }
 
@@ -58,7 +57,8 @@ class User {
             first_name = :first_name, 
             last_name = :last_name, 
             experience_level = :experience_level, 
-            preferred_skill_type = :preferred_skill_type 
+            preferred_skill_type = :preferred_skill_type,
+            avatar_path = :avatar_path
          WHERE id = :id"
         );
 
@@ -67,6 +67,7 @@ class User {
         $stmt->bindValue(':last_name', $data['last_name']);
         $stmt->bindValue(':experience_level', $data['experience_level']);
         $stmt->bindValue(':preferred_skill_type', $data['preferred_skill_type']);
+        $stmt->bindValue(':avatar_path', $data['avatar_path']);
         $stmt->bindValue(':id', $id, PDO::PARAM_INT);
 
         return $stmt->execute();

@@ -7,10 +7,18 @@
             <div class="content-wrapper">
                 <h1 class="page-title">Профиль</h1>
 
-                <form action="/profile/update" method="POST" class="profile-form">
+                <form action="/profile/update" method="POST" class="profile-form" enctype="multipart/form-data">
                     <div class="form-section">
                         <h3 class="section-title">Детали профиля</h3>
                         <p class="section-subtitle">Здесь вы можете обновить информацию о себе.</p>
+
+                        <div class="input-group">
+                            <label>Аватар</label>
+                            <div style="display: flex; align-items: center; gap: 20px;">
+                                <img src="<?= htmlspecialchars($user['avatar_path'] ?? '/public/assets/images/default-avatar.png') ?>" alt="Avatar" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover;">
+                                <input type="file" name="avatar" id="avatar">
+                            </div>
+                        </div>
 
                         <div class="input-group">
                             <label for="first_name">Имя</label>

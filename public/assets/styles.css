@@ -1675,4 +1675,16 @@ a.answer-card-link {
     color: #e0e0e0;
 }
 
+/* Стили для блока с аватаром в сайдбаре */
+.sidebar-profile-link {
+    justify-content: flex-start; /* Убираем растягивание */
+    gap: 12px; /* Добавляем отступ между аватаром и текстом */
+}
 
+.sidebar-profile-link img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0; /* Гарантирует, что аватар не будет сжиматься */
+}

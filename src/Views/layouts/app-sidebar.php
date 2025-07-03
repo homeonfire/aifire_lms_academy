@@ -8,9 +8,6 @@
         <a href="/my-answers" class="nav-item">Мои ответы</a>
         <a href="#" class="nav-item">Гайды</a>
         <a href="#" class="nav-item">Мастер-классы</a>
-
-
-
     </nav>
     <div class="sidebar-footer">
         <a href="#" class="nav-item theme-switcher-btn" id="theme-switcher-btn">
@@ -36,7 +33,11 @@
                 <span>Админ-панель</span>
             </a>
         <?php endif; ?>
-        <a href="/profile" class="nav-item">Профиль</a>
+
+        <a href="/profile" class="nav-item sidebar-profile-link">
+            <img src="<?= htmlspecialchars($_SESSION['user']['avatar_path'] ?? '/public/assets/images/default-avatar.png') ?>" alt="Avatar">
+            <span>Профиль</span>
+        </a>
         <a href="/logout" class="nav-item">Выход</a>
     </div>
 </aside>

@@ -6,6 +6,7 @@
         <a href="/dashboard" class="nav-item">Главная</a>
         <a href="/courses" class="nav-item">Курсы</a>
         <a href="/my-answers" class="nav-item">Мои ответы</a>
+        <a href="/favorites" class="nav-item">Мои закладки</a>
         <a href="#" class="nav-item">Гайды</a>
         <a href="#" class="nav-item">Мастер-классы</a>
     </nav>

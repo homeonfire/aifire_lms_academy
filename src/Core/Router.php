@@ -165,6 +165,19 @@ class Router {
                 (new AdminCategoryController())->delete($m[1]);
                 break;
 
+            case $uri === '/favorites' && $method === 'GET':
+                (new FavoriteController())->index();
+                break;
+
+            case $uri === '/favorite/toggle' && $method === 'POST':
+                (new FavoriteController())->toggle();
+                break;
+            // --- КОНЕЦ НОВЫХ РОУТОВ ---
+
+            case $uri === '/homework/submit' && $method === 'POST':
+                (new HomeworkController())->submit();
+                break;
+
             // --- Роут по умолчанию (404) ---
             default:
                 http_response_code(404);

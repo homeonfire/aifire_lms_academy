@@ -11,19 +11,20 @@
                 </div>
 
                 <div class="admin-card">
-                    <form action="/admin/lessons/save-content/<?= $lesson['id'] ?>" method="POST" class="admin-form">
+                    <form id="content-form" action="/admin/lessons/save-content/<?= $lesson['id'] ?>" method="POST" class="admin-form">
                         <input type="hidden" name="course_id" value="<?= $_GET['course_id'] ?? '' ?>">
 
                         <div class="input-group">
-                            <label for="content_url">Ссылка на видео (YouTube, Vimeo и др.)</label>
+                            <label for="content_url">Ссылка на видео</label>
                             <input type="url" id="content_url" name="content_url" value="<?= htmlspecialchars($lesson['content_url'] ?? '') ?>" placeholder="Оставьте пустым, если нет видео">
                         </div>
 
                         <div class="input-group">
-                            <label for="content_text">Текст урока</label>
-                            <textarea id="content_text" name="content_text" rows="15" placeholder="Оставьте пустым, если нет текста"><?= htmlspecialchars($lesson['content_text'] ?? '') ?></textarea>
-                            <small>Здесь вы можете использовать HTML-теги для форматирования.</small>
+                            <label>Текст урока</label>
+                            <textarea id="editorjs" style="border: 1px solid #e0e0e0; border-radius: 8px; padding: 10px; min-height: 300px;"></textarea>
+                            <input type="hidden" name="content_json" id="content_json_output">
                         </div>
+
                         <div class="input-group">
                             <label>Вопросы для домашнего задания</label>
                             <div id="homework-questions-container">
@@ -39,14 +40,6 @@
                             <button type="button" id="add-homework-question" class="btn btn-secondary" style="margin-top:10px;">+ Добавить вопрос</button>
                         </div>
 
-                        <script>
-                            document.getElementById('add-homework-question').addEventListener('click', function() {
-                                const container = document.getElementById('homework-questions-container');
-                                const inputDiv = document.createElement('div');
-                                inputDiv.innerHTML = '<input type="text" name="homework_questions[]" class="homework-question-input" placeholder="Новый вопрос">';
-                                container.appendChild(inputDiv);
-                            });
-                        </script>
                         <button type="submit" class="btn btn-primary">Сохранить контент</button>
                     </form>
                 </div>
@@ -54,4 +47,7 @@
         </main>
     </div>
 
+    <script>
+        window.editorData = <?= !empty($lesson['content_json']) ? $lesson['content_json'] : '{}' ?>;
+    </script>
 <?php $this->render('layouts/footer'); ?>

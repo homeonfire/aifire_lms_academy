@@ -92,8 +92,14 @@ class Router {
             case $uri === '/admin/courses':
                 (new AdminCourseController())->index();
                 break;
+            case $uri === '/admin/masterclasses': // <-- Добавлен новый путь
+                (new AdminCourseController())->index();
+                break;
 
             case $uri === '/admin/courses/new':
+                (new AdminCourseController())->new();
+                break;
+            case $uri === '/admin/masterclasses/new': // <-- Добавлен новый путь
                 (new AdminCourseController())->new();
                 break;
 
@@ -207,6 +213,51 @@ class Router {
 
             case $uri === '/homework/submit' && $method === 'POST':
                 (new HomeworkController())->submit();
+                break;
+
+            // --- Новые роуты для Мастер-классов ---
+            case $uri === '/masterclasses':
+                (new MasterclassController())->index();
+                break;
+
+            case preg_match('/^\/masterclass\/(\d+)\/lesson\/(\d+)$/', $uri, $m):
+                (new MasterclassController())->show($m[1], $m[2]);
+                break;
+
+            case preg_match('/^\/masterclass\/(\d+)$/', $uri, $m):
+                (new MasterclassController())->show($m[1]);
+                break;
+
+            case $uri === '/guides':
+                (new GuideController())->index();
+                break;
+
+            case preg_match('/^\/guides\/([a-z0-9-]+)$/', $uri, $m):
+                (new GuideController())->show($m[1]);
+                break;
+
+            case $uri === '/admin/guides':
+                (new AdminGuideController())->index();
+                break;
+
+            case $uri === '/admin/guides/new' && $method === 'GET':
+                (new AdminGuideController())->new();
+                break;
+
+            case $uri === '/admin/guides/create' && $method === 'POST':
+                (new AdminGuideController())->create();
+                break;
+
+            case preg_match('/^\/admin\/guides\/edit\/(\d+)$/', $uri, $m) && $method === 'GET':
+                (new AdminGuideController())->edit($m[1]);
+                break;
+
+            case preg_match('/^\/admin\/guides\/update\/(\d+)$/', $uri, $m) && $method === 'POST':
+                (new AdminGuideController())->update($m[1]);
+                break;
+
+            case preg_match('/^\/admin\/guides\/delete\/(\d+)$/', $uri, $m) && $method === 'GET':
+                (new AdminGuideController())->delete($m[1]);
                 break;
 
             // --- Роут по умолчанию (404) ---

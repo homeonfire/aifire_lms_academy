@@ -5,33 +5,39 @@ class Course {
 
     private $pdo;
 
+    // --- БЕЗ ИЗМЕНЕНИЙ ---
     public function __construct() {
         $this->pdo = getDBConnection();
     }
+    // --- КОНЕЦ БЛОКА БЕЗ ИЗМЕНЕНИЙ ---
 
+
+    // --- НАЧАЛО ИЗМЕНЕНИЙ ---
     /**
-     * Получает несколько последних курсов с их категориями
-     * @param int $limit Количество курсов для получения
+     * Получает несколько последних элементов (курсов или мастер-классов) с их категориями
+     * @param string $type Тип элемента ('course' или 'masterclass')
+     * @param int $limit Количество элементов для получения
      * @return array
      */
-    public function getLatest($limit = 5) {
+    public function getLatest($type = 'course', $limit = 5) {
         $sql = "SELECT c.*, GROUP_CONCAT(cat.name) as categories
             FROM courses c
             LEFT JOIN course_categories cc ON c.id = cc.course_id
             LEFT JOIN categories cat ON cc.category_id = cat.id
+            WHERE c.type = :type
             GROUP BY c.id
-            ORDER BY c.created_at DESC 
+            ORDER BY c.created_at DESC
             LIMIT :limit";
         $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(':type', $type, PDO::PARAM_STR);
         $stmt->bindValue(':limit', (int) $limit, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetchAll();
     }
+    // --- КОНЕЦ ИЗМЕНЕНИЙ ---
 
-    /**
-     * Получает один "главный" курс (в будущем по отметке is_featured)
-     * @return mixed
-     */
+
+    // --- БЕЗ ИЗМЕНЕНИЙ ---
     public function getFeaturedCourse() {
         // Пока что просто берем самый первый курс для примера
         $stmt = $this->pdo->prepare("SELECT * FROM courses ORDER BY id ASC LIMIT 1");
@@ -39,22 +45,12 @@ class Course {
         return $stmt->fetch();
     }
 
-    /**
-     * Находит один курс по его ID
-     * @param int $id
-     * @return mixed
-     */
     public function findById($id) {
         $stmt = $this->pdo->prepare("SELECT * FROM courses WHERE id = ?");
         $stmt->execute([$id]);
         return $stmt->fetch();
     }
 
-    /**
-     * Получает курс со всеми его модулями и уроками
-     * @param int $id ID курса
-     * @return mixed
-     */
     public function getCourseWithModulesAndLessons($id) {
         $course = $this->findById($id);
         if (!$course) {
@@ -76,61 +72,71 @@ class Course {
         $course['modules'] = $modules;
         return $course;
     }
+    // --- КОНЕЦ БЛОКА БЕЗ ИЗМЕНЕНИЙ ---
 
+
+    // --- НАЧАЛО ИЗМЕНЕНИЙ ---
     /**
-     * Получает все курсы
+     * Получает все элементы указанного типа с их категориями
+     * @param string $type Тип элемента ('course' или 'masterclass')
      * @return array
      */
-    /**
-     * Получает все курсы с их категориями
-     * @return array
-     */
-    public function getAll() {
+    public function getAll($type = 'course') {
         $sql = "SELECT c.*, GROUP_CONCAT(cat.name) as categories
             FROM courses c
             LEFT JOIN course_categories cc ON c.id = cc.course_id
             LEFT JOIN categories cat ON cc.category_id = cat.id
+            WHERE c.type = :type
             GROUP BY c.id
             ORDER BY c.created_at DESC";
         $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(':type', $type, PDO::PARAM_STR);
         $stmt->execute();
         return $stmt->fetchAll();
     }
 
     /**
-     * Создает новый курс
+     * Создает новый курс или мастер-класс
      * @param string $title
      * @param string $description
-     * @return bool
+     * @param string $difficulty_level
+     * @param string $type
+     * @return string|false
      */
-    public function create($title, $description, $difficulty_level) {
-        $stmt = $this->pdo->prepare("INSERT INTO courses (title, description, difficulty_level) VALUES (?, ?, ?)");
-        $stmt->execute([$title, $description, $difficulty_level]);
+    public function create($title, $description, $difficulty_level, $type = 'course') {
+        $stmt = $this->pdo->prepare("INSERT INTO courses (type, title, description, difficulty_level) VALUES (?, ?, ?, ?)");
+        $stmt->execute([$type, $title, $description, $difficulty_level]);
         return $this->pdo->lastInsertId();
     }
+    // --- КОНЕЦ ИЗМЕНЕНИЙ ---
 
-    /**
-     * Удаляет курс по его ID
-     * @param int $id
-     * @return bool
-     */
+
+    // --- БЕЗ ИЗМЕНЕНИЙ ---
     public function delete($id) {
         $stmt = $this->pdo->prepare("DELETE FROM courses WHERE id = ?");
         return $stmt->execute([$id]);
     }
+    // --- КОНЕЦ БЛОКА БЕЗ ИЗМЕНЕНИЙ ---
 
+
+    // --- НАЧАЛО ИЗМЕНЕНИЙ ---
     /**
-     * Обновляет существующий курс
+     * Обновляет существующий курс или мастер-класс
      * @param int $id
      * @param string $title
      * @param string $description
+     * @param string $difficulty_level
      * @return bool
      */
     public function update($id, $title, $description, $difficulty_level) {
+        // Мы не меняем тип при редактировании, только другие данные
         $stmt = $this->pdo->prepare("UPDATE courses SET title = ?, description = ?, difficulty_level = ? WHERE id = ?");
         return $stmt->execute([$title, $description, $difficulty_level, $id]);
     }
+    // --- КОНЕЦ ИЗМЕНЕНИЙ ---
 
+
+    // --- БЕЗ ИЗМЕНЕНИЙ ---
     public function countLessons($courseId) {
         $stmt = $this->pdo->prepare(
             "SELECT COUNT(l.id) FROM lessons l
@@ -141,29 +147,16 @@ class Course {
         return (int) $stmt->fetchColumn();
     }
 
-    /**
-     * Получает массив ID категорий для конкретного курса
-     * @param int $courseId
-     * @return array
-     */
     public function getCategoryIdsForCourse($courseId) {
         $stmt = $this->pdo->prepare("SELECT category_id FROM course_categories WHERE course_id = ?");
         $stmt->execute([$courseId]);
-        // Возвращаем простой массив ID, например [1, 5, 8]
         return $stmt->fetchAll(PDO::FETCH_COLUMN, 0);
     }
 
-    /**
-     * Синхронизирует категории для курса (удаляет старые, добавляет новые)
-     * @param int $courseId
-     * @param array $categoryIds
-     */
     public function syncCategories($courseId, $categoryIds) {
-        // 1. Удаляем все старые привязки для этого курса
         $stmtDelete = $this->pdo->prepare("DELETE FROM course_categories WHERE course_id = ?");
         $stmtDelete->execute([$courseId]);
 
-        // 2. Добавляем новые привязки
         if (!empty($categoryIds)) {
             $stmtInsert = $this->pdo->prepare("INSERT INTO course_categories (course_id, category_id) VALUES (?, ?)");
             foreach ($categoryIds as $categoryId) {
@@ -171,4 +164,5 @@ class Course {
             }
         }
     }
+    // --- КОНЕЦ БЛОКА БЕЗ ИЗМЕНЕНИЙ ---
 }

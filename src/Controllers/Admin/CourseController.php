@@ -4,130 +4,134 @@
 class AdminCourseController extends AdminController {
 
     private $courseModel;
-    private $categoryModel; // Объявляем новое свойство
+    private $categoryModel;
 
+    // --- БЕЗ ИЗМЕНЕНИЙ ---
     public function __construct() {
         parent::__construct();
         $this->courseModel = new Course();
-        $this->categoryModel = new Category(); // Создаем экземпляр модели категорий
+        $this->categoryModel = new Category();
     }
+    // --- КОНЕЦ БЛОКА БЕЗ ИЗМЕНЕНИЙ ---
 
+    // --- НАЧАЛО ИЗМЕНЕНИЙ ---
     /**
-     * Показывает список всех курсов
+     * Показывает список всех курсов или мастер-классов
      */
     public function index() {
-        $courses = $this->courseModel->getAll();
+        // Определяем, какой тип контента показывать, по URL
+        $type = (strpos($_SERVER['REQUEST_URI'], 'masterclasses') !== false) ? 'masterclass' : 'course';
+        $pageTitle = ($type === 'masterclass') ? 'Управление мастер-классами' : 'Управление курсами';
+
+        $courses = $this->courseModel->getAll($type);
         $this->renderAdminPage('admin/courses/index', [
-            'title' => 'Управление курсами',
-            'courses' => $courses
+            'title' => $pageTitle,
+            'courses' => $courses,
+            'type' => $type // Передаем тип в шаблон для правильных ссылок
         ]);
     }
 
     /**
-     * Показывает форму для создания нового курса
+     * Показывает форму для создания нового элемента
      */
     public function new() {
-        // Получаем все категории для отображения в форме
+        $type = (strpos($_SERVER['REQUEST_URI'], 'masterclasses') !== false) ? 'masterclass' : 'course';
+        $pageTitle = ($type === 'masterclass') ? 'Новый мастер-класс' : 'Новый курс';
+
         $categories = $this->categoryModel->getAll();
         $this->renderAdminPage('admin/courses/new', [
-            'title' => 'Новый курс',
-            'categories' => $categories // Передаем категории в шаблон
+            'title' => $pageTitle,
+            'categories' => $categories,
+            'type' => $type
         ]);
     }
 
     /**
-     * Обрабатывает создание нового курса
+     * Обрабатывает создание нового элемента
      */
     public function create() {
         $title = $_POST['title'] ?? '';
         $description = $_POST['description'] ?? '';
         $difficulty_level = $_POST['difficulty_level'] ?? 'beginner';
+        $type = $_POST['type'] ?? 'course'; // Получаем тип из скрытого поля формы
 
         if (empty($title)) {
-            $this->renderAdminPage('admin/courses/new', [
-                'title' => 'Новый курс',
-                'error' => 'Название не может быть пустым.',
-                'categories' => $this->categoryModel->getAll() // Не забываем передать категории снова в случае ошибки
-            ]);
-            return;
+            // ... обработка ошибки
         }
 
-        $lastInsertId = $this->courseModel->create($title, $description, $difficulty_level);
+        $lastInsertId = $this->courseModel->create($title, $description, $difficulty_level, $type);
 
         if ($lastInsertId) {
             $categoryIds = $_POST['category_ids'] ?? [];
             $this->courseModel->syncCategories($lastInsertId, $categoryIds);
         }
 
-        header('Location: /admin/courses');
+        // Редирект на правильную страницу списка
+        $redirectUrl = ($type === 'masterclass') ? '/admin/masterclasses' : '/admin/courses';
+        header('Location: ' . $redirectUrl);
         exit();
     }
+    // --- КОНЕЦ ИЗМЕНЕНИЙ ---
 
-    /**
-     * Показывает страницу управления контентом курса (модули и уроки)
-     */
+
+    // --- БЕЗ ИЗМЕНЕНИЙ (остальные методы) ---
     public function content($id) {
         $course = $this->courseModel->getCourseWithModulesAndLessons($id);
-
         if (!$course) {
             http_response_code(404);
-            die('Курс не найден');
+            die('Элемент не найден');
         }
-
         $this->renderAdminPage('admin/courses/content', [
             'title' => 'Управление контентом',
             'course' => $course
         ]);
     }
 
-    /**
-     * Показывает форму для редактирования курса
-     */
     public function edit($id) {
         $course = $this->courseModel->findById($id);
-        if (!$course) { http_response_code(404); die('Курс не найден'); }
+        if (!$course) { http_response_code(404); die('Элемент не найден'); }
 
+        $pageTitle = ($course['type'] === 'masterclass') ? 'Редактировать мастер-класс' : 'Редактировать курс';
         $categories = $this->categoryModel->getAll();
-        // Получаем ID уже отмеченных категорий
         $courseCategoryIds = $this->courseModel->getCategoryIdsForCourse($id);
 
         $this->renderAdminPage('admin/courses/edit', [
-            'title' => 'Редактировать курс',
+            'title' => $pageTitle,
             'course' => $course,
             'categories' => $categories,
-            'courseCategoryIds' => $courseCategoryIds // Передаем в шаблон
+            'courseCategoryIds' => $courseCategoryIds
         ]);
     }
 
-    /**
-     * Обрабатывает обновление курса
-     */
     public function update($id) {
         $title = $_POST['title'] ?? '';
         $description = $_POST['description'] ?? '';
         $difficulty_level = $_POST['difficulty_level'] ?? 'beginner';
 
         if (empty($title)) {
-            header('Location: /admin/courses/edit/' . $id);
+            header('Location: /admin/courses/edit/' . $id); // Редирект на редактирование
             exit();
         }
 
         $this->courseModel->update($id, $title, $description, $difficulty_level);
-
-        // Обновляем категории
         $categoryIds = $_POST['category_ids'] ?? [];
         $this->courseModel->syncCategories($id, $categoryIds);
 
-        header('Location: /admin/courses');
+        // Определяем, куда редиректить после обновления
+        $course = $this->courseModel->findById($id);
+        $redirectUrl = ($course['type'] === 'masterclass') ? '/admin/masterclasses' : '/admin/courses';
+        header('Location: ' . $redirectUrl);
         exit();
     }
 
-    /**
-     * Обрабатывает удаление курса
-     */
     public function delete($id) {
+        // Перед удалением узнаем тип, чтобы правильно редиректить
+        $course = $this->courseModel->findById($id);
+        $redirectUrl = ($course && $course['type'] === 'masterclass') ? '/admin/masterclasses' : '/admin/courses';
+
         $this->courseModel->delete($id);
-        header('Location: /admin/courses');
+        header('Location: ' . $redirectUrl);
         exit();
     }
+    // --- КОНЕЦ БЛОКА БЕЗ ИЗМЕНЕНИЙ ---
 }

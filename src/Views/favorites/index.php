@@ -12,8 +12,7 @@
                     <?php if (!empty($favoritedCourses)): ?>
                         <div class="catalog-grid">
                             <?php foreach ($favoritedCourses as $course): ?>
-                                <?php // Передаем ID избранных в каждую карточку
-                                $this->render('partials/course-card', [
+                                <?php $this->render('partials/course-card', [
                                     'course' => $course,
                                     'favoritedCourseIds' => $favoritedCourseIds
                                 ]); ?>
@@ -25,9 +24,25 @@
                 </section>
 
                 <section class="content-section">
+                    <h3 class="section-title">Избранные мастер-классы (<?= count($favoritedMasterclasses) ?>)</h3>
+                    <?php if (!empty($favoritedMasterclasses)): ?>
+                        <div class="catalog-grid">
+                            <?php foreach ($favoritedMasterclasses as $course): ?>
+                                <?php // Переиспользуем карточку курса ?>
+                                <?php $this->render('partials/course-card', [
+                                    'course' => $course,
+                                    'favoritedCourseIds' => $favoritedCourseIds
+                                ]); ?>
+                            <?php endforeach; ?>
+                        </div>
+                    <?php else: ?>
+                        <p>Вы еще не добавляли мастер-классы в избранное. <a href="/masterclasses">Посмотреть все мастер-классы</a>.</p>
+                    <?php endif; ?>
+                </section>
+                <section class="content-section">
                     <h3 class="section-title">Избранные уроки (<?= count($favoritedLessons) ?>)</h3>
                     <?php if (!empty($favoritedLessons)): ?>
-                        <div class="answers-grid"> <?php // Используем существующий стиль для карточек ?>
+                        <div class="answers-grid">
                             <?php foreach ($favoritedLessons as $lesson): ?>
                                 <a href="/course/<?= $lesson['course_id'] ?>/lesson/<?= $lesson['id'] ?>" class="answer-card-link">
                                     <div class="answer-card">
@@ -40,6 +55,22 @@
                         </div>
                     <?php else: ?>
                         <p>Вы еще не добавляли уроки в избранное.</p>
+                    <?php endif; ?>
+                </section>
+
+                <section class="content-section">
+                    <h3 class="section-title">Избранные гайды (<?= count($favoritedGuides) ?>)</h3>
+                    <?php if (!empty($favoritedGuides)): ?>
+                        <div class="catalog-grid">
+                            <?php foreach ($favoritedGuides as $guide): ?>
+                                <?php $this->render('partials/guide-card', [
+                                    'guide' => $guide,
+                                    'favoritedGuideIds' => $favoritedGuideIds ?? []
+                                ]); ?>
+                            <?php endforeach; ?>
+                        </div>
+                    <?php else: ?>
+                        <p>Вы еще не добавляли гайды в избранное. <a href="/guides">Посмотреть все гайды</a>.</p>
                     <?php endif; ?>
                 </section>
 

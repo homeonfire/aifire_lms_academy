@@ -7,8 +7,8 @@
         <a href="/courses" class="nav-item">Курсы</a>
         <a href="/my-answers" class="nav-item">Мои ответы</a>
         <a href="/favorites" class="nav-item">Мои закладки</a>
-        <a href="#" class="nav-item">Гайды</a>
-        <a href="#" class="nav-item">Мастер-классы</a>
+        <a href="/guides" class="nav-item">Гайды</a>
+        <a href="/masterclasses" class="nav-item">Мастер-классы</a>
     </nav>
     <div class="sidebar-footer">
         <a href="#" class="nav-item theme-switcher-btn" id="theme-switcher-btn">

@@ -5,16 +5,22 @@
 
         <main class="main-content">
             <div class="content-wrapper">
-                <h1 class="page-title">Все курсы</h1>
-                <div class="catalog-grid">
-                    <?php foreach ($courses as $course): ?>
-                        <?php // Передаем ID избранных в каждую карточку
-                        $this->render('partials/course-card', [
-                            'course' => $course,
-                            'favoritedCourseIds' => $favoritedCourseIds
-                        ]); ?>
-                    <?php endforeach; ?>
+                <div class="catalog-header">
+                    <h1 class="page-title"><?= ($type === 'masterclass') ? 'Мастер-классы' : 'Курсы' ?></h1>
                 </div>
+                <div class="catalog-grid">
+                    <?php if (!empty($courses)): ?>
+                        <?php foreach ($courses as $course): ?>
+                            <?php $this->render('partials/course-card', [
+                                'course' => $course,
+                                'favoritedCourseIds' => $favoritedCourseIds
+                            ]); ?>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <p>Элементы пока не добавлены.</p>
+                    <?php endif; ?>
+                </div>
+
             </div>
         </main>
     </div>

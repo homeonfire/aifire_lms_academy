@@ -5,12 +5,16 @@
 
         <main class="main-content">
             <div class="content-wrapper">
+                <div class="page-header">
+                    <h1 class="page-title">Добро пожаловать, <?= htmlspecialchars($_SESSION['user']['first_name'] ?? 'студент') ?>!</h1>
+                    <p class="page-subtitle">Готовы к новым знаниям?</p>
+                </div>
+
                 <?php if ($featuredCourse): ?>
-                    <?php
-                    // Определяем, находится ли РЕКОМЕНДУЕМЫЙ курс в избранном
-                    $isFavorite = isset($favoritedCourseIds) && in_array($featuredCourse['id'], $favoritedCourseIds);
-                    ?>
                     <div class="promo-block" style="position: relative;">
+                        <?php
+                        $isFavorite = isset($favoritedCourseIds) && in_array($featuredCourse['id'], $favoritedCourseIds);
+                        ?>
                         <div class="promo-thumbnail">
                             <img src="https://placehold.co/400x225/2A2A2A/FFFFFF?text=<?= urlencode(substr($featuredCourse['title'], 0, 10)) ?>" alt="<?= htmlspecialchars($featuredCourse['title']) ?>">
                             <span class="promo-badge">ПОЛУЧИТЬ СЕРТИФИКАТ</span>
@@ -20,7 +24,6 @@
                             <p><?= htmlspecialchars($featuredCourse['description']) ?></p>
                             <a href="/course/<?= $featuredCourse['id'] ?>" class="btn-primary">Начать курс</a>
                         </div>
-
                         <button
                                 class="favorite-toggle-btn <?= $isFavorite ? 'active' : '' ?>"
                                 data-item-id="<?= $featuredCourse['id'] ?>"
@@ -32,18 +35,47 @@
                     </div>
                 <?php endif; ?>
 
-                <section class="content-section">
-                    <h3 class="section-title">Новые курсы</h3>
-                    <div class="catalog-grid">
-                        <?php foreach ($latestCourses as $course): ?>
-                            <?php // Передаем ID избранных в каждую карточку
-                            $this->render('partials/course-card', [
-                                'course' => $course,
-                                'favoritedCourseIds' => $favoritedCourseIds
-                            ]); ?>
-                        <?php endforeach; ?>
-                    </div>
-                </section>
+                <?php if (!empty($latestCourses)): ?>
+                    <section class="content-section">
+                        <h3 class="section-title">Новые курсы</h3>
+                        <div class="catalog-grid">
+                            <?php foreach ($latestCourses as $course): ?>
+                                <?php $this->render('partials/course-card', [
+                                    'course' => $course,
+                                    'favoritedCourseIds' => $favoritedCourseIds ?? []
+                                ]); ?>
+                            <?php endforeach; ?>
+                        </div>
+                    </section>
+                <?php endif; ?>
+
+                <?php if (!empty($latestMasterclasses)): ?>
+                    <section class="content-section">
+                        <h3 class="section-title">Новые мастер-классы</h3>
+                        <div class="catalog-grid">
+                            <?php foreach ($latestMasterclasses as $course): ?>
+                                <?php $this->render('partials/course-card', [
+                                    'course' => $course,
+                                    'favoritedCourseIds' => $favoritedCourseIds ?? []
+                                ]); ?>
+                            <?php endforeach; ?>
+                        </div>
+                    </section>
+                <?php endif; ?>
+                <?php if (!empty($latestGuides)): ?>
+                    <section class="content-section">
+                        <h3 class="section-title">Новые гайды</h3>
+                        <div class="catalog-grid">
+                            <?php foreach ($latestGuides as $guide): ?>
+                                <?php // Передаем ID избранных гайдов в карточку ?>
+                                <?php $this->render('partials/guide-card', [
+                                    'guide' => $guide,
+                                    'favoritedGuideIds' => $favoritedGuideIds ?? []
+                                ]); ?>
+                            <?php endforeach; ?>
+                        </div>
+                    </section>
+                <?php endif; ?>
             </div>
         </main>
     </div>

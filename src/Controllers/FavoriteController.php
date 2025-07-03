@@ -5,12 +5,12 @@ class FavoriteController extends Controller {
 
     private $favoriteModel;
 
+    // --- БЕЗ ИЗМЕНЕНИЙ ---
     public function __construct() {
         if (!isset($_SESSION['user'])) {
-            // Для AJAX запросов лучше отправлять JSON с ошибкой
             if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
                 header('Content-Type: application/json');
-                http_response_code(401); // Unauthorized
+                http_response_code(401);
                 echo json_encode(['status' => 'error', 'message' => 'Требуется авторизация']);
             } else {
                 header('Location: /login');
@@ -20,19 +20,15 @@ class FavoriteController extends Controller {
         $this->favoriteModel = new Favorite();
     }
 
-    /**
-     * Переключает статус избранного для элемента (курс или урок)
-     */
     public function toggle() {
         header('Content-Type: application/json');
 
-        // Получаем данные из POST запроса
         $itemId = $_POST['item_id'] ?? null;
         $itemType = $_POST['item_type'] ?? null;
         $userId = $_SESSION['user']['id'];
 
-        if (!$itemId || !$itemType || !in_array($itemType, ['course', 'lesson'])) {
-            http_response_code(400); // Bad Request
+        if (!$itemId || !$itemType || !in_array($itemType, ['course', 'lesson', 'guide'])) {
+            http_response_code(400);
             echo json_encode(['status' => 'error', 'message' => 'Неверные параметры']);
             exit();
         }
@@ -42,26 +38,33 @@ class FavoriteController extends Controller {
         echo json_encode(['status' => 'success', 'action' => $result]);
         exit();
     }
+    // --- КОНЕЦ БЛОКА БЕЗ ИЗМЕНЕНИЙ ---
 
-    /**
-     * Отображает страницу со всеми избранными элементами
-     */
+    // --- НАЧАЛО ИЗМЕНЕНИЙ ---
     public function index() {
         $userId = $_SESSION['user']['id'];
 
-        $favoritedCourses = $this->favoriteModel->getFavoritedCourses($userId);
+        // Получаем все типы контента
+        $favoritedCourses = $this->favoriteModel->getFavoritedCourses($userId, 'course');
+        $favoritedMasterclasses = $this->favoriteModel->getFavoritedCourses($userId, 'masterclass'); // <-- Получаем мастер-классы
         $favoritedLessons = $this->favoriteModel->getFavoritedLessons($userId);
+        $favoritedGuides = $this->favoriteModel->getFavoritedGuides($userId);
 
-        // Получаем ID курсов, чтобы передать их в partial
-        $favoritedCourseIds = array_column($favoritedCourses, 'id');
+        // Собираем ID для корректной работы сердечек
+        $favoritedCourseIds = array_column(array_merge($favoritedCourses, $favoritedMasterclasses), 'id');
+        $favoritedGuideIds = array_column($favoritedGuides, 'id');
 
         $data = [
             'title' => 'Мое избранное',
             'favoritedCourses' => $favoritedCourses,
+            'favoritedMasterclasses' => $favoritedMasterclasses, // <-- Передаем в шаблон
             'favoritedLessons' => $favoritedLessons,
-            'favoritedCourseIds' => $favoritedCourseIds // Добавляем ID в данные для вида
+            'favoritedGuides' => $favoritedGuides,
+            'favoritedCourseIds' => $favoritedCourseIds,
+            'favoritedGuideIds' => $favoritedGuideIds,
         ];
 
         $this->render('favorites/index', $data);
     }
+    // --- КОНЕЦ ИЗМЕНЕНИЙ ---
 }

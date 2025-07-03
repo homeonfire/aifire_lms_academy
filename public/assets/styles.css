@@ -1871,3 +1871,31 @@ h1 .favorite-toggle-btn.active svg {
     background-color: var(--primary-accent-color);
     color: white;
 }
+
+/* Стили для списка гайдов */
+.guides-list {
+    display: grid;
+    gap: 15px;
+}
+.guide-card-link {
+    text-decoration: none;
+    color: inherit;
+}
+.guide-card {
+    background-color: var(--container-color);
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    transition: all 0.2s ease;
+}
+.guide-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--primary-accent-color);
+}
+.guide-card h3 {
+    margin-bottom: 8px;
+}
+.guide-card span {
+    font-size: 14px;
+    color: var(--secondary-text-color);
+}

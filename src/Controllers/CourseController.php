@@ -16,26 +16,39 @@ class CourseController extends Controller {
     public function index() {
         $courses = $this->courseModel->getAll();
 
-        // --- Добавляем логику избранного ---
         $favoriteModel = new Favorite();
         $userId = $_SESSION['user']['id'];
         $favoritedCoursesRaw = $favoriteModel->getFavoritedCourses($userId);
         $favoritedCourseIds = array_column($favoritedCoursesRaw, 'id');
-        // --- Конец логики ---
 
         $data = [
             'title' => 'Все курсы',
             'courses' => $courses,
-            'favoritedCourseIds' => $favoritedCourseIds // Передаем ID в шаблон
+            'favoritedCourseIds' => $favoritedCourseIds,
+            'type' => 'course' // Указываем тип для страницы курсов
         ];
         $this->render('courses/index', $data);
     }
 
-    public function show($courseId, $lessonId = null) {
+    // --- НАЧАЛО ИЗМЕНЕНИЙ ---
+    /**
+     * Показывает страницу курса или мастер-класса
+     * @param int $courseId
+     * @param int|null $lessonId
+     * @param string $type
+     */
+    public function show($courseId, $lessonId = null, $type = 'course') {
         $course = $this->courseModel->getCourseWithModulesAndLessons($courseId);
         if (!$course) {
             http_response_code(404);
-            echo "<h1>404 Курс не найден</h1>";
+            echo "<h1>404 Элемент не найден</h1>";
+            return;
+        }
+
+        // Защита: чтобы нельзя было открыть курс по ссылке /masterclass/ и наоборот
+        if ($course['type'] !== $type) {
+            http_response_code(404);
+            echo "<h1>404 Запрашиваемый ресурс не найден</h1>";
             return;
         }
 
@@ -77,11 +90,11 @@ class CourseController extends Controller {
         $completedCount = count($completedLessonIds);
         $progressPercentage = ($totalLessons > 0) ? round(($completedCount / $totalLessons) * 100) : 0;
 
-        // --- ДОБАВЛЯЕМ ЛОГИКУ ИЗБРАННОГО ---
         $favoriteModel = new Favorite();
-        $favoritedLessonsRaw = $favoriteModel->getFavoritedLessons($_SESSION['user']['id']);
+        $userId = $_SESSION['user']['id'];
+        $isCourseFavorited = $favoriteModel->isFavorite($userId, $courseId, $type);
+        $favoritedLessonsRaw = $favoriteModel->getFavoritedLessons($userId);
         $favoritedLessonIds = array_column($favoritedLessonsRaw, 'id');
-        // --- КОНЕЦ ЛОГИКИ ---
 
         $data = [
             'title' => $course['title'],
@@ -91,9 +104,12 @@ class CourseController extends Controller {
             'userAnswer' => $userAnswer,
             'progressPercentage' => $progressPercentage,
             'completedLessonIds' => $completedLessonIds,
-            'favoritedLessonIds' => $favoritedLessonIds // <-- Добавляем новую переменную
+            'favoritedLessonIds' => $favoritedLessonIds,
+            'isCourseFavorited' => $isCourseFavorited,
+            'type' => $type // Передаем тип в шаблон
         ];
 
         $this->render('courses/show', $data);
     }
+    // --- КОНЕЦ ИЗМЕНЕНИЙ ---
 }

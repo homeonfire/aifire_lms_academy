@@ -1,8 +1,6 @@
 <?php
 // src/Views/partials/course-card.php
 
-// Определяем, находится ли курс в избранном.
-// Переменная $favoritedCourseIds должна приходить из контроллера.
 $isFavorite = isset($favoritedCourseIds) && in_array($course['id'], $favoritedCourseIds);
 
 $difficultyLevels = [
@@ -15,9 +13,14 @@ $categories = !empty($course['categories']) ? explode(',', $course['categories']
 
 $imageUrl = $course['image_url'] ?? 'https://placehold.co/300x170/2A2A2A/FFFFFF?text=+';
 $companyLogoUrl = $course['company_logo'] ?? 'https://placehold.co/48x48/000/FFFFFF?text=B';
+
+// --- НАЧАЛО ИЗМЕНЕНИЙ ---
+// Формируем правильную ссылку в зависимости от типа элемента
+$linkPath = ($course['type'] === 'masterclass') ? 'masterclass' : 'course';
+// --- КОНЕЦ ИЗМЕНЕНИЙ ---
 ?>
 <div class="course-card-wrapper" style="position: relative;">
-    <a href="/course/<?= $course['id'] ?>" class="course-card-link">
+    <a href="/<?= $linkPath ?>/<?= $course['id'] ?>" class="course-card-link">
         <div class="course-card">
             <div class="course-card-image-wrapper">
                 <img src="<?= htmlspecialchars($imageUrl) ?>" alt="<?= htmlspecialchars($course['title']) ?>">

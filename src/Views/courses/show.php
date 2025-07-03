@@ -1,24 +1,10 @@
 <?php
-// --- Функция для встраивания видео ---
-function getVideoEmbedUrl($url) {
-    if (empty($url)) return null;
-    if (preg_match('/kinescope\.io\/([a-zA-Z0-9]+)/', $url, $matches)) return 'https://kinescope.io/embed/' . $matches[1];
-    if (preg_match('/(v=|\/v\/|youtu\.be\/|embed\/)([^"&?\/ ]{11})/', $url, $matches)) return 'https://www.youtube.com/embed/' . $matches[2];
-    return null;
-}
-// --- Конец функции ---
-
 $this->render('layouts/app-header', ['title' => $title]);
 
-// --- ИСПРАВЛЕНИЕ: Определяем переменные более надежным способом ---
 $embedUrl = $activeLesson ? getVideoEmbedUrl($activeLesson['content_url']) : null;
 $hasText = $activeLesson && !empty(trim($activeLesson['content_text'] ?? ''));
-
-// Новая, надежная проверка. $isSubmitted будет true, только если $userAnswer - это не пустой массив.
 $isSubmitted = !empty($userAnswer);
 $isLocked = $isSubmitted && in_array($userAnswer['status'], ['submitted', 'checked']);
-// --- Конец исправления ---
-
 $isLessonFavorite = $activeLesson && isset($favoritedLessonIds) && in_array($activeLesson['id'], $favoritedLessonIds);
 ?>
 
@@ -29,9 +15,9 @@ $isLessonFavorite = $activeLesson && isset($favoritedLessonIds) && in_array($act
             <div class="course-page-wrapper">
                 <div class="lesson-content-area">
                     <div class="lesson-header">
-                        <a href="/dashboard" class="back-link">← Назад к курсам</a>
-                        <h1 class="lesson-title" style="display: flex; align-items: center;">
-                            <?php if ($activeLesson): ?>
+                        <a href="/dashboard" class="back-link">← Назад к <?= ($type === 'masterclass') ? 'мастер-классам' : 'курсам' ?></a>
+                        <h1 class="lesson-title">
+                            <?php if ($activeLesson && $type === 'course'): // <-- НАЧАЛО ИЗМЕНЕНИЙ ?>
                                 <button
                                         class="favorite-toggle-btn <?= $isLessonFavorite ? 'active' : '' ?>"
                                         data-item-id="<?= $activeLesson['id'] ?>"
@@ -39,8 +25,7 @@ $isLessonFavorite = $activeLesson && isset($favoritedLessonIds) && in_array($act
                                         title="Добавить урок в избранное">
                                     <svg viewBox="0 0 24 24"><path d="M12,21.35L10.55,20.03C5.4,15.36 2,12.27 2,8.5C2,5.41 4.42,3 7.5,3C9.24,3 10.91,3.81 12,5.08C13.09,3.81 14.76,3 16.5,3C19.58,3 22,5.41 22,8.5C22,12.27 18.6,15.36 13.45,20.03L12,21.35Z"></path></svg>
                                 </button>
-                            <?php endif; ?>
-
+                            <?php endif; // <-- КОНЕЦ ИЗМЕНЕНИЙ ?>
                             <span>
                             <?= htmlspecialchars($course['title']) ?>:
                             <span class="lesson-subtitle"><?= $activeLesson ? htmlspecialchars($activeLesson['title']) : 'Выберите урок' ?></span>
@@ -50,7 +35,6 @@ $isLessonFavorite = $activeLesson && isset($favoritedLessonIds) && in_array($act
 
                     <?php if ($isSubmitted): ?>
                         <?php
-                        // Этот код теперь будет выполняться только когда $userAnswer точно существует
                         $statusText = ''; $statusClass = ''; $comment = !empty($userAnswer['comment']) ? htmlspecialchars($userAnswer['comment']) : '';
                         switch ($userAnswer['status']) {
                             case 'checked': $statusText = 'Принято'; $statusClass = 'alert-success'; break;
@@ -124,11 +108,6 @@ $isLessonFavorite = $activeLesson && isset($favoritedLessonIds) && in_array($act
                         </div>
                     <?php endif; ?>
                     <?php
-                    // --- НОВАЯ ЛОГИКА ОТОБРАЖЕНИЯ КНОПКИ ---
-                    // Кнопка появляется, только если:
-                    // 1. Урок активен.
-                    // 2. В уроке НЕТ домашнего задания.
-                    // 3. Урок еще НЕ пройден.
                     if ($activeLesson && !$homework && !in_array($activeLesson['id'], $completedLessonIds)):
                         ?>
                         <div class="complete-lesson-wrapper">
@@ -140,18 +119,24 @@ $isLessonFavorite = $activeLesson && isset($favoritedLessonIds) && in_array($act
                 </div>
 
                 <div class="course-sidebar">
-                    <div class="course-progress">
-                        <h4>Прогресс курса</h4>
-                        <div class="progress-bar"><div class="progress-bar-fill" style="width: <?= $progressPercentage ?>%;"></div></div>
-                        <span><?= $progressPercentage ?>% пройдено</span>
-                    </div>
+                    <?php if ($type === 'course'): ?>
+                        <div class="course-progress">
+                            <h4>Прогресс курса</h4>
+                            <div class="progress-bar"><div class="progress-bar-fill" style="width: <?= $progressPercentage ?>%;"></div></div>
+                            <span><?= $progressPercentage ?>% пройдено</span>
+                        </div>
+                    <?php endif; ?>
+
                     <div class="course-content-list">
-                        <h4>Содержание курса</h4>
+                        <h4><?= ($type === 'masterclass') ? 'Программа мастер-класса' : 'Содержание курса' ?></h4>
                         <ul>
                             <?php foreach ($course['modules'] as $module): ?>
                                 <li class="module-item"><?= htmlspecialchars($module['title']) ?></li>
                                 <?php foreach ($module['lessons'] as $lesson): ?>
-                                    <a href="/course/<?= $course['id'] ?>/lesson/<?= $lesson['id'] ?>" class="lesson-link">
+                                    <?php
+                                    $linkPath = ($type === 'masterclass') ? 'masterclass' : 'course';
+                                    ?>
+                                    <a href="/<?= $linkPath ?>/<?= $course['id'] ?>/lesson/<?= $lesson['id'] ?>" class="lesson-link">
                                         <li class="lesson-item <?= ($activeLesson && $lesson['id'] === $activeLesson['id']) ? 'active' : '' ?>">
                                             <?php if (in_array($lesson['id'], $completedLessonIds)): ?>
                                                 <span class="lesson-completed-icon">✅</span>

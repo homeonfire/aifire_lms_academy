@@ -6,10 +6,14 @@
         <main class="main-content">
             <div class="content-wrapper">
                 <div class="admin-header">
-                    <h1 class="page-title">Управление курсами</h1>
-                    <a href="/admin/courses/new" class="btn btn-primary">Добавить курс</a>
+                    <h1 class="page-title"><?= $title ?></h1>
+                    <?php
+                    // Определяем текст и ссылку для кнопки
+                    $buttonText = ($type === 'masterclass') ? 'Добавить мастер-класс' : 'Добавить курс';
+                    $newLink = ($type === 'masterclass') ? '/admin/masterclasses/new' : '/admin/courses/new';
+                    ?>
+                    <a href="<?= $newLink ?>" class="btn btn-primary"><?= $buttonText ?></a>
                 </div>
-
                 <div class="admin-table-container">
                     <table class="admin-table">
                         <thead>
@@ -30,19 +34,18 @@
                                     <td class="actions">
                                         <a href="/admin/courses/content/<?= $course['id'] ?>" class="btn btn-primary">Управление</a>
                                         <a href="/admin/courses/edit/<?= $course['id'] ?>" class="btn btn-secondary">Редактировать</a>
-                                        <a href="/admin/courses/delete/<?= $course['id'] ?>" class="btn btn-danger" onclick="return confirm('Вы уверены, что хотите удалить этот курс?');">Удалить</a>
+                                        <a href="/admin/courses/delete/<?= $course['id'] ?>" class="btn btn-danger" onclick="return confirm('Вы уверены, что хотите удалить этот элемент?');">Удалить</a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
                         <?php else: ?>
                             <tr>
-                                <td colspan="4">Курсы еще не созданы.</td>
+                                <td colspan="4">Элементы еще не созданы.</td>
                             </tr>
                         <?php endif; ?>
                         </tbody>
                     </table>
                 </div>
-
             </div>
         </main>
     </div>

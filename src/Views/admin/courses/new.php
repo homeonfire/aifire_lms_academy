@@ -6,8 +6,11 @@
         <main class="main-content">
             <div class="content-wrapper">
                 <div class="admin-header">
-                    <h1 class="page-title">Добавить новый курс</h1>
-                    <a href="/admin/courses" class="btn btn-secondary">Назад к списку</a>
+                    <h1 class="page-title"><?= $title ?></h1>
+                    <?php
+                    $backLink = ($type === 'masterclass') ? '/admin/masterclasses' : '/admin/courses';
+                    ?>
+                    <a href="<?= $backLink ?>" class="btn btn-secondary">Назад к списку</a>
                 </div>
 
                 <div class="admin-card">
@@ -16,8 +19,10 @@
                     <?php endif; ?>
 
                     <form action="/admin/courses/create" method="POST" class="admin-form">
+                        <input type="hidden" name="type" value="<?= $type ?>">
+
                         <div class="input-group">
-                            <label for="title">Название курса</label>
+                            <label for="title">Название</label>
                             <input type="text" id="title" name="title" required>
                         </div>
                         <div class="input-group">
@@ -52,10 +57,9 @@
                                 <?php endforeach; ?>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary">Создать курс</button>
+                        <button type="submit" class="btn btn-primary">Создать</button>
                     </form>
                 </div>
-
             </div>
         </main>
     </div>

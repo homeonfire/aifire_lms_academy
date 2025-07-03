@@ -7,6 +7,25 @@ error_reporting(E_ALL);
 
 // Запускаем сессию
 session_start();
+/**
+ * Глобальная вспомогательная функция для получения URL видео для встраивания
+ * @param string|null $url
+ * @return string|null
+ */
+function getVideoEmbedUrl($url) {
+    if (empty($url)) return null;
+    // Для Kinescope
+    if (preg_match('/kinescope\.io\/([a-zA-Z0-9]+)/', $url, $matches)) {
+        return 'https://kinescope.io/embed/' . $matches[1];
+    }
+    // Для YouTube
+    if (preg_match('/(v=|\/v\/|youtu\.be\/|embed\/)([^"&?\/ ]{11})/', $url, $matches)) {
+        return 'https://www.youtube.com/embed/' . $matches[2];
+    }
+    // Можно добавить другие плееры по аналогии
+    return null; // Возвращаем null, если не удалось распознать ссылку
+}
+// --- КОНЕЦ ИЗМЕНЕНИЙ ---
 // 1. Обработка UTM-меток (с изменениями)
 // Проверяем, есть ли UTM в GET-запросе И НЕ установлены ли они уже в сессии.
 if (isset($_GET['utm_source']) && !isset($_SESSION['utm_data'])) {
@@ -61,6 +80,7 @@ require_once __DIR__ . '/../src/Models/LessonProgress.php';
 require_once __DIR__ . '/../src/Models/Category.php';
 require_once __DIR__ . '/../src/Models/Favorite.php';
 require_once __DIR__ . '/../src/Models/Visit.php';
+require_once __DIR__ . '/../src/Models/Guides.php';
 
 // Контроллеры (Пользовательская часть)
 require_once __DIR__ . '/../src/Controllers/AuthController.php';
@@ -72,6 +92,8 @@ require_once __DIR__ . '/../src/Controllers/HomeworkController.php';
 require_once __DIR__ . '/../src/Controllers/HomeworkCheckController.php';
 require_once __DIR__ . '/../src/Controllers/ProfileController.php';
 require_once __DIR__ . '/../src/Controllers/FavoriteController.php';
+require_once __DIR__ . '/../src/Controllers/MasterclassController.php';
+require_once __DIR__ . '/../src/Controllers/GuideController.php';
 
 // Контроллеры (Админ-панель)
 require_once __DIR__ . '/../src/Controllers/Admin/AdminController.php';
@@ -82,6 +104,7 @@ require_once __DIR__ . '/../src/Controllers/Admin/LessonController.php';
 require_once __DIR__ . '/../src/Controllers/Admin/UserController.php';
 require_once __DIR__ . '/../src/Controllers/Admin/CategoryController.php';
 require_once __DIR__ . '/../src/Controllers/Admin/VisitController.php';
+require_once __DIR__ . '/../src/Controllers/Admin/GuideController.php';
 // ----------------------------------------------------
 
 

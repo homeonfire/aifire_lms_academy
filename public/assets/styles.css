@@ -5,7 +5,7 @@
 /* 1. Глобальные переменные и сброс стилей */
 :root {
     --background-color: #141414;
-    --container-color: #1C1C1C;
+    --container-color: rgb(38,38,38);
     --border-color: #2A2A2A;
     --primary-accent-color: #8473FF;
     --primary-accent-hover-color: #7a68eb;
@@ -18,6 +18,9 @@
 
     --error-color: #ff6b6b;
     --error-background-color: rgba(255, 107, 107, 0.1);
+
+    --inlesson-block-bg: rgba(38, 38, 38, 0.5);
+    --progress-color: #ffffff;
 }
 
 * {
@@ -32,6 +35,7 @@ h1, h2, h3, h4, h5, h6, p, span {
 a {
     text-decoration: none;
 }
+
 
 body {
     font-family: 'Raleway', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -200,21 +204,26 @@ a.forgot-password:hover {
     left: 0;
     transition: transform 0.3s ease-in-out; /* Для анимации открытия/закрытия */
 }
+.sidebar-header {
+    display: flex;
+    justify-content: center;
+}
+
 
 .sidebar-header .logo {
     font-size: 20px;
     font-weight: 700;
     color: var(--primary-text-color);
     text-decoration: none;
+    text-align: center;
 }
 
 .nav-menu {
-    margin-top: 40px;
+    margin-top: 20px;
     flex-grow: 1;
 }
 
 .nav-item {
-    display: block;
     color: var(--secondary-text-color);
     text-decoration: none;
     padding: 12px;
@@ -222,6 +231,13 @@ a.forgot-password:hover {
     margin-bottom: 8px;
     font-weight: 500;
     transition: background-color 0.2s, color 0.2s;
+    font-size: 13px;
+}
+
+.nav-item svg {
+    width: 20px;
+    height: 20px;
+    border-image-width: 1px;
 }
 
 .nav-item:hover {
@@ -341,6 +357,8 @@ a.forgot-password:hover {
 
 .course-page-wrapper {
     display: flex;
+    /* Выравниваем элементы по верху, чтобы сайдбар не растягивался */
+    align-items: flex-start;
     gap: 40px;
 }
 
@@ -353,6 +371,11 @@ a.forgot-password:hover {
     text-decoration: none;
     margin-bottom: 24px;
     display: inline-block;
+    font-size: 14px;
+    font-weight: 500;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
 }
 
 .course-title {
@@ -376,19 +399,65 @@ a.forgot-password:hover {
 }
 
 .course-sidebar {
-    width: 320px;
-    flex-shrink: 0;
+    max-width: 25%;
+    min-width: 320px;
+    flex-shrink: 0; /* Запрещаем сайдбару сжиматься */
+
+    /* "Приклеиваем" сайдбар к верху */
+    position: sticky;
+    top: 20px; /* Оставляем небольшой отступ от самого верха для красоты */
+
+    /* Добавляем максимальную высоту, чтобы сайдбар не выходил за пределы экрана */
+    max-height: calc(100vh - 40px); /* 100% высоты экрана минус отступы */
 }
 
 .course-progress, .course-content-list {
-    background-color: var(--container-color);
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
+    background-color: var(--inlesson-block-bg);
+    border-radius: 16px;
     padding: 20px;
     margin-bottom: 20px;
+    /* --- ДОБАВЛЕННЫЕ СВОЙСТВА --- */
+    max-height: 500px; /* Задаем максимальную высоту блока */
+    overflow-y: auto;  /* Включаем вертикальный скролл, если содержимое не помещается */
 }
 
-.course-progress h4, .course-content-list h4 {
+/* 1. Задаем ширину скроллбара */
+.course-content-list::-webkit-scrollbar {
+    width: 8px;
+}
+
+/* 2. Стилизуем "дорожку", по которой бегает ползунок */
+.course-content-list::-webkit-scrollbar-track {
+    background-color: transparent; /* Делаем дорожку прозрачной */
+    border-radius: 4px;
+}
+
+/* 3. Стилизуем сам "ползунок" скроллбара */
+.course-content-list::-webkit-scrollbar-thumb {
+    background-color: var(--border-color); /* Используем цвет твоей рамки */
+    border-radius: 4px;
+    border: 2px solid transparent; /* Создаем отступы вокруг ползунка */
+    background-clip: content-box;
+}
+
+/* 4. Меняем цвет ползунка при наведении */
+.course-content-list::-webkit-scrollbar-thumb:hover {
+    background-color: var(--secondary-text-color); /* Используем цвет твоего второстепенного текста */
+}
+
+/* Стили для Firefox */
+.course-content-list {
+    scrollbar-width: thin; /* Делаем скроллбар тонким */
+    scrollbar-color: var(--border-color) transparent; /* Цвет ползунка и цвет дорожки */
+}
+
+.course-progress h4 {
+    margin-bottom: 16px;
+    font-size: 16px;
+}
+
+.course-content-list h4 {
+    font-size: 20px;
     margin-bottom: 16px;
 }
 
@@ -402,7 +471,7 @@ a.forgot-password:hover {
 
 .progress-bar-fill {
     height: 100%;
-    background-color: var(--primary-accent-color);
+    background-color: var(--progress-color);
     border-radius: 4px;
 }
 
@@ -447,8 +516,6 @@ a.forgot-password:hover {
 .lesson-content-area {
     flex-grow: 1;
     /* ИЗМЕНЕНО: Добавлены отступы по бокам */
-    padding-left: 24px; /* Отступ слева */
-    padding-right: 24px; /* Отступ справа */
     /* box-sizing: border-box; уже установлен глобально в * {} */
 }
 
@@ -517,9 +584,8 @@ a.forgot-password:hover {
 .lesson-description {
     margin-top: 32px;
     padding: 24px;
-    background-color: var(--container-color);
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
+    background-color: var(--inlesson-block-bg);
+    border-radius: 16px;
 }
 .lesson-description h3 {
     margin-bottom: 12px;
@@ -634,12 +700,6 @@ a.lesson-link {
     margin-bottom: 30px;
 }
 
-.catalog-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 20px;
-}
-
 a.course-card-link {
     text-decoration: none;
     color: inherit;
@@ -661,8 +721,8 @@ a.course-card-link {
     flex-direction: column;
 }
 
-.course-card:hover {
-    transform: translateY(-5px);
+.course-card-wrapper:hover {
+    transform: scale(0.95);
     box-shadow: 0 10px 20px rgba(0,0,0,0.2);
 }
 
@@ -994,16 +1054,9 @@ a.course-card-link {
 }
 
 .lesson-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     padding: 12px 15px;
-    border-bottom: 1px solid #e9e9e9;
 }
 
-.lesson-item:last-of-type {
-    border-bottom: none;
-}
 
 .add-lesson-row {
     padding: 15px;
@@ -1157,10 +1210,7 @@ a.course-card-link {
     border-color: #ccc;
 }
 
-/* Убираем лишнюю рамку у последнего урока в списке */
-.lesson-item:last-of-type {
-    border-bottom: 1px solid #e9e9e9;
-}
+
 
 /* Делаем кнопку добавления урока аккуратнее */
 .add-lesson-row {
@@ -1173,7 +1223,6 @@ a.course-card-link {
 .module-header,
 .lesson-item {
     display: flex;
-    justify-content: space-between;
     align-items: center;
     gap: 10px; /* <- Вот и наш отступ между элементами */
 }
@@ -1287,8 +1336,8 @@ a.course-card-link {
 /* Стили для счетчика (бейджа) в меню */
 .nav-item {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    gap: 10px;
 }
 
 .badge {
@@ -1554,8 +1603,8 @@ a.answer-card-link {
     color: #888;
 }
 
-.lesson-item { position: relative; padding-left: 30px; }
-.lesson-completed-icon { position: absolute; left: 0; top: 11px; font-size: 16px; }
+.lesson-item { position: relative; }
+.lesson-completed-icon { top: 11px; font-size: 16px; }
 .complete-lesson-wrapper { margin-top: 24px; }
 
 .admin-grid {
@@ -1699,22 +1748,30 @@ a.answer-card-link {
     flex-shrink: 0; /* Гарантирует, что аватар не будет сжиматься */
 }
 
-/* Стили для кнопки "Добавить в избранное" */
+.course-card-wrapper {
+    transition: transform 0.2s ease-in-out;
+    position: relative; /* Это исправит "улетающие" сердечки */
+    /* Удаляем встроенный стиль, так как он больше не нужен */
+}
+
+
 .favorite-toggle-btn {
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    z-index: 10;
-    width: 36px;
-    height: 36px;
     background-color: rgba(0, 0, 0, 0.4);
-    border: none;
     border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    border: none;
     cursor: pointer;
+    display: flex;
+    height: 36px;
+    justify-content: center;
+    position: absolute;
+    /* --- ИЗМЕНЕНИЕ ЗДЕСЬ --- */
+    left: 12px; /* Было: right: 12px; */
+    top: 12px;
+    /* --- КОНЕЦ ИЗМЕНЕНИЯ --- */
     transition: background-color 0.2s;
+    width: 36px;
+    z-index: 10;
+    align-items: center;
 }
 
 .favorite-toggle-btn:hover {
@@ -1722,10 +1779,10 @@ a.answer-card-link {
 }
 
 .favorite-toggle-btn svg {
-    width: 20px;
-    height: 20px;
     fill: #ffffff;
+    height: 20px;
     transition: fill 0.2s, transform 0.2s;
+    width: 20px;
 }
 
 /* Стиль для активной кнопки (когда в избранном) */
@@ -1912,160 +1969,7 @@ h1 .favorite-toggle-btn.active svg {
 
 /* --- Стили для контента Editor.js на стороне пользователя --- */
 
-/* Контейнер для отображения Editor.js контента */
-.editorjs-viewer-container {
-    background-color: var(--container-color); /* Фоновый цвет контейнера */
-    padding: 24px; /* Внутренние отступы для всего блока Editor.js.
-                       Это создает "рамку" вокруг всего контента редактора.
-                       Можете настроить это значение, например, на 16px, если хотите меньше. */
-    border-radius: 8px; /* Скругление углов контейнера */
-    line-height: 1.6; /* Межстрочный интервал для читаемости */
-    color: var(--primary-text-color); /* Основной цвет текста */
-    font-family: 'Raleway', sans-serif; /* Ваш основной шрифт */
 
-    /* Убедимся, что контейнер занимает всю доступную ширину и не имеет внешних отступов */
-    width: 100%;
-    max-width: none; /* Убираем любое ограничение ширины, если оно было */
-    margin: 0; /* Убираем внешние отступы */
-    box-sizing: border-box; /* Важно, чтобы padding не увеличивал общую ширину */
-}
-
-/* ЭТО КРИТИЧЕСКИ ВАЖНО: Переопределяем встроенные стили Editor.js */
-/* Editor.js по умолчанию ограничивает ширину своих внутренних блоков .ce-block__content
-   и центрирует их. Мы заставляем их занимать 100% ширины нашего контейнера. */
-.editorjs-viewer-container .ce-block__content {
-    max-width: 100% !important; /* Заставляем занимать всю ширину */
-    margin: 0 !important; /* Убираем центрирование */
-    padding: 0 !important; /* Убираем любые внутренние отступы, которые Editor.js может добавить по умолчанию */
-}
-
-/* Общие стили для параграфов */
-.editorjs-viewer-container .ce-paragraph {
-    margin-bottom: 1em; /* Отступ между параграфами */
-}
-
-/* Заголовки, сгенерированные Editor.js (Header Tool) */
-.editorjs-viewer-container .ce-header {
-    margin-top: 2em; /* Отступ сверху перед заголовком */
-    margin-bottom: 1em; /* Отступ снизу после заголовка */
-    font-weight: bold;
-    line-height: 1.3;
-    color: var(--primary-text-color);
-}
-
-.editorjs-viewer-container .ce-header--1 { /* H1 */
-    font-size: 2.5em;
-}
-
-.editorjs-viewer-container .ce-header--2 { /* H2 */
-    font-size: 2em;
-    border-bottom: 1px solid var(--border-color); /* Горизонтальная линия под H2 */
-    padding-bottom: 0.5em; /* Отступ под линией */
-}
-
-.editorjs-viewer-container .ce-header--3 { /* H3 */
-    font-size: 1.6em;
-}
-
-.editorjs-viewer-container .ce-header--4 { /* H4 */
-    font-size: 1.3em;
-}
-
-.editorjs-viewer-container .ce-header--5 { /* H5 */
-    font-size: 1.1em;
-}
-
-.editorjs-viewer-container .ce-header--6 { /* H6 */
-    font-size: 1em;
-}
-
-/* Стили для списков (List Tool) */
-.editorjs-viewer-container .cdx-list {
-    margin-left: 25px; /* Отступ для маркеров/нумерации */
-    margin-bottom: 1em;
-    padding: 0;
-}
-
-.editorjs-viewer-container .cdx-list__item {
-    margin-bottom: 0.5em;
-    color: var(--primary-text-color);
-}
-
-/* Нумерованный список */
-.editorjs-viewer-container .cdx-list--ordered {
-    list-style-type: decimal;
-}
-
-/* Маркированный список */
-.editorjs-viewer-container .cdx-list--unordered {
-    list-style-type: disc;
-}
-
-/* Дополнительные отступы для вложенных списков */
-.editorjs-viewer-container .cdx-list .cdx-list {
-    margin-left: 20px;
-}
-
-/* Если вы используете другие стандартные инструменты Editor.js, например, Blockquote Tool */
-.editorjs-viewer-container .ce-blockquote {
-    font-style: italic;
-    padding: 10px 20px;
-    margin: 1.5em 0;
-    border-left: 4px solid var(--border-color);
-    background-color: var(--input-field-color);
-    color: var(--secondary-text-color);
-}
-
-/* Если вы используете Code Tool */
-.editorjs-viewer-container .ce-code {
-    background-color: var(--input-field-color);
-    padding: 10px;
-    border-radius: 5px;
-    font-family: monospace;
-    font-size: 0.9em;
-    overflow-x: auto;
-    white-space: pre-wrap;
-    word-wrap: break-word;
-    color: var(--primary-text-color);
-    border: 1px solid var(--border-color);
-}
-
-/* НОВОЕ ДОБАВЛЕНИЕ: Убираем отступы у самого первого и самого последнего блока внутри Editor.js.
-   Это помогает убрать лишние отступы сверху и снизу от контента внутри контейнера. */
-.editorjs-viewer-container .codex-editor__redactor > .ce-block:first-child .ce-block__content,
-.editorjs-viewer-container .codex-editor__redactor > .ce-block:last-child .ce-block__content {
-    margin-top: 0 !important;
-    margin-bottom: 0 !important;
-    padding-top: 0 !important;
-    padding-bottom: 0 !important;
-}
-
-/* НОВОЕ ДОБАВЛЕНИЕ: Убедимся, что общие элементы HTML внутри Editor.js (если они не переопределены плагинами)
-   тоже не имеют лишних марджинов по умолчанию, которые могли бы создать 300px. */
-.editorjs-viewer-container > div:first-child {
-    margin-top: 0 !important;
-    padding-top: 0 !important;
-}
-.editorjs-viewer-container > div:last-child {
-    margin-bottom: 0 !important;
-    padding-bottom: 0 !important;
-}
-
-.editorjs-viewer-container .ce-header:first-child {
-    margin-top: 0 !important; /* Обнуляем верхний отступ у первого заголовка */
-}
-
-/* Также, если проблема не только с заголовками, а с первым любым блоком: */
-.editorjs-viewer-container .codex-editor__redactor > .ce-block:first-child .ce-block__content {
-    margin-top: 0 !important;
-    padding-top: 0 !important;
-}
-
-/* Убираем верхний отступ у первого элемента в .lesson-description,
-   если он не .editorjs-viewer-container, но может влиять. */
-.lesson-description > *:first-child {
-    margin-top: 0 !important;
-}
 
 /* =============================================== */
 /* АДАПТИВНЫЙ ДИЗАЙН (MOBILE)         */
@@ -2100,6 +2004,7 @@ h1 .favorite-toggle-btn.active svg {
 
     .sidebar-header {
         text-align: center;
+        display: flex;
     }
 
     .nav-menu {
@@ -2182,7 +2087,7 @@ h1 .favorite-toggle-btn.active svg {
     }
 
     .course-sidebar {
-        width: 100%; /* Сайдбар курса займет всю ширину */
+        width: 100%;
     }
 
     .course-progress, .course-content-list {
@@ -2239,7 +2144,28 @@ h1 .favorite-toggle-btn.active svg {
     }
 
     .catalog-grid {
-        grid-template-columns: 1fr; /* Одна колонка для карточек */
+        display: grid;
+        gap: 20px;
+
+        /* Выстраиваем все карточки в один ряд по горизонтали */
+        grid-auto-flow: column;
+
+        /* Задаем ширину карточки. 300px - хороший размер и для десктопа, и для мобильных. */
+        grid-auto-columns: 300px;
+
+        /* Включаем горизонтальный скролл */
+        overflow-x: auto;
+
+        /* Добавляем небольшой отступ снизу, чтобы скроллбар не прилипал к контенту */
+        padding-bottom: 20px;
+
+        /* Скрываем саму полосу прокрутки для более чистого вида */
+        scrollbar-width: none; /* для Firefox */
+    }
+
+    /* Скрываем полосу прокрутки для Chrome, Safari и Opera */
+    .catalog-grid::-webkit-scrollbar {
+        display: none;
     }
 
     .course-card {
@@ -2348,4 +2274,176 @@ h1 .favorite-toggle-btn.active svg {
         padding: 6px 12px; /* Чуть меньше теги */
         font-size: 13px;
     }
+}
+
+.guide-card-cover {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    position: relative;
+    border-radius: 10px 10px 0 0;
+    background-color: #333;
+}
+
+.guide-card-cover img,
+.guide-card-cover .card-cover-gradient {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.guide-card-cover img {
+    object-fit: cover;
+    object-position: center;
+}
+
+.course-item-cover {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    position: relative;
+    background-color: #333;
+}
+
+.course-item-cover img {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    object-fit: cover;
+    object-position: center;
+}
+
+.catalog-grid {
+    display: grid;
+    gap: 20px; /* Оставляем отступ между карточками */
+
+    /* --- ВОТ ГЛАВНЫЕ ИЗМЕНЕНИЯ --- */
+
+    /* 1. Выстраиваем все карточки в одну линию по горизонтали */
+    grid-auto-flow: column;
+
+    /* 2. Задаем фиксированную ширину для каждой карточки в слайдере */
+    grid-auto-columns: 300px;
+
+    /* 3. Включаем горизонтальный скролл */
+    overflow-x: auto;
+
+    /* 4. Добавляем отступ снизу, чтобы скроллбар не прилипал к карточкам */
+    padding-bottom: 20px;
+
+    /* 5. Скрываем саму полосу прокрутки для чистого вида */
+    scrollbar-width: none; /* для Firefox */
+}
+
+/* Скрываем полосу прокрутки для Chrome, Safari и Opera */
+.catalog-grid::-webkit-scrollbar {
+    display: none;
+}
+
+/*
+ * -----------------------------------------------
+ * Стили для кнопок управления слайдером
+ * -----------------------------------------------
+ */
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px; /* Сохраняем отступ до слайдера */
+}
+
+.section-title {
+    margin-bottom: 0; /* Убираем старый отступ, т.к. теперь он у .section-header */
+}
+
+.slider-controls {
+    display: flex;
+    gap: 8px;
+}
+
+.slider-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid var(--border-color);
+    background-color: transparent;
+    color: var(--secondary-text-color);
+    cursor: pointer;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.slider-btn:hover {
+    background-color: var(--border-color);
+    color: var(--primary-text-color);
+    border-color: var(--primary-accent-color);
+}
+
+.course-content-list .module-item {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 15px;
+    background: #272727;
+    margin-bottom: 15px;
+    border-radius: 10px;
+
+}
+
+.course-content-list .module-name {
+    font-weight: bold;
+    color: #636363;
+}
+
+.course-content-list .lesson-link {
+    color: #7d7d7d;
+    transition: all 0.3s;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.course-content-list .lesson-link:hover {
+    color: #fafafa;
+    background:#2d2d2d;
+}
+
+.lesson-link.active {
+    color: #fafafa;
+    background:rgb(255,255,255,0.1);
+}
+
+.lesson-description h3 {
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.lesson-description .codex-editor .ce-header{
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.lesson-description .codex-editor .ce-paragraph{
+    font-size: 16px;
+}
+
+.lesson-description .ce-block__content {
+    max-width: 100%;
+}
+
+.lesson-description .codex-editor__redactor {
+    padding-bottom: 0px!important;
+}
+
+.back-link svg {
+    width: 24px;
+    height: 24px;
 }

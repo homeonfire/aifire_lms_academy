@@ -17,7 +17,7 @@ $isLessonFavorite = $activeLesson && isset($favoritedLessonIds) && in_array($act
             <div class="course-page-wrapper">
                 <div class="lesson-content-area">
                     <div class="lesson-header">
-                        <a href="/dashboard" class="back-link">← Назад к <?= ($type === 'masterclass') ? 'мастер-классам' : 'курсам' ?></a>
+                        <a href="/dashboard" class="back-link"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-left w-4 h-4"><path d="m15 18-6-6 6-6"></path></svg> Назад к <?= ($type === 'masterclass') ? 'мастер-классам' : 'курсам' ?></a>
                         <h1 class="lesson-title">
                             <?php if ($activeLesson && $type === 'course'): ?>
                                 <button
@@ -153,24 +153,28 @@ $isLessonFavorite = $activeLesson && isset($favoritedLessonIds) && in_array($act
 
                     <div class="course-content-list">
                         <h4><?= ($type === 'masterclass') ? 'Программа мастер-класса' : 'Содержание курса' ?></h4>
-                        <ul>
+                        <div class="module-sidebar">
                             <?php foreach ($course['modules'] as $module): ?>
-                                <li class="module-item"><?= htmlspecialchars($module['title']) ?></li>
+                                <div class="module-item">
+                                    <p class="module-name"><?= htmlspecialchars($module['title']) ?></p>
                                 <?php foreach ($module['lessons'] as $lesson): ?>
                                     <?php
                                     $linkPath = ($type === 'masterclass') ? 'masterclass' : 'course';
                                     ?>
-                                    <a href="/<?= $linkPath ?>/<?= $course['id'] ?>/lesson/<?= $lesson['id'] ?>" class="lesson-link">
-                                        <li class="lesson-item <?= ($activeLesson && $lesson['id'] === $activeLesson['id']) ? 'active' : '' ?>">
+                                    <a href="/<?= $linkPath ?>/<?= $course['id'] ?>/lesson/<?= $lesson['id'] ?>" class="lesson-link <?= ($activeLesson && $lesson['id'] === $activeLesson['id']) ? 'active' : '' ?>">
+                                        <p class="lesson-item <?= ($activeLesson && $lesson['id'] === $activeLesson['id']) ? 'active' : '' ?>">
                                             <?php if (in_array($lesson['id'], $completedLessonIds)): ?>
-                                                <span class="lesson-completed-icon">✅</span>
+                                                <span class="lesson-completed-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check ml-2 w-4 h-4"><path d="M20 6 9 17l-5-5"></path></svg>
+</svg>
+</span>
                                             <?php endif; ?>
                                             <?= htmlspecialchars($lesson['title']) ?>
-                                        </li>
+                                        </p>
                                     </a>
                                 <?php endforeach; ?>
+                                </div>
                             <?php endforeach; ?>
-                        </ul>
+                        </div>
                     </div>
                 </div>
 

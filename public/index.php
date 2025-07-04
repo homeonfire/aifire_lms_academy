@@ -59,6 +59,17 @@ $visitData = [
     'utm_content'  => $_SESSION['utm_data']['utm_content'] ?? null,
 ];
 
+function getRandomGradient() {
+    $colors = [
+        ['#FF9A8B', '#FF6A88', '#FF99AC'], ['#a18cd1', '#fbc2eb'],
+        ['#fad0c4', '#ffd1ff'],             ['#ff9a9e', '#fecfef'],
+        ['#f6d365', '#fda085'],             ['#84fab0', '#8fd3f4'],
+        ['#a6c0fe', '#f68084'],             ['#5ee7df', '#b490ca'],
+    ];
+    $gradient = $colors[array_rand($colors)];
+    return "background-image: linear-gradient(to right, " . implode(', ', $gradient) . ");";
+}
+
 
 
 // --- ЦЕНТРАЛИЗОВАННОЕ ПОДКЛЮЧЕНИЕ ВСЕХ ФАЙЛОВ ---
@@ -94,6 +105,7 @@ require_once __DIR__ . '/../src/Controllers/ProfileController.php';
 require_once __DIR__ . '/../src/Controllers/FavoriteController.php';
 require_once __DIR__ . '/../src/Controllers/MasterclassController.php';
 require_once __DIR__ . '/../src/Controllers/GuideController.php';
+require_once __DIR__ . '/../src/Controllers/MyCoursesController.php';
 
 // Контроллеры (Админ-панель)
 require_once __DIR__ . '/../src/Controllers/Admin/AdminController.php';

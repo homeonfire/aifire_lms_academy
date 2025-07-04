@@ -47,10 +47,17 @@ class Guide { // Имя класса Guide (единственное число)
      * @param string|null $contentJson - контент Editor.js
      * @return int|false ID нового гайда или false при ошибке
      */
-    public function create($title, $slug, $difficulty_level, $content_url, $contentJson = null) { // ИЗМЕНЕНО: content_text УДАЛЕН
-        $sql = "INSERT INTO guides (title, slug, difficulty_level, content_url, content_json, created_at) VALUES (?, ?, ?, ?, ?, NOW())"; // ИЗМЕНЕНО: content_text УДАЛЕН из SQL
+    public function create($data) {
+        $sql = "INSERT INTO guides (title, slug, difficulty_level, content_url, content_json, cover_url) VALUES (?, ?, ?, ?, ?, ?)";
         $stmt = $this->pdo->prepare($sql);
-        if ($stmt->execute([$title, $slug, $difficulty_level, $content_url, $contentJson])) { // ИЗМЕНЕНО: content_text УДАЛЕН из execute
+        if ($stmt->execute([
+            $data['title'],
+            $data['slug'],
+            $data['difficulty_level'],
+            $data['content_url'],
+            $data['content_json'],
+            $data['cover_url'] // Добавлено поле image_url
+        ])) {
             return $this->pdo->lastInsertId();
         }
         return false;
@@ -66,10 +73,18 @@ class Guide { // Имя класса Guide (единственное число)
      * @param string|null $contentJson - контент Editor.js
      * @return bool
      */
-    public function update($id, $title, $slug, $difficulty_level, $content_url, $contentJson = null) { // ИЗМЕНЕНО: content_text УДАЛЕН
-        $sql = "UPDATE guides SET title = ?, slug = ?, difficulty_level = ?, content_url = ?, content_json = ? WHERE id = ?"; // ИЗМЕНЕНО: content_text УДАЛЕН из SQL
+    public function update($id, $data) {
+        $sql = "UPDATE guides SET title = ?, slug = ?, difficulty_level = ?, content_url = ?, content_json = ?, cover_url = ? WHERE id = ?";
         $stmt = $this->pdo->prepare($sql);
-        return $stmt->execute([$title, $slug, $difficulty_level, $content_url, $contentJson, $id]); // ИЗМЕНЕНО: content_text УДАЛЕН из execute
+        return $stmt->execute([
+            $data['title'],
+            $data['slug'],
+            $data['difficulty_level'],
+            $data['content_url'],
+            $data['content_json'],
+            $data['cover_url'], // Добавлено поле image_url
+            $id
+        ]);
     }
 
     public function delete($id) {

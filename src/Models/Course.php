@@ -103,9 +103,9 @@ class Course {
      * @param string $type
      * @return string|false
      */
-    public function create($title, $description, $difficulty_level, $type = 'course') {
-        $stmt = $this->pdo->prepare("INSERT INTO courses (type, title, description, difficulty_level) VALUES (?, ?, ?, ?)");
-        $stmt->execute([$type, $title, $description, $difficulty_level]);
+    public function create($title, $description, $difficulty_level, $type = 'course', $cover_url = null) {
+        $stmt = $this->pdo->prepare("INSERT INTO courses (type, title, description, difficulty_level, cover_url) VALUES (?, ?, ?, ?, ?)");
+        $stmt->execute([$type, $title, $description, $difficulty_level, $cover_url]);
         return $this->pdo->lastInsertId();
     }
     // --- КОНЕЦ ИЗМЕНЕНИЙ ---
@@ -128,10 +128,9 @@ class Course {
      * @param string $difficulty_level
      * @return bool
      */
-    public function update($id, $title, $description, $difficulty_level) {
-        // Мы не меняем тип при редактировании, только другие данные
-        $stmt = $this->pdo->prepare("UPDATE courses SET title = ?, description = ?, difficulty_level = ? WHERE id = ?");
-        return $stmt->execute([$title, $description, $difficulty_level, $id]);
+    public function update($id, $title, $description, $difficulty_level, $cover_url = null) {
+        $stmt = $this->pdo->prepare("UPDATE courses SET title = ?, description = ?, difficulty_level = ?, cover_url = ? WHERE id = ?");
+        return $stmt->execute([$title, $description, $difficulty_level, $cover_url, $id]);
     }
     // --- КОНЕЦ ИЗМЕНЕНИЙ ---
 
@@ -165,4 +164,27 @@ class Course {
         }
     }
     // --- КОНЕЦ БЛОКА БЕЗ ИЗМЕНЕНИЙ ---
+
+    /**
+     * Находит все курсы и мастер-классы, которые пользователь "начал"
+     * (т.е. сдал хотя бы одно домашнее задание).
+     * @param int $userId ID пользователя
+     * @return array
+     */
+    public function findStartedForUser($userId) {
+        $sql = "
+        SELECT DISTINCT c.*
+        FROM courses c
+        JOIN modules m ON c.id = m.course_id
+        JOIN lessons l ON m.id = l.module_id
+        JOIN homeworks h ON l.id = h.lesson_id
+        JOIN homework_answers ha ON h.id = ha.homework_id
+        WHERE ha.user_id = ?
+        ORDER BY c.id DESC
+    ";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([$userId]);
+        return $stmt->fetchAll();
+    }
 }

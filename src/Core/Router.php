@@ -107,6 +107,12 @@ class Router {
                 (new AdminCourseController())->create();
                 break;
 
+            // --- ДОБАВЬ ЭТОТ НОВЫЙ РОУТ ---
+            case $uri === '/my-courses':
+                (new MyCoursesController())->index();
+                break;
+            // --- КОНЕЦ НОВОГО РОУТА ---
+
             case preg_match('/^\/admin\/courses\/content\/(\d+)$/', $uri, $m):
                 (new AdminCourseController())->content($m[1]);
                 break;

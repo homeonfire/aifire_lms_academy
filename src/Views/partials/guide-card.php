@@ -1,7 +1,11 @@
 <?php
 // src/Views/partials/guide-card.php
 
-$imageUrl = $guide['image_url'] ?? 'https://placehold.co/300x170/1C1C1C/FFFFFF?text=Guide';
+// 1. Определяем, какую картинку показывать
+$coverUrl = $guide['cover_url'] ?? null;
+$defaultImageUrl = '/public/uploads/zaglushka.png'; // <--- ВСТАВЬ СЮДА ССЫЛКУ
+$imageUrlToShow = $coverUrl ?: $defaultImageUrl;
+
 $difficultyLevels = [
     'beginner' => 'Начинающий',
     'intermediate' => 'Средний',
@@ -9,17 +13,13 @@ $difficultyLevels = [
 ];
 $difficultyText = $difficultyLevels[$guide['difficulty_level']] ?? 'Не указан';
 $categories = !empty($guide['categories']) ? explode(',', $guide['categories']) : [];
-
-// --- НАЧАЛО ИЗМЕНЕНИЙ ---
-// Проверяем, находится ли гайд в избранном
 $isFavorite = isset($favoritedGuideIds) && in_array($guide['id'], $favoritedGuideIds);
-// --- КОНЕЦ ИЗМЕНЕНИЙ ---
 ?>
 <div class="course-card-wrapper" style="position: relative;">
     <a href="/guides/<?= htmlspecialchars($guide['slug']) ?>" class="course-card-link">
         <div class="course-card">
-            <div class="course-card-image-wrapper">
-                <img src="<?= htmlspecialchars($imageUrl) ?>" alt="<?= htmlspecialchars($guide['title']) ?>">
+            <div class="course-card-image-wrapper guide-card-cover" style="<?= getRandomGradient() ?>">
+                <img src="<?= htmlspecialchars($imageUrlToShow) ?>" alt="<?= htmlspecialchars($guide['title']) ?>">
             </div>
             <div class="course-card-content">
                 <h4 class="course-card-title"><?= htmlspecialchars($guide['title']) ?></h4>

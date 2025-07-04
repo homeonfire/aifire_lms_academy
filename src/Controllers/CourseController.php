@@ -14,8 +14,10 @@ class CourseController extends Controller {
     }
 
     public function index() {
-        $courses = $this->courseModel->getAll();
+        // 1. Указываем, что хотим получить именно 'course'
+        $courses = $this->courseModel->getAll('course');
 
+        // 2. Остальная логика остается без изменений
         $favoriteModel = new Favorite();
         $userId = $_SESSION['user']['id'];
         $favoritedCoursesRaw = $favoriteModel->getFavoritedCourses($userId);
@@ -25,7 +27,7 @@ class CourseController extends Controller {
             'title' => 'Все курсы',
             'courses' => $courses,
             'favoritedCourseIds' => $favoritedCourseIds,
-            'type' => 'course' // Указываем тип для страницы курсов
+            'type' => 'course'
         ];
         $this->render('courses/index', $data);
     }

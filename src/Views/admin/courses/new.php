@@ -18,7 +18,7 @@
                         <div class="alert alert-danger"><?= $error ?></div>
                     <?php endif; ?>
 
-                    <form action="/admin/courses/create" method="POST" class="admin-form">
+                    <form action="/admin/courses/create" method="POST" class="admin-form" enctype="multipart/form-data">
                         <input type="hidden" name="type" value="<?= $type ?>">
 
                         <div class="input-group">
@@ -56,6 +56,10 @@
                                     </label>
                                 <?php endforeach; ?>
                             </div>
+                        </div>
+                        <div class="input-group">
+                            <label for="cover_url">Обложка</label>
+                            <input type="file" id="cover_url" name="cover_url" accept="image/*">
                         </div>
                         <button type="submit" class="btn btn-primary">Создать</button>
                     </form>

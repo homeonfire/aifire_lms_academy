@@ -1,7 +1,6 @@
 <?php
 // src/Controllers/Admin/GuideController.php
 
-
 class AdminGuideController extends AdminController {
 
     private $guideModel;
@@ -9,13 +8,10 @@ class AdminGuideController extends AdminController {
 
     public function __construct() {
         parent::__construct();
-        $this->guideModel = new \Guide(); // Используем \Guide() для глобального пространства имен
-        $this->categoryModel = new \Category(); // Используем \Category() для глобального пространства имен
+        $this->guideModel = new Guide();
+        $this->categoryModel = new Category();
     }
 
-    /**
-     * Показывает список всех гайдов.
-     */
     public function index() {
         $guides = $this->guideModel->getAll();
         $this->renderAdminPage('admin/guides/index', [
@@ -24,9 +20,6 @@ class AdminGuideController extends AdminController {
         ]);
     }
 
-    /**
-     * Показывает форму для создания нового гайда.
-     */
     public function new() {
         $categories = $this->categoryModel->getAll();
         $this->renderAdminPage('admin/guides/new', [
@@ -35,47 +28,31 @@ class AdminGuideController extends AdminController {
         ]);
     }
 
-    /**
-     * Обрабатывает создание нового гайда.
-     */
-    public function create() {
-        $title = $_POST['title'] ?? '';
-        $slug = $this->generateSlug($title);
-        $difficulty_level = $_POST['difficulty_level'] ?? 'beginner';
-        // ИЗМЕНЕНО: content_text УДАЛЕН, используем только content_url
-        $content_url = $_POST['content_url'] ?? null;
-        $contentJson = $_POST['content_json'] ?? null; // получаем content_json
+    public function create()
+    {
+        $coverUrl = $this->handleImageUpload($_FILES['cover_url'] ?? null);
+        $slug = $this->generateSlug($_POST['title']);
 
-        if (empty($title)) {
-            $_SESSION['error_message'] = 'Название гайда обязательно.';
-            header('Location: /admin/guides/new');
-            exit();
-        }
+        $guideData = [
+            'title' => $_POST['title'],
+            'slug' => $slug,
+            'difficulty_level' => $_POST['difficulty_level'],
+            'content_url' => $_POST['content_url'],
+            'content_json' => $_POST['content_json'],
+            'cover_url' => $coverUrl
+        ];
 
-        // Если contentJson должен быть обязательным, добавьте валидацию здесь
-        // if (empty($contentJson) || json_decode($contentJson) === null) {
-        //     $_SESSION['error_message'] = 'Контент гайда обязателен и должен быть в правильном формате.';
-        //     header('Location: /admin/guides/new');
-        //     exit();
-        // }
+        $guideId = $this->guideModel->create($guideData);
 
-        // ИЗМЕНЕНО: Передаем contentJson, content_text УДАЛЕН
-        $guideId = $this->guideModel->create($title, $slug, $difficulty_level, $content_url, $contentJson);
-        if ($guideId) {
-            $categoryIds = $_POST['category_ids'] ?? [];
-            $this->guideModel->syncCategories($guideId, $categoryIds);
-            $_SESSION['success_message'] = 'Гайд "' . htmlspecialchars($title) . '" успешно создан!';
-        } else {
-            $_SESSION['error_message'] = 'Ошибка при создании гайда.';
+        // ИСПРАВЛЕНО: Теперь мы проверяем $_POST['category_ids']
+        if ($guideId && isset($_POST['category_ids'])) {
+            $this->guideModel->syncCategories($guideId, $_POST['category_ids']);
         }
 
         header('Location: /admin/guides');
         exit();
     }
 
-    /**
-     * Показывает форму редактирования гайда.
-     */
     public function edit($id) {
         $guide = $this->guideModel->findById($id);
         if (!$guide) {
@@ -94,46 +71,36 @@ class AdminGuideController extends AdminController {
         ]);
     }
 
-    /**
-     * Обрабатывает обновление гайда.
-     */
-    public function update($id) {
-        $title = $_POST['title'] ?? '';
-        $slug = $this->generateSlug($title);
-        $difficulty_level = $_POST['difficulty_level'] ?? 'beginner';
-        // ИЗМЕНЕНО: content_text УДАЛЕН, используем только content_url
-        $content_url = $_POST['content_url'] ?? null;
-        $contentJson = $_POST['content_json'] ?? null; // получаем content_json
+    public function update($id)
+    {
+        $currentGuide = $this->guideModel->findById($id);
+        $currentCoverPath = $currentGuide['cover_url'] ?? null;
+        $coverUrl = $this->handleImageUpload($_FILES['cover_url'] ?? null, $currentCoverPath);
 
-        if (empty($title)) {
-            $_SESSION['error_message'] = 'Название гайда обязательно.';
-            header('Location: /admin/guides/edit/' . $id);
-            exit();
-        }
+        $slug = $this->generateSlug($_POST['title']);
 
-        // Если contentJson должен быть обязательным, добавьте валидацию здесь
-        // if (empty($contentJson) || json_decode($contentJson) === null) {
-        //     $_SESSION['error_message'] = 'Контент гайда обязателен и должен быть в правильном формате.';
-        //     header('Location: /admin/guides/edit/' . $id);
-        //     exit();
-        // }
+        $updateData = [
+            'title' => $_POST['title'],
+            'slug' => $slug,
+            'difficulty_level' => $_POST['difficulty_level'],
+            'content_url' => $_POST['content_url'],
+            'content_json' => $_POST['content_json'],
+            'cover_url' => $coverUrl
+        ];
 
-        // ИЗМЕНЕНО: Передаем contentJson, content_text УДАЛЕН
-        if ($this->guideModel->update($id, $title, $slug, $difficulty_level, $content_url, $contentJson)) {
-            $categoryIds = $_POST['category_ids'] ?? [];
-            $this->guideModel->syncCategories($id, $categoryIds);
-            $_SESSION['success_message'] = 'Гайд "' . htmlspecialchars($title) . '" успешно обновлен!';
+        $this->guideModel->update($id, $updateData);
+
+        // ИСПРАВЛЕНО: Теперь мы проверяем $_POST['category_ids']
+        if (isset($_POST['category_ids'])) {
+            $this->guideModel->syncCategories($id, $_POST['category_ids']);
         } else {
-            $_SESSION['error_message'] = 'Ошибка при обновлении гайда.';
+            $this->guideModel->syncCategories($id, []);
         }
 
-        header('Location: /admin/guides');
+        header('Location: /admin/guides/edit/' . $id);
         exit();
     }
 
-    /**
-     * Обрабатывает удаление гайда.
-     */
     public function delete($id) {
         if ($this->guideModel->delete($id)) {
             $_SESSION['success_message'] = 'Гайд успешно удален.';
@@ -144,11 +111,6 @@ class AdminGuideController extends AdminController {
         exit();
     }
 
-    /**
-     * Приватная функция для генерации слага из заголовка.
-     * @param string $string
-     * @return string
-     */
     private function generateSlug($string) {
         $converter = [
             'а' => 'a',   'б' => 'b',   'в' => 'v',   'г' => 'g',   'д' => 'd',
@@ -165,5 +127,24 @@ class AdminGuideController extends AdminController {
         $string = preg_replace('/[^a-z0-9-]+/', '-', $string);
         $string = trim($string, '-');
         return $string;
+    }
+
+    private function handleImageUpload($file, $currentPath = null) {
+        if (isset($file) && $file['error'] === UPLOAD_ERR_OK) {
+            $uploadDir = __DIR__ . '/../../../public/assets/uploads/guides/';
+
+            if (!is_dir($uploadDir)) {
+                mkdir($uploadDir, 0777, true);
+            }
+            if ($currentPath && file_exists(__DIR__ . '/../../../public' . $currentPath)) {
+                unlink(__DIR__ . '/../../../public' . $currentPath);
+            }
+            $fileName = uniqid('guide_') . '-' . basename($file['name']);
+            $targetPath = $uploadDir . $fileName;
+            if (move_uploaded_file($file['tmp_name'], $targetPath)) {
+                return '/public/assets/uploads/guides/' . $fileName;
+            }
+        }
+        return $currentPath;
     }
 }

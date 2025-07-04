@@ -15,7 +15,7 @@
                     <?php if (isset($_SESSION['success_message'])): ?>
                         <div class="alert alert-success"><?= htmlspecialchars($_SESSION['success_message']); unset($_SESSION['success_message']); ?></div>
                     <?php endif; ?>
-                    <form id="content-form" action="/admin/guides/update/<?= $guide['id'] ?>" method="POST" class="admin-form">
+                    <form id="content-form" action="/admin/guides/update/<?= $guide['id'] ?>" method="POST" class="admin-form" enctype="multipart/form-data">
                         <div class="input-group">
                             <label for="title">Название гайда</label>
                             <input type="text" id="title" name="title" value="<?= htmlspecialchars($guide['title']) ?>" required>
@@ -42,7 +42,17 @@
                             <label for="content_url">Ссылка на видео (необязательно)</label>
                             <input type="url" id="content_url" name="content_url" value="<?= htmlspecialchars($guide['content_url'] ?? '') ?>">
                         </div>
+                        <?php if (!empty($guide['cover_url'])): ?>
+                            <div class="form-group">
+                                <label>Текущая обложка</label><br>
+                                <img src="<?= htmlspecialchars($guide['cover_url']) ?>" alt="Текущая обложка" style="max-width: 200px; border-radius: 8px; margin-bottom: 10px;">
+                            </div>
+                        <?php endif; ?>
 
+                        <div class="form-group">
+                            <label for="cover_url">Загрузить новую обложку (заменит старую)</label>
+                            <input type="file" class="form-control-file" id="cover_url" name="cover_url" accept="image/*">
+                        </div>
                         <div class="input-group">
                             <label>Текст гайда</label>
                             <div id="editorjs" style="border: 1px solid #e0e0e0; border-radius: 8px; padding: 10px; min-height: 300px;"></div>

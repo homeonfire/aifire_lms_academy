@@ -17,14 +17,18 @@ class DashboardController extends Controller {
         $userId = $_SESSION['user']['id'];
 
         // --- НАЧАЛО ИЗМЕНЕНИЙ ---
-        // Получаем ID избранных для ВСЕХ типов контента
+
+        // 1. Получаем курсы, которые пользователь уже начал
+        $startedCourses = $courseModel->findStartedForUser($userId);
+
+        // 2. Получаем ID избранных для ВСЕХ типов контента
         $favoritedCoursesRaw = $favoriteModel->getFavoritedCourses($userId);
         $favoritedCourseIds = array_column($favoritedCoursesRaw, 'id');
 
-        $favoritedGuidesRaw = $favoriteModel->getFavoritedGuides($userId); // <-- Получаем избранные гайды
-        $favoritedGuideIds = array_column($favoritedGuidesRaw, 'id'); // <-- Получаем их ID
+        $favoritedGuidesRaw = $favoriteModel->getFavoritedGuides($userId);
+        $favoritedGuideIds = array_column($favoritedGuidesRaw, 'id');
 
-        // Получаем последние элементы для всех блоков
+        // 3. Получаем последние элементы для остальных блоков
         $featuredCourse = $courseModel->getFeaturedCourse();
         $latestCourses = $courseModel->getLatest('course', 5);
         $latestMasterclasses = $courseModel->getLatest('masterclass', 5);
@@ -32,15 +36,17 @@ class DashboardController extends Controller {
 
         $data = [
             'title' => 'Дашборд',
+            'startedCourses' => $startedCourses, // <-- Передаем начатые курсы
             'featuredCourse' => $featuredCourse,
             'latestCourses' => $latestCourses,
             'latestMasterclasses' => $latestMasterclasses,
             'latestGuides' => $latestGuides,
             'favoritedCourseIds' => $favoritedCourseIds,
-            'favoritedGuideIds' => $favoritedGuideIds // <-- Передаем ID избранных гайдов в шаблон
+            'favoritedGuideIds' => $favoritedGuideIds
         ];
 
         $this->render('dashboard/index', $data);
+
         // --- КОНЕЦ ИЗМЕНЕНИЙ ---
     }
 }

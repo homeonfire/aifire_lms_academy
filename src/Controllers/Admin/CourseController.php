@@ -50,23 +50,27 @@ class AdminCourseController extends AdminController {
      * Обрабатывает создание нового элемента
      */
     public function create() {
+        // --- ИЗМЕНЕНИЯ ЗДЕСЬ ---
+        $coverUrl = $this->handleImageUpload($_FILES['cover_url'] ?? null);
+        // --- КОНЕЦ ИЗМЕНЕНИЙ ---
+
         $title = $_POST['title'] ?? '';
         $description = $_POST['description'] ?? '';
         $difficulty_level = $_POST['difficulty_level'] ?? 'beginner';
-        $type = $_POST['type'] ?? 'course'; // Получаем тип из скрытого поля формы
+        $type = $_POST['type'] ?? 'course';
 
         if (empty($title)) {
             // ... обработка ошибки
         }
 
-        $lastInsertId = $this->courseModel->create($title, $description, $difficulty_level, $type);
+        // --- ИЗМЕНЕНИЯ ЗДЕСЬ: Добавляем $coverUrl в вызов метода ---
+        $lastInsertId = $this->courseModel->create($title, $description, $difficulty_level, $type, $coverUrl);
 
         if ($lastInsertId) {
             $categoryIds = $_POST['category_ids'] ?? [];
             $this->courseModel->syncCategories($lastInsertId, $categoryIds);
         }
 
-        // Редирект на правильную страницу списка
         $redirectUrl = ($type === 'masterclass') ? '/admin/masterclasses' : '/admin/courses';
         header('Location: ' . $redirectUrl);
         exit();
@@ -104,20 +108,27 @@ class AdminCourseController extends AdminController {
     }
 
     public function update($id) {
+        // --- ИЗМЕНЕНИЯ ЗДЕСЬ: Логика загрузки обложки ---
+        $currentCourse = $this->courseModel->findById($id);
+        $currentCoverPath = $currentCourse['cover_url'] ?? null;
+        $coverUrl = $this->handleImageUpload($_FILES['cover_url'] ?? null, $currentCoverPath);
+        // --- КОНЕЦ ИЗМЕНЕНИЙ ---
+
         $title = $_POST['title'] ?? '';
         $description = $_POST['description'] ?? '';
         $difficulty_level = $_POST['difficulty_level'] ?? 'beginner';
 
         if (empty($title)) {
-            header('Location: /admin/courses/edit/' . $id); // Редирект на редактирование
+            header('Location: /admin/courses/edit/' . $id);
             exit();
         }
 
-        $this->courseModel->update($id, $title, $description, $difficulty_level);
+        // --- ИЗМЕНЕНИЯ ЗДЕСЬ: Добавляем $coverUrl в вызов метода ---
+        $this->courseModel->update($id, $title, $description, $difficulty_level, $coverUrl);
+
         $categoryIds = $_POST['category_ids'] ?? [];
         $this->courseModel->syncCategories($id, $categoryIds);
 
-        // Определяем, куда редиректить после обновления
         $course = $this->courseModel->findById($id);
         $redirectUrl = ($course['type'] === 'masterclass') ? '/admin/masterclasses' : '/admin/courses';
         header('Location: ' . $redirectUrl);
@@ -134,4 +145,41 @@ class AdminCourseController extends AdminController {
         exit();
     }
     // --- КОНЕЦ БЛОКА БЕЗ ИЗМЕНЕНИЙ ---
+
+    private function handleImageUpload($file, $currentPath = null) {
+        if (isset($file) && $file['error'] === UPLOAD_ERR_OK) {
+            // Путь для сохранения обложек курсов
+            $uploadDir = __DIR__ . '/../../../public/assets/uploads/courses/';
+
+            if (!is_dir($uploadDir)) {
+                mkdir($uploadDir, 0777, true);
+            }
+            if ($currentPath && file_exists(__DIR__ . '/../../../public' . $currentPath)) {
+                unlink(__DIR__ . '/../../../public' . $currentPath);
+            }
+
+            // "Очищаем" имя файла от спецсимволов и пробелов
+            $fileExtension = pathinfo(basename($file['name']), PATHINFO_EXTENSION);
+            $fileNameWithoutExt = pathinfo(basename($file['name']), PATHINFO_FILENAME);
+            $converter = [
+                'а'=>'a','б'=>'b','в'=>'v','г'=>'g','д'=>'d','е'=>'e','ё'=>'e','ж'=>'zh',
+                'з'=>'z','и'=>'i','й'=>'y','к'=>'k','л'=>'l','м'=>'m','н'=>'n','о'=>'o',
+                'п'=>'p','р'=>'r','с'=>'s','т'=>'t','у'=>'u','ф'=>'f','х'=>'h','ц'=>'c',
+                'ч'=>'ch','ш'=>'sh','щ'=>'sch','ь'=>'','ы'=>'y','ъ'=>'','э'=>'e','ю'=>'yu','я'=>'ya',
+                ' '=>'-'
+            ];
+            $cleanName = strtr(mb_strtolower($fileNameWithoutExt), $converter);
+            $cleanName = preg_replace('/[^a-z0-9-]+/', '-', $cleanName);
+            $cleanName = trim($cleanName, '-');
+            $finalFileName = uniqid('course_') . '-' . $cleanName . '.' . $fileExtension;
+
+            $targetPath = $uploadDir . $finalFileName;
+
+            if (move_uploaded_file($file['tmp_name'], $targetPath)) {
+                // Возвращаем путь с /public, как мы выяснили ранее
+                return '/public/assets/uploads/courses/' . $finalFileName;
+            }
+        }
+        return $currentPath;
+    }
 }

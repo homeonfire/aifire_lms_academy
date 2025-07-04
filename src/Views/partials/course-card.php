@@ -1,8 +1,13 @@
 <?php
 // src/Views/partials/course-card.php
 
-$isFavorite = isset($favoritedCourseIds) && in_array($course['id'], $favoritedCourseIds);
+// 1. Проверяем cover_url, как и договаривались
+$coverUrl = $course['cover_url'] ?? null;
+$defaultImageUrl = '/public/uploads/zaglushka.png'; // <--- ВСТАВЬ СЮДА ССЫЛКУ
+$imageUrlToShow = $coverUrl ?: $defaultImageUrl;
 
+// --- Остальной код остается без изменений ---
+$isFavorite = isset($favoritedCourseIds) && in_array($course['id'], $favoritedCourseIds);
 $difficultyLevels = [
     'beginner' => 'Начинающий',
     'intermediate' => 'Средний',
@@ -10,20 +15,14 @@ $difficultyLevels = [
 ];
 $difficultyText = $difficultyLevels[$course['difficulty_level']] ?? 'Не указан';
 $categories = !empty($course['categories']) ? explode(',', $course['categories']) : [];
-
-$imageUrl = $course['image_url'] ?? 'https://placehold.co/300x170/2A2A2A/FFFFFF?text=+';
-$companyLogoUrl = $course['company_logo'] ?? 'https://placehold.co/48x48/000/FFFFFF?text=B';
-
-// --- НАЧАЛО ИЗМЕНЕНИЙ ---
-// Формируем правильную ссылку в зависимости от типа элемента
+$companyLogoUrl = $course['company_logo'] ?? null;
 $linkPath = ($course['type'] === 'masterclass') ? 'masterclass' : 'course';
-// --- КОНЕЦ ИЗМЕНЕНИЙ ---
 ?>
 <div class="course-card-wrapper" style="position: relative;">
     <a href="/<?= $linkPath ?>/<?= $course['id'] ?>" class="course-card-link">
         <div class="course-card">
-            <div class="course-card-image-wrapper">
-                <img src="<?= htmlspecialchars($imageUrl) ?>" alt="<?= htmlspecialchars($course['title']) ?>">
+            <div class="course-card-image-wrapper course-item-cover" style="<?= getRandomGradient() ?>">
+                <img src="<?= htmlspecialchars($imageUrlToShow) ?>" alt="<?= htmlspecialchars($course['title']) ?>">
                 <div class="course-card-overlay-icons">
                     <?php if ($companyLogoUrl): ?>
                         <img src="<?= htmlspecialchars($companyLogoUrl) ?>" alt="Company Logo" class="overlay-icon company-logo">

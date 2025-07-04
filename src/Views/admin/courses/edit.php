@@ -11,7 +11,7 @@
                 </div>
 
                 <div class="admin-card">
-                    <form action="/admin/courses/update/<?= $course['id'] ?>" method="POST" class="admin-form">
+                    <form action="/admin/courses/update/<?= $course['id'] ?>" method="POST" class="admin-form" enctype="multipart/form-data">
                         <div class="input-group">
                             <label for="title">Название курса</label>
                             <input type="text" id="title" name="title" value="<?= htmlspecialchars($course['title']) ?>" required>
@@ -38,6 +38,7 @@
                                 <?php endforeach; ?>
                             </div>
                         </div>
+
                         <div class="input-group">
                             <label>Категории</label>
                             <div class="tag-checkbox-group">
@@ -52,6 +53,17 @@
                                     </label>
                                 <?php endforeach; ?>
                             </div>
+                        </div>
+                        <div class="input-group">
+                            <?php if (!empty($course['cover_url'])): ?>
+                                <label>Текущая обложка</label>
+                                <div style="margin-bottom: 10px;">
+                                    <img src="<?= htmlspecialchars($course['cover_url']) ?>" alt="Текущая обложка" style="max-width: 200px; border-radius: 8px;">
+                                </div>
+                            <?php endif; ?>
+
+                            <label for="cover_url" style="width: 100%; margin-top: 5px;">Загрузить новую обложку</label>
+                            <input type="file" id="cover_url" name="cover_url" accept="image/*">
                         </div>
                         <button type="submit" class="btn btn-primary">Сохранить изменения</button>
                     </form>

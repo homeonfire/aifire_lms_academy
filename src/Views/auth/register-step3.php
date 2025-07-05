@@ -14,6 +14,7 @@
             </div>
 
             <form method="POST" action="/register/step3" class="auth-form">
+                <?= CSRF::getTokenField() ?>
                 <div class="input-group">
                     <div class="tag-checkbox-group">
                         <?php if (!empty($allCategories)): ?>

@@ -21,6 +21,7 @@
                             <th>ID</th>
                             <th>Название</th>
                             <th>Дата создания</th>
+                            <th>Автор (админ)</th>
                             <th>Действия</th>
                         </tr>
                         </thead>
@@ -31,6 +32,18 @@
                                     <td><?= $course['id'] ?></td>
                                     <td><?= htmlspecialchars($course['title']) ?></td>
                                     <td><?= date('d.m.Y H:i', strtotime($course['created_at'])) ?></td>
+                                    <td>
+                                        <?php if (!empty($course['admin_email'])): ?>
+                                            <?= htmlspecialchars($course['admin_email']) ?>
+                                            <?php if (!empty($course['admin_first_name']) || !empty($course['admin_last_name'])): ?>
+                                                <br><span style="color:#888; font-size:12px;">
+                                                    <?= htmlspecialchars(trim(($course['admin_first_name'] ?? '') . ' ' . ($course['admin_last_name'] ?? ''))) ?>
+                                                </span>
+                                            <?php endif; ?>
+                                        <?php else: ?>
+                                            <span style="color:#888;">—</span>
+                                        <?php endif; ?>
+                                    </td>
                                     <td class="actions">
                                         <a href="/admin/courses/content/<?= $course['id'] ?>" class="btn btn-primary">Управление</a>
                                         <a href="/admin/courses/edit/<?= $course['id'] ?>" class="btn btn-secondary">Редактировать</a>

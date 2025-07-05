@@ -91,6 +91,7 @@ require_once __DIR__ . '/../src/Models/HomeworkAnswer.php';
 require_once __DIR__ . '/../src/Models/LessonProgress.php';
 require_once __DIR__ . '/../src/Models/Category.php';
 require_once __DIR__ . '/../src/Models/Favorite.php';
+require_once __DIR__ . '/../src/Models/StaticPage.php';
 require_once __DIR__ . '/../src/Models/Visit.php';
 require_once __DIR__ . '/../src/Models/Guides.php';
 
@@ -104,6 +105,7 @@ require_once __DIR__ . '/../src/Controllers/HomeworkController.php';
 require_once __DIR__ . '/../src/Controllers/HomeworkCheckController.php';
 require_once __DIR__ . '/../src/Controllers/ProfileController.php';
 require_once __DIR__ . '/../src/Controllers/FavoriteController.php';
+require_once __DIR__ . '/../src/Controllers/StaticPageController.php';
 require_once __DIR__ . '/../src/Controllers/MasterclassController.php';
 require_once __DIR__ . '/../src/Controllers/GuideController.php';
 require_once __DIR__ . '/../src/Controllers/MyCoursesController.php';
@@ -117,6 +119,7 @@ require_once __DIR__ . '/../src/Controllers/Admin/LessonController.php';
 require_once __DIR__ . '/../src/Controllers/Admin/UserController.php';
 require_once __DIR__ . '/../src/Controllers/Admin/CategoryController.php';
 require_once __DIR__ . '/../src/Controllers/Admin/VisitController.php';
+require_once __DIR__ . '/../src/Controllers/Admin/StaticPageController.php';
 require_once __DIR__ . '/../src/Controllers/Admin/GuideController.php';
 // ----------------------------------------------------
 

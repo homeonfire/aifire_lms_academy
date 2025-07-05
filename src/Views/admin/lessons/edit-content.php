@@ -33,7 +33,10 @@
                                 $questions = $homework ? json_decode($homework['questions'], true) : [];
                                 if (!empty($questions)) {
                                     foreach ($questions as $item) {
-                                        echo '<div><input type="text" name="homework_questions[]" class="homework-question-input" value="'.htmlspecialchars($item['q']).'"></div>';
+                                        echo '<div class="homework-question-row" style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">';
+                                        echo '<input type="text" name="homework_questions[]" class="homework-question-input" value="'.htmlspecialchars($item['q']).'" placeholder="Введите вопрос">';
+                                        echo '<button type="button" class="btn btn-sm btn-danger remove-question-btn" title="Удалить вопрос" style="padding: 4px 10px;">&times;</button>';
+                                        echo '</div>';
                                     }
                                 }
                                 ?>
@@ -50,5 +53,27 @@
 
     <script>
         window.editorData = <?= !empty($lesson['content_json']) ? $lesson['content_json'] : '{}' ?>;
+    </script>
+
+    <script>
+        document.getElementById('add-homework-question').addEventListener('click', function() {
+            const container = document.getElementById('homework-questions-container');
+            const div = document.createElement('div');
+            div.className = 'homework-question-row';
+            div.style.display = 'flex';
+            div.style.alignItems = 'center';
+            div.style.gap = '10px';
+            div.style.marginBottom = '8px';
+            div.innerHTML = '<input type="text" name="homework_questions[]" class="homework-question-input" placeholder="Введите вопрос">' +
+                '<button type="button" class="btn btn-sm btn-danger remove-question-btn" title="Удалить вопрос" style="padding: 4px 10px;">&times;</button>';
+            container.appendChild(div);
+        });
+
+        // Делегирование для удаления (работает и для новых, и для старых)
+        document.getElementById('homework-questions-container').addEventListener('click', function(e) {
+            if (e.target.classList.contains('remove-question-btn')) {
+                e.target.closest('.homework-question-row').remove();
+            }
+        });
     </script>
 <?php $this->render('layouts/footer'); ?>

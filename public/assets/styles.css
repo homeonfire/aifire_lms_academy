@@ -1967,6 +1967,57 @@ h1 .favorite-toggle-btn.active svg {
     color: var(--secondary-text-color);
 }
 
+/* --- Стили для статических страниц --- */
+
+.static-page-header {
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.static-page-header .page-meta {
+    margin-top: 10px;
+    color: var(--secondary-text-color);
+}
+
+.static-page-content {
+    line-height: 1.7;
+    font-size: 16px;
+}
+
+.static-page-content h1,
+.static-page-content h2,
+.static-page-content h3,
+.static-page-content h4,
+.static-page-content h5,
+.static-page-content h6 {
+    margin-top: 30px;
+    margin-bottom: 15px;
+    color: var(--primary-text-color);
+}
+
+.static-page-content p {
+    margin-bottom: 15px;
+}
+
+.static-page-content ul,
+.static-page-content ol {
+    margin-bottom: 15px;
+    padding-left: 20px;
+}
+
+.static-page-content li {
+    margin-bottom: 5px;
+}
+
+.static-page-content blockquote {
+    border-left: 4px solid var(--primary-accent-color);
+    padding-left: 20px;
+    margin: 20px 0;
+    font-style: italic;
+    color: var(--secondary-text-color);
+}
+
 /* --- Стили для контента Editor.js на стороне пользователя --- */
 
 

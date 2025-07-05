@@ -8,6 +8,7 @@
         <a href="/admin/masterclasses" class="nav-item">Мастер-классы</a>
         <a href="/admin/guides" class="nav-item">Гайды</a>
         <a href="/admin/categories" class="nav-item">Категории</a>
+        <a href="/admin/static-pages" class="nav-item">Статические страницы</a>
         <a href="/admin/users" class="nav-item">Пользователи</a>
         <a href="/admin/visits" class="nav-item">Посещения</a>
     </nav>

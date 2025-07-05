@@ -15,6 +15,7 @@
                     <div class="admin-card">
                         <h3>Основная информация</h3>
                         <form action="/admin/users/update/<?= $user['id'] ?>" method="POST" class="admin-form">
+                            <?= CSRF::getTokenField() ?>
                             <div class="input-group">
                                 <label>Аватар</label>
                                 <img src="<?= htmlspecialchars($user['avatar_path'] ?? '/public/assets/images/default-avatar.png') ?>" alt="Avatar" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin-top: 5px;">

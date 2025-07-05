@@ -1,0 +1,1 @@
+ALTER TABLE courses ADD COLUMN created_by INT DEFAULT NULL, ADD KEY (created_by); 

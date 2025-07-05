@@ -204,6 +204,28 @@ class Router {
                 (new AdminUserController())->show($m[1]);
                 break;
 
+            // --- Роуты для статических страниц ---
+            case $uri === '/policy':
+                (new StaticPageController())->show('policy');
+                break;
+
+            case $uri === '/oferta':
+                (new StaticPageController())->show('oferta');
+                break;
+
+            // --- Админские роуты для статических страниц ---
+            case $uri === '/admin/static-pages' && $method === 'GET':
+                (new AdminStaticPageController())->index();
+                break;
+
+            case preg_match('/^\/admin\/static-pages\/edit\/([a-z-]+)$/', $uri, $m) && $method === 'GET':
+                (new AdminStaticPageController())->edit($m[1]);
+                break;
+
+            case preg_match('/^\/admin\/static-pages\/update\/([a-z-]+)$/', $uri, $m) && $method === 'POST':
+                (new AdminStaticPageController())->update($m[1]);
+                break;
+
             // Новый роут для AJAX пагинации визитов
             case preg_match('/^\/admin\/users\/visits\/(\d+)$/', $uri, $m) && $method === 'GET':
                 (new AdminUserController())->getVisitsJson($m[1]);

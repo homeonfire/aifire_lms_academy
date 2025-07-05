@@ -22,9 +22,21 @@ class HomeworkCheckController extends Controller {
     public function index() {
         $submissions = $this->homeworkAnswerModel->getAllSubmitted();
 
+        // --- Пагинация для проверенных работ ---
+        $page = isset($_GET['page']) ? max(1, (int)$_GET['page']) : 1;
+        $perPage = 10;
+        $offset = ($page - 1) * $perPage;
+        $checkedTotal = $this->homeworkAnswerModel->getCheckedCount();
+        $checkedPages = (int)ceil($checkedTotal / $perPage);
+        $checkedList = $this->homeworkAnswerModel->getCheckedPaginated($perPage, $offset);
+
         $data = [
             'title' => 'Проверка ДЗ',
-            'submissions' => $submissions
+            'submissions' => $submissions,
+            'checkedList' => $checkedList,
+            'checkedPage' => $page,
+            'checkedPages' => $checkedPages,
+            'checkedTotal' => $checkedTotal
         ];
 
         $this->render('homeworks/check-list', $data);

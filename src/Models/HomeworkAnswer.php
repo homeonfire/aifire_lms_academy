@@ -140,4 +140,38 @@ class HomeworkAnswer {
         $stmt->execute([$userId]);
         return $stmt->fetchAll();
     }
+
+    /**
+     * Получает проверенные ДЗ (checked или rejected) с пагинацией
+     * @param int $limit
+     * @param int $offset
+     * @return array
+     */
+    public function getCheckedPaginated($limit = 10, $offset = 0) {
+        $sql = "SELECT ha.id, ha.checked_at, ha.status, u.email as user_email, l.title as lesson_title, c.title as course_title
+            FROM homework_answers ha
+            JOIN users u ON ha.user_id = u.id
+            JOIN homeworks h ON ha.homework_id = h.id
+            JOIN lessons l ON h.lesson_id = l.id
+            JOIN modules m ON l.module_id = m.id
+            JOIN courses c ON m.course_id = c.id
+            WHERE ha.status IN ('checked', 'rejected')
+            ORDER BY ha.checked_at DESC
+            LIMIT :limit OFFSET :offset";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
+        $stmt->bindValue(':offset', (int)$offset, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
+
+    /**
+     * Получает общее количество проверенных ДЗ
+     * @return int
+     */
+    public function getCheckedCount() {
+        $stmt = $this->pdo->prepare("SELECT COUNT(*) FROM homework_answers WHERE status IN ('checked', 'rejected')");
+        $stmt->execute();
+        return (int)$stmt->fetchColumn();
+    }
 }

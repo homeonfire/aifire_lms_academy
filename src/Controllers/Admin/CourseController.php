@@ -58,13 +58,14 @@ class AdminCourseController extends AdminController {
         $description = $_POST['description'] ?? '';
         $difficulty_level = $_POST['difficulty_level'] ?? 'beginner';
         $type = $_POST['type'] ?? 'course';
+        $created_by = $_SESSION['user']['id'] ?? null;
 
         if (empty($title)) {
             // ... обработка ошибки
         }
 
         // --- ИЗМЕНЕНИЯ ЗДЕСЬ: Добавляем $coverUrl в вызов метода ---
-        $lastInsertId = $this->courseModel->create($title, $description, $difficulty_level, $type, $coverUrl);
+        $lastInsertId = $this->courseModel->create($title, $description, $difficulty_level, $type, $coverUrl, $created_by);
 
         if ($lastInsertId) {
             $categoryIds = $_POST['category_ids'] ?? [];

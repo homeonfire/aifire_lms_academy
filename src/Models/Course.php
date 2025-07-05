@@ -82,10 +82,11 @@ class Course {
      * @return array
      */
     public function getAll($type = 'course') {
-        $sql = "SELECT c.*, GROUP_CONCAT(cat.name) as categories
+        $sql = "SELECT c.*, GROUP_CONCAT(cat.name) as categories, u.email as admin_email, u.first_name as admin_first_name, u.last_name as admin_last_name
             FROM courses c
             LEFT JOIN course_categories cc ON c.id = cc.course_id
             LEFT JOIN categories cat ON cc.category_id = cat.id
+            LEFT JOIN users u ON c.created_by = u.id
             WHERE c.type = :type
             GROUP BY c.id
             ORDER BY c.created_at DESC";
@@ -103,9 +104,9 @@ class Course {
      * @param string $type
      * @return string|false
      */
-    public function create($title, $description, $difficulty_level, $type = 'course', $cover_url = null) {
-        $stmt = $this->pdo->prepare("INSERT INTO courses (type, title, description, difficulty_level, cover_url) VALUES (?, ?, ?, ?, ?)");
-        $stmt->execute([$type, $title, $description, $difficulty_level, $cover_url]);
+    public function create($title, $description, $difficulty_level, $type = 'course', $cover_url = null, $created_by = null) {
+        $stmt = $this->pdo->prepare("INSERT INTO courses (type, title, description, difficulty_level, cover_url, created_by) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt->execute([$type, $title, $description, $difficulty_level, $cover_url, $created_by]);
         return $this->pdo->lastInsertId();
     }
     // --- КОНЕЦ ИЗМЕНЕНИЙ ---

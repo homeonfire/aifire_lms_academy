@@ -6,6 +6,12 @@ class Router {
         $uri = strtok($_SERVER['REQUEST_URI'], '?');
         $method = $_SERVER['REQUEST_METHOD'];
 
+        // CSRF проверка для POST запросов
+        if ($method === 'POST' && !CSRF::checkPostRequest()) {
+            http_response_code(403);
+            die('CSRF токен недействителен или отсутствует');
+        }
+
         switch (true) {
             // --- Главные роуты и авторизация ---
             case $uri === '/':

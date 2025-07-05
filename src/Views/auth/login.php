@@ -26,6 +26,7 @@ $this->render('layouts/header', ['title' => $title]);
             <?php endif; ?>
 
             <form method="POST" action="/login" class="auth-form">
+                <?= CSRF::getTokenField() ?>
                 <div class="input-group">
                     <label for="email">Email адрес</label>
                     <input type="email" name="email" id="email" required>
@@ -39,6 +40,20 @@ $this->render('layouts/header', ['title' => $title]);
                 </div>
                 <button type="submit" class="btn-primary">Войти</button>
             </form>
+
+            <script>
+                // Вывод CSRF токена в консоль для отладки
+                document.addEventListener('DOMContentLoaded', function() {
+                    const csrfToken = document.querySelector('input[name="csrf_token"]');
+                    if (csrfToken) {
+                        console.log('🔐 CSRF Token:', csrfToken.value);
+                        console.log('📝 Token length:', csrfToken.value.length);
+                        console.log('🆔 Token preview:', csrfToken.value.substring(0, 20) + '...');
+                    } else {
+                        console.warn('⚠️ CSRF token not found in form');
+                    }
+                });
+            </script>
 
             <div class="auth-footer">
                 <p>Нет аккаунта? <a href="/register">Зарегистрируйтесь</a></p>

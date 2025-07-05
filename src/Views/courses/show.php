@@ -112,6 +112,7 @@ $isLessonFavorite = $activeLesson && isset($favoritedLessonIds) && in_array($act
                             $answers = $isSubmitted ? json_decode($userAnswer['answers'], true) : [];
                             ?>
                             <form action="/homework/submit" method="POST">
+                                <?= CSRF::getTokenField() ?>
                                 <input type="hidden" name="homework_id" value="<?= $homework['id'] ?>">
                                 <input type="hidden" name="course_id" value="<?= $course['id'] ?>">
                                 <input type="hidden" name="lesson_id" value="<?= $activeLesson['id'] ?>">
@@ -136,6 +137,7 @@ $isLessonFavorite = $activeLesson && isset($favoritedLessonIds) && in_array($act
                         ?>
                         <div class="complete-lesson-wrapper">
                             <form action="/lesson/complete/<?= $activeLesson['id'] ?>" method="POST">
+                                <?= CSRF::getTokenField() ?>
                                 <button type="submit" class="btn-primary">Отметить как пройденный</button>
                             </form>
                         </div>

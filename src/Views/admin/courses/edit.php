@@ -12,6 +12,7 @@
 
                 <div class="admin-card">
                     <form action="/admin/courses/update/<?= $course['id'] ?>" method="POST" class="admin-form" enctype="multipart/form-data">
+                        <?= CSRF::getTokenField() ?>
                         <div class="input-group">
                             <label for="title">Название курса</label>
                             <input type="text" id="title" name="title" value="<?= htmlspecialchars($course['title']) ?>" required>

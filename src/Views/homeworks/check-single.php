@@ -37,6 +37,7 @@ $answers = json_decode($submission['answers'], true);
 
                 <div class="check-actions">
                     <form action="/homework-check/<?= $submission['id'] ?>" method="POST" class="check-actions">
+                        <?= CSRF::getTokenField() ?>
                         <div class="input-group" style="width: 100%;">
                             <label for="comment">Комментарий для студента (необязательно)</label>
                             <textarea id="comment" name="comment" rows="4" placeholder="Например: Отличная работа! или Попробуй подумать над вторым вопросом еще раз."></textarea>

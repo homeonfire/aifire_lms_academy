@@ -16,6 +16,7 @@
                     </div>
 
                     <form action="/admin/modules/create" method="POST" class="add-module-form">
+                        <?= CSRF::getTokenField() ?>
                         <input type="hidden" name="course_id" value="<?= $course['id'] ?>">
                         <input type="text" name="title" placeholder="Название нового модуля" required>
                         <button type="submit" class="btn btn-primary">Добавить модуль</button>
@@ -27,6 +28,7 @@
                                 <div class="module-item">
                                     <div class="module-header">
                                         <form action="/admin/modules/update" method="POST" class="edit-module-form">
+                                            <?= CSRF::getTokenField() ?>
                                             <input type="hidden" name="course_id" value="<?= $course['id'] ?>">
                                             <input type="hidden" name="module_id" value="<?= $module['id'] ?>">
                                             <input type="text" name="title" value="<?= htmlspecialchars($module['title']) ?>" required>
@@ -41,6 +43,7 @@
                                             <?php foreach ($module['lessons'] as $lesson): ?>
                                                 <li class="lesson-item">
                                                     <form action="/admin/lessons/update" method="POST" class="edit-lesson-form" id="edit-lesson-form-<?= $lesson['id'] ?>">
+                                                        <?= CSRF::getTokenField() ?>
                                                         <input type="hidden" name="course_id" value="<?= $course['id'] ?>">
                                                         <input type="hidden" name="lesson_id" value="<?= $lesson['id'] ?>">
                                                         <input type="text" name="title" value="<?= htmlspecialchars($lesson['title']) ?>" class="lesson-title-input">
@@ -56,9 +59,10 @@
                                         <?php endif; ?>
                                         <li class="add-lesson-row">
                                             <form action="/admin/lessons/create" method="POST" class="add-lesson-form">
+                                                <?= CSRF::getTokenField() ?>
                                                 <input type="hidden" name="course_id" value="<?= $course['id'] ?>">
                                                 <input type="hidden" name="module_id" value="<?= $module['id'] ?>">
-                                                <input type="text" name="title" placeholder="Название нового урока" required>
+                                                <input type="text" name="text" placeholder="Название нового урока" required>
                                                 <input type="hidden" name="content_json" value="{}">
                                                 <button type="submit" class="btn btn-secondary btn-sm">Добавить урок</button>
                                             </form>

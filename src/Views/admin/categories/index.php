@@ -11,6 +11,7 @@
                     <div class="admin-card">
                         <h3>Добавить категорию</h3>
                         <form action="/admin/categories/create" method="POST" class="admin-form">
+                            <?= CSRF::getTokenField() ?>
                             <div class="input-group">
                                 <label for="name">Название категории</label>
                                 <input type="text" id="name" name="name" required>
@@ -61,6 +62,7 @@
                     </div>
                     <div class="modal-body">
                         <form id="edit-category-form" action="" method="POST" class="admin-form">
+                            <?= CSRF::getTokenField() ?>
                             <div class="input-group">
                                 <label for="edit-category-name">Название категории</label>
                                 <input type="text" id="edit-category-name" name="name" required>

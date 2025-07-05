@@ -79,6 +79,7 @@ require_once __DIR__ . '/../src/Config/database.php';
 // Ядро
 require_once __DIR__ . '/../src/Core/Controller.php';
 require_once __DIR__ . '/../src/Core/Router.php';
+require_once __DIR__ . '/../src/Core/CSRF.php';
 
 // Модели
 require_once __DIR__ . '/../src/Models/User.php';

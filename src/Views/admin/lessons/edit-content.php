@@ -12,6 +12,7 @@
 
                 <div class="admin-card">
                     <form id="content-form" action="/admin/lessons/save-content/<?= $lesson['id'] ?>" method="POST" class="admin-form">
+                        <?= CSRF::getTokenField() ?>
                         <input type="hidden" name="course_id" value="<?= $_GET['course_id'] ?? '' ?>">
 
                         <div class="input-group">

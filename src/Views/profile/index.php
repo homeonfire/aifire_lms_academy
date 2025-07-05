@@ -8,6 +8,7 @@
                 <h1 class="page-title">Профиль</h1>
 
                 <form action="/profile/update" method="POST" class="profile-form" enctype="multipart/form-data">
+                    <?= CSRF::getTokenField() ?>
                     <div class="form-section">
                         <h3 class="section-title">Детали профиля</h3>
                         <p class="section-subtitle">Здесь вы можете обновить информацию о себе.</p>

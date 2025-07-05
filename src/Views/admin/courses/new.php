@@ -19,6 +19,7 @@
                     <?php endif; ?>
 
                     <form action="/admin/courses/create" method="POST" class="admin-form" enctype="multipart/form-data">
+                        <?= CSRF::getTokenField() ?>
                         <input type="hidden" name="type" value="<?= $type ?>">
 
                         <div class="input-group">

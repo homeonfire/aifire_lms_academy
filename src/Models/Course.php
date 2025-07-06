@@ -102,11 +102,13 @@ class Course {
      * @param string $description
      * @param string $difficulty_level
      * @param string $type
+     * @param float $price Цена курса
+     * @param bool $isFree Бесплатный ли курс
      * @return string|false
      */
-    public function create($title, $description, $difficulty_level, $type = 'course', $cover_url = null, $created_by = null) {
-        $stmt = $this->pdo->prepare("INSERT INTO courses (type, title, description, difficulty_level, cover_url, created_by) VALUES (?, ?, ?, ?, ?, ?)");
-        $stmt->execute([$type, $title, $description, $difficulty_level, $cover_url, $created_by]);
+    public function create($title, $description, $difficulty_level, $type = 'course', $cover_url = null, $created_by = null, $price = 0.00, $isFree = true) {
+        $stmt = $this->pdo->prepare("INSERT INTO courses (type, title, description, difficulty_level, cover_url, created_by, price, is_free) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt->execute([$type, $title, $description, $difficulty_level, $cover_url, $created_by, $price, $isFree]);
         return $this->pdo->lastInsertId();
     }
     // --- КОНЕЦ ИЗМЕНЕНИЙ ---
@@ -127,11 +129,13 @@ class Course {
      * @param string $title
      * @param string $description
      * @param string $difficulty_level
+     * @param float $price Цена курса
+     * @param bool $isFree Бесплатный ли курс
      * @return bool
      */
-    public function update($id, $title, $description, $difficulty_level, $cover_url = null) {
-        $stmt = $this->pdo->prepare("UPDATE courses SET title = ?, description = ?, difficulty_level = ?, cover_url = ? WHERE id = ?");
-        return $stmt->execute([$title, $description, $difficulty_level, $cover_url, $id]);
+    public function update($id, $title, $description, $difficulty_level, $cover_url = null, $price = 0.00, $isFree = true) {
+        $stmt = $this->pdo->prepare("UPDATE courses SET title = ?, description = ?, difficulty_level = ?, cover_url = ?, price = ?, is_free = ? WHERE id = ?");
+        return $stmt->execute([$title, $description, $difficulty_level, $cover_url, $price, $isFree, $id]);
     }
     // --- КОНЕЦ ИЗМЕНЕНИЙ ---
 
@@ -183,6 +187,60 @@ class Course {
         WHERE ha.user_id = ?
         ORDER BY c.id DESC
     ";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([$userId]);
+        return $stmt->fetchAll();
+    }
+
+    /**
+     * Проверяет, имеет ли пользователь доступ к курсу
+     * @param int $userId ID пользователя
+     * @param int $courseId ID курса
+     * @return bool
+     */
+    public function hasAccess($userId, $courseId) {
+        $course = $this->findById($courseId);
+        
+        if (!$course) {
+            return false;
+        }
+
+        // Если курс бесплатный (is_free = 1 или price = 0), доступ есть у всех
+        if (!empty($course['is_free']) || $course['price'] == 0) {
+            return true;
+        }
+
+        // Для платных курсов проверяем подписку только на конкретный курс
+        try {
+            $subscriptionModel = new Subscription();
+            
+            // Проверяем подписку на конкретный курс
+            return $subscriptionModel->hasActiveSubscription($userId, $courseId);
+            
+        } catch (Exception $e) {
+            // Если модель Subscription не существует, считаем что доступа нет
+            return false;
+        }
+    }
+
+    /**
+     * Получает курсы, доступные пользователю
+     * @param int $userId ID пользователя
+     * @return array
+     */
+    public function getAvailableForUser($userId) {
+        $sql = "
+        SELECT c.*, 
+               CASE 
+                   WHEN c.is_free = 1 THEN 'free'
+                   WHEN p.status = 'completed' THEN 'paid'
+                   ELSE 'locked'
+               END as access_status
+        FROM courses c
+        LEFT JOIN payments p ON c.id = p.course_id AND p.user_id = ? AND p.status = 'completed'
+        ORDER BY c.created_at DESC
+        ";
 
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute([$userId]);

@@ -1,8 +1,9 @@
 <?php
 // public/index.php
-
+file_put_contents(__DIR__ . '/../test_router.log', "INDEX.PHP START " . date('c') . "\n", FILE_APPEND);
 // Включаем отображение ошибок для отладки
 ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 // Запускаем сессию
@@ -94,6 +95,9 @@ require_once __DIR__ . '/../src/Models/Favorite.php';
 require_once __DIR__ . '/../src/Models/StaticPage.php';
 require_once __DIR__ . '/../src/Models/Visit.php';
 require_once __DIR__ . '/../src/Models/Guides.php';
+require_once __DIR__ . '/../src/Models/Notification.php';
+require_once __DIR__ . '/../src/Models/Payment.php';
+require_once __DIR__ . '/../src/Models/Subscription.php';
 
 // Контроллеры (Пользовательская часть)
 require_once __DIR__ . '/../src/Controllers/AuthController.php';
@@ -109,6 +113,10 @@ require_once __DIR__ . '/../src/Controllers/StaticPageController.php';
 require_once __DIR__ . '/../src/Controllers/MasterclassController.php';
 require_once __DIR__ . '/../src/Controllers/GuideController.php';
 require_once __DIR__ . '/../src/Controllers/MyCoursesController.php';
+require_once __DIR__ . '/../src/Controllers/NotificationController.php';
+require_once __DIR__ . '/../src/Controllers/HomeController.php';
+require_once __DIR__ . '/../src/Controllers/CourseLandingController.php';
+require_once __DIR__ . '/../src/Controllers/PaymentController.php';
 
 // Контроллеры (Админ-панель)
 require_once __DIR__ . '/../src/Controllers/Admin/AdminController.php';
@@ -132,6 +140,8 @@ try {
     // В рабочей среде здесь можно логировать ошибку в файл, а не выводить на экран
     // error_log('Visit logging failed: ' . $e->getMessage());
 }
+
 // Запускаем роутер
 $router = new Router();
+file_put_contents(__DIR__ . '/../test_router.log', "ROUTER RUN " . date('c') . "\n", FILE_APPEND);
 $router->run();

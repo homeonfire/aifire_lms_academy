@@ -15,6 +15,8 @@ class Router {
         switch (true) {
             // --- Главные роуты и авторизация ---
             case $uri === '/':
+                (new HomeController())->index();
+                break;
             case $uri === '/login':
                 $controller = new AuthController();
                 if ($method === 'GET') $controller->showLoginPage();
@@ -58,6 +60,23 @@ class Router {
 
             case preg_match('/^\/course\/(\d+)$/', $uri, $m):
                 (new CourseController())->show($m[1]);
+                break;
+
+            case preg_match('/^\/course\/(\d+)\/landing$/', $uri, $m):
+                file_put_contents(__DIR__ . '/../../test_router.log', "LANDING ROUTE " . date('c') . " id={$m[1]}\n", FILE_APPEND);
+                (new CourseLandingController())->show($m[1]);
+                break;
+
+            case preg_match('/^\/masterclass\/(\d+)\/lesson\/(\d+)$/', $uri, $m):
+                (new CourseController())->show($m[1], $m[2], 'masterclass');
+                break;
+
+            case preg_match('/^\/masterclass\/(\d+)$/', $uri, $m):
+                (new CourseController())->show($m[1], null, 'masterclass');
+                break;
+
+            case preg_match('/^\/masterclass\/(\d+)\/landing$/', $uri, $m):
+                (new CourseLandingController())->show($m[1]);
                 break;
 
             case preg_match('/^\/lesson\/complete\/(\d+)$/', $uri, $m) && $method === 'POST':
@@ -243,10 +262,78 @@ class Router {
             case $uri === '/favorite/toggle' && $method === 'POST':
                 (new FavoriteController())->toggle();
                 break;
-            // --- КОНЕЦ НОВЫХ РОУТОВ ---
+
+            // --- Роуты для уведомлений ---
+            case $uri === '/notifications' && $method === 'GET':
+                (new NotificationController())->index();
+                break;
+
+            case $uri === '/notifications/get-notifications' && $method === 'GET':
+                (new NotificationController())->getNotifications();
+                break;
+
+            case $uri === '/notifications/get-unread-count' && $method === 'GET':
+                (new NotificationController())->getUnreadCount();
+                break;
+
+            case $uri === '/notifications/mark-as-read' && $method === 'POST':
+                (new NotificationController())->markAsRead();
+                break;
+
+            case $uri === '/notifications/mark-all-as-read' && $method === 'POST':
+                (new NotificationController())->markAllAsRead();
+                break;
+
+            case $uri === '/notifications/delete' && $method === 'POST':
+                (new NotificationController())->delete();
+                break;
+
+            case preg_match('/^\/notifications\/show\/(\d+)$/', $uri, $m) && $method === 'GET':
+                (new NotificationController())->show($m[1]);
+                break;
+
+            case $uri === '/notifications/create-test' && $method === 'POST':
+                (new NotificationController())->createTest();
+                break;
+
+            case $uri === '/notifications/create-link-test':
+                (new NotificationController())->createLinkTest();
+                break;
+
+            // --- КОНЕЦ РОУТОВ УВЕДОМЛЕНИЙ ---
+
+            // --- Роуты для платежей Т-Банка ---
+            case $uri === '/payment/buy-course' && $method === 'GET':
+                (new PaymentController())->buyCourse();
+                break;
+
+            case $uri === '/payment/create-payment' && $method === 'POST':
+                (new PaymentController())->createPayment();
+                break;
+
+            case $uri === '/payment/success' && $method === 'GET':
+                (new PaymentController())->success();
+                break;
+
+            case $uri === '/payment/notification' && $method === 'POST':
+                (new PaymentController())->notification();
+                break;
+
+            case $uri === '/payment/history' && $method === 'GET':
+                (new PaymentController())->history();
+                break;
+
+            case $uri === '/payment/check-status' && $method === 'POST':
+                (new PaymentController())->checkStatus();
+                break;
+            // --- КОНЕЦ РОУТОВ ПЛАТЕЖЕЙ ---
 
             case $uri === '/homework/submit' && $method === 'POST':
                 (new HomeworkController())->submit();
+                break;
+
+            case $uri === '/':
+                (new HomeController())->index();
                 break;
 
             // --- Новые роуты для Мастер-классов ---

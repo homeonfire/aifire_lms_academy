@@ -17,9 +17,14 @@ class CourseController extends Controller {
         // 1. Указываем, что хотим получить именно 'course'
         $courses = $this->courseModel->getAll('course');
 
-        // 2. Остальная логика остается без изменений
-        $favoriteModel = new Favorite();
+        // 2. Добавляем информацию о доступе к каждому курсу
         $userId = $_SESSION['user']['id'];
+        foreach ($courses as &$course) {
+            $course['hasAccess'] = $this->courseModel->hasAccess($userId, $course['id']);
+        }
+
+        // 3. Остальная логика остается без изменений
+        $favoriteModel = new Favorite();
         $favoritedCoursesRaw = $favoriteModel->getFavoritedCourses($userId);
         $favoritedCourseIds = array_column($favoritedCoursesRaw, 'id');
 
@@ -40,6 +45,7 @@ class CourseController extends Controller {
      * @param string $type
      */
     public function show($courseId, $lessonId = null, $type = 'course') {
+
         $course = $this->courseModel->getCourseWithModulesAndLessons($courseId);
         if (!$course) {
             http_response_code(404);
@@ -52,6 +58,17 @@ class CourseController extends Controller {
             http_response_code(404);
             echo "<h1>404 Запрашиваемый ресурс не найден</h1>";
             return;
+        }
+
+        // Проверяем доступ к курсу
+        $hasAccess = $this->courseModel->hasAccess($_SESSION['user']['id'], $courseId);
+        $isFree = !empty($course['is_free']) || $course['price'] == 0;
+        
+        // Если курс платный и у пользователя нет доступа - перенаправляем на лендинг
+        if (!$isFree && !$hasAccess) {
+            $landingUrl = ($type === 'masterclass') ? "/masterclass/{$courseId}/landing" : "/course/{$courseId}/landing";
+            header('Location: ' . $landingUrl);
+            exit();
         }
 
         $activeLesson = null;
@@ -98,6 +115,9 @@ class CourseController extends Controller {
         $favoritedLessonsRaw = $favoriteModel->getFavoritedLessons($userId);
         $favoritedLessonIds = array_column($favoritedLessonsRaw, 'id');
 
+        // Проверяем доступ к курсу
+        $hasAccess = $this->courseModel->hasAccess($_SESSION['user']['id'], $courseId);
+        
         $data = [
             'title' => $course['title'],
             'course' => $course,
@@ -108,7 +128,8 @@ class CourseController extends Controller {
             'completedLessonIds' => $completedLessonIds,
             'favoritedLessonIds' => $favoritedLessonIds,
             'isCourseFavorited' => $isCourseFavorited,
-            'type' => $type // Передаем тип в шаблон
+            'type' => $type, // Передаем тип в шаблон
+            'hasAccess' => $hasAccess // Добавляем информацию о доступе
         ];
 
         $this->render('courses/show', $data);

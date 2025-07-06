@@ -145,7 +145,40 @@ $isLessonFavorite = $activeLesson && isset($favoritedLessonIds) && in_array($act
                 </div>
 
                 <div class="course-sidebar">
-                    <?php if ($type === 'course'): ?>
+                    <?php if (!$hasAccess): ?>
+                        <!-- Блок покупки курса -->
+                        <div class="course-purchase-block" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 12px; margin-bottom: 20px;">
+                            <h4 style="margin: 0 0 15px 0; font-size: 18px;">Получите доступ к курсу</h4>
+                            
+                            <?php if ($course['is_free']): ?>
+                                <p style="margin: 0 0 15px 0; opacity: 0.9;">Этот курс бесплатный</p>
+                                <a href="/payment/buy-course?course_id=<?= $course['id'] ?>" 
+                                   class="btn-primary" 
+                                   style="display: block; text-align: center; background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); color: white; text-decoration: none; padding: 12px; border-radius: 8px; transition: all 0.3s ease;">
+                                    Получить бесплатно
+                                </a>
+                            <?php else: ?>
+                                <div style="margin: 0 0 15px 0;">
+                                    <span style="font-size: 24px; font-weight: bold;"><?= number_format($course['price'], 0, ',', ' ') ?> ₽</span>
+                                    <span style="opacity: 0.8; margin-left: 5px;">за курс</span>
+                                </div>
+                                <a href="/payment/buy-course?course_id=<?= $course['id'] ?>" 
+                                   class="btn-primary" 
+                                   style="display: block; text-align: center; background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); color: white; text-decoration: none; padding: 12px; border-radius: 8px; transition: all 0.3s ease;">
+                                    Купить курс
+                                </a>
+                            <?php endif; ?>
+                            
+                            <div style="margin-top: 15px; font-size: 12px; opacity: 0.8;">
+                                <div style="margin-bottom: 5px;">✓ Доступ навсегда</div>
+                                <div style="margin-bottom: 5px;">✓ Все уроки курса</div>
+                                <div style="margin-bottom: 5px;">✓ Домашние задания</div>
+                                <div>✓ Сертификат по окончании</div>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+
+                    <?php if ($type === 'course' && $hasAccess): ?>
                         <div class="course-progress">
                             <h4>Прогресс курса</h4>
                             <div class="progress-bar"><div class="progress-bar-fill" style="width: <?= $progressPercentage ?>%;"></div></div>

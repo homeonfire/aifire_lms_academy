@@ -22,6 +22,7 @@
                             <th>Название</th>
                             <th>Дата создания</th>
                             <th>Автор (админ)</th>
+                            <th>Цена</th>
                             <th>Действия</th>
                         </tr>
                         </thead>
@@ -42,6 +43,13 @@
                                             <?php endif; ?>
                                         <?php else: ?>
                                             <span style="color:#888;">—</span>
+                                        <?php endif; ?>
+                                    </td>
+                                    <td>
+                                        <?php if (!empty($course['is_free']) || $course['price'] == 0): ?>
+                                            <span style="color: #27ae60; font-weight: bold;">Бесплатно</span>
+                                        <?php else: ?>
+                                            <?= number_format($course['price'], 2, ',', ' ') ?> ₽
                                         <?php endif; ?>
                                     </td>
                                     <td class="actions">

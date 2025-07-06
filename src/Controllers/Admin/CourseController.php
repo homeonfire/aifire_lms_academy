@@ -50,28 +50,23 @@ class AdminCourseController extends AdminController {
      * Обрабатывает создание нового элемента
      */
     public function create() {
-        // --- ИЗМЕНЕНИЯ ЗДЕСЬ ---
         $coverUrl = $this->handleImageUpload($_FILES['cover_url'] ?? null);
-        // --- КОНЕЦ ИЗМЕНЕНИЙ ---
-
         $title = $_POST['title'] ?? '';
         $description = $_POST['description'] ?? '';
         $difficulty_level = $_POST['difficulty_level'] ?? 'beginner';
         $type = $_POST['type'] ?? 'course';
         $created_by = $_SESSION['user']['id'] ?? null;
-
+        $price = isset($_POST['price']) ? floatval($_POST['price']) : 0.00;
+        $isFree = isset($_POST['is_free']) && $_POST['is_free'] == '1';
+        if ($isFree) { $price = 0.00; }
         if (empty($title)) {
             // ... обработка ошибки
         }
-
-        // --- ИЗМЕНЕНИЯ ЗДЕСЬ: Добавляем $coverUrl в вызов метода ---
-        $lastInsertId = $this->courseModel->create($title, $description, $difficulty_level, $type, $coverUrl, $created_by);
-
+        $lastInsertId = $this->courseModel->create($title, $description, $difficulty_level, $type, $coverUrl, $created_by, $price, $isFree);
         if ($lastInsertId) {
             $categoryIds = $_POST['category_ids'] ?? [];
             $this->courseModel->syncCategories($lastInsertId, $categoryIds);
         }
-
         $redirectUrl = ($type === 'masterclass') ? '/admin/masterclasses' : '/admin/courses';
         header('Location: ' . $redirectUrl);
         exit();
@@ -109,27 +104,22 @@ class AdminCourseController extends AdminController {
     }
 
     public function update($id) {
-        // --- ИЗМЕНЕНИЯ ЗДЕСЬ: Логика загрузки обложки ---
         $currentCourse = $this->courseModel->findById($id);
         $currentCoverPath = $currentCourse['cover_url'] ?? null;
         $coverUrl = $this->handleImageUpload($_FILES['cover_url'] ?? null, $currentCoverPath);
-        // --- КОНЕЦ ИЗМЕНЕНИЙ ---
-
         $title = $_POST['title'] ?? '';
         $description = $_POST['description'] ?? '';
         $difficulty_level = $_POST['difficulty_level'] ?? 'beginner';
-
+        $price = isset($_POST['price']) ? floatval($_POST['price']) : 0.00;
+        $isFree = isset($_POST['is_free']) && $_POST['is_free'] == '1';
+        if ($isFree) { $price = 0.00; }
         if (empty($title)) {
             header('Location: /admin/courses/edit/' . $id);
             exit();
         }
-
-        // --- ИЗМЕНЕНИЯ ЗДЕСЬ: Добавляем $coverUrl в вызов метода ---
-        $this->courseModel->update($id, $title, $description, $difficulty_level, $coverUrl);
-
+        $this->courseModel->update($id, $title, $description, $difficulty_level, $coverUrl, $price, $isFree);
         $categoryIds = $_POST['category_ids'] ?? [];
         $this->courseModel->syncCategories($id, $categoryIds);
-
         $course = $this->courseModel->findById($id);
         $redirectUrl = ($course['type'] === 'masterclass') ? '/admin/masterclasses' : '/admin/courses';
         header('Location: ' . $redirectUrl);

@@ -1,10 +1,9 @@
 RewriteEngine On
 RewriteBase /
 
-# Если это не существующий файл
+# Если это не существующий файл или папка
 RewriteCond %{REQUEST_FILENAME} !-f
-# Если это не существующая директория
 RewriteCond %{REQUEST_FILENAME} !-d
 
-# Перенаправить все на точку входа
-RewriteRule ^(.*)$ public/index.php?$1 [L,QSA]
+# Всё остальное — на public/index.php
+RewriteRule ^(.*)$ public/index.php [L,QSA]

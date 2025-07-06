@@ -232,6 +232,29 @@ a.forgot-password:hover {
     font-weight: 500;
     transition: background-color 0.2s, color 0.2s;
     font-size: 13px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.notification-count {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: var(--primary-accent-color);
+    color: white;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 6px;
+    border-radius: 10px;
+    min-width: 18px;
+    text-align: center;
+    line-height: 1;
+}
+
+.notifications-btn {
+    position: relative;
 }
 
 .nav-item svg {

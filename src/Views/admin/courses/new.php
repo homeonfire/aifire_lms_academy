@@ -62,6 +62,32 @@
                             <label for="cover_url">Обложка</label>
                             <input type="file" id="cover_url" name="cover_url" accept="image/*">
                         </div>
+                        <div class="input-group">
+                            <label for="price">Цена (₽)</label>
+                            <input type="number" id="price" name="price" min="0" step="0.01" value="0.00">
+                        </div>
+                        <div class="input-group">
+                            <label>
+                                <input type="checkbox" id="is_free" name="is_free" value="1" checked>
+                                Бесплатный курс
+                            </label>
+                        </div>
+                        <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            const isFree = document.getElementById('is_free');
+                            const price = document.getElementById('price');
+                            function togglePrice() {
+                                if (isFree.checked) {
+                                    price.value = '0.00';
+                                    price.setAttribute('readonly', 'readonly');
+                                } else {
+                                    price.removeAttribute('readonly');
+                                }
+                            }
+                            isFree.addEventListener('change', togglePrice);
+                            togglePrice();
+                        });
+                        </script>
                         <button type="submit" class="btn btn-primary">Создать</button>
                     </form>
                 </div>

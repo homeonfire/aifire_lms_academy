@@ -135,4 +135,34 @@ class CourseController extends Controller {
         $this->render('courses/show', $data);
     }
     // --- КОНЕЦ ИЗМЕНЕНИЙ ---
+
+    /**
+     * Отображает страницу лендинга для курса.
+     * Вызывается напрямую из роутера.
+     *
+     * @param int $courseId ID курса, полученный из URL.
+     */
+    public function landing($courseId)
+    {
+        if (empty($courseId)) {
+            http_response_code(404);
+            echo "<h1>404 Страница не найдена (ID курса не указан)</h1>";
+            return;
+        }
+
+        $courseModel = new Course();
+        // ИСПОЛЬЗУЕМ ПРАВИЛЬНЫЙ МЕТОД: findById()
+        $course = $courseModel->findById($courseId);
+
+        if (!$course) {
+            http_response_code(404);
+            echo "<h1>404 Страница не найдена (Курс не найден)</h1>";
+            return;
+        }
+
+        $this->render('courses/course_landing', [
+            'course' => $course,
+            'layout' => 'clear'
+        ]);
+    }
 }

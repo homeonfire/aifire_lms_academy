@@ -1,0 +1,81 @@
+/* public/assets/css/landing.css */
+
+body {
+    background-color: #f4f7f6;
+    font-family: 'Inter', sans-serif; /* Используем тот же шрифт */
+    color: #333;
+}
+
+.landing-container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.landing-header {
+    text-align: center;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.landing-header h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.landing-hero img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+.landing-description, .landing-features {
+    padding: 30px 0;
+}
+
+.landing-description h2, .landing-features h2 {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #5a67d8; /* Фирменный цвет */
+    padding-bottom: 10px;
+}
+
+/* Стили для контента из Editor.js */
+.landing-description .ce-block__content {
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+.landing-features ul {
+    list-style: none;
+    padding: 0;
+}
+
+.landing-features li {
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+}
+
+.landing-footer {
+    text-align: center;
+    padding: 30px 0;
+    margin-top: 20px;
+    border-top: 1px solid #e0e0e0;
+}
+
+.landing-footer .price {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+/* Используем те же стили для кнопок, что и на платформе */
+.btn-lg {
+    padding: 15px 40px;
+    font-size: 1.2rem;
+}

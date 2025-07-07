@@ -62,27 +62,6 @@ class Router {
                 (new CourseController())->show($m[1]);
                 break;
 
-            case preg_match('/^\/course\/(\d+)\/landing$/', $uri, $m):
-                file_put_contents(__DIR__ . '/../../test_router.log', "LANDING ROUTE " . date('c') . " id={$m[1]}\n", FILE_APPEND);
-                (new CourseLandingController())->show($m[1]);
-                break;
-
-            case preg_match('/^\/masterclass\/(\d+)\/lesson\/(\d+)$/', $uri, $m):
-                (new CourseController())->show($m[1], $m[2], 'masterclass');
-                break;
-
-            case preg_match('/^\/masterclass\/(\d+)$/', $uri, $m):
-                (new CourseController())->show($m[1], null, 'masterclass');
-                break;
-
-            case preg_match('/^\/masterclass\/(\d+)\/landing$/', $uri, $m):
-                (new CourseLandingController())->show($m[1]);
-                break;
-
-            case preg_match('/^\/lesson\/complete\/(\d+)$/', $uri, $m) && $method === 'POST':
-                (new LessonProgressController())->complete($m[1]);
-                break;
-
             case $uri === '/my-answers':
                 (new MyAnswersController())->index();
                 break;
@@ -379,6 +358,10 @@ class Router {
 
             case preg_match('/^\/admin\/guides\/delete\/(\d+)$/', $uri, $m) && $method === 'GET':
                 (new AdminGuideController())->delete($m[1]);
+                break;
+
+            case preg_match('/^\/course\/(\d+)\/landing$/', $uri, $m):
+                (new CourseController())->landing($m[1]);
                 break;
 
             // --- Роут по умолчанию (404) ---
